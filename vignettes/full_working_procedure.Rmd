@@ -84,7 +84,7 @@ Obtain the correct characters, in this case, letters, in their correct position 
 IGC_step2.1 = IGC_step2 %>% position_scores(match_col = "itemL_adj_strict_match_pos",
                                           last_ID_col = "targetL")
 
-IGC_step2.1_skinnydf = IGC_step2.1 %>% dplyr::select(-c(task_ID, task_type))
+IGC_step2.1_skinnydf = IGC_step2.1 %>% dplyr::select(-c(task_ID, correct, task_type))
 
 paged_table(IGC_step2.1_skinnydf, options = list(rows.print = 25, align = "c"))
 
