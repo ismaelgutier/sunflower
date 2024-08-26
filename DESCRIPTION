@@ -1,0 +1,44 @@
+Package: sunflower
+Type: Package
+Title: Classification of Production Errors, Management of Multiple Attempts Responses, and Computation of Formal Similarity Measures
+Version: 22-08-24
+Author: Gutiérrez-Cordero, I [aut][cre](<https://orcid.org/0000-0003-1508-4203>)
+Authors@R: person(
+               given = "Ismael",
+               family = "Gutiérrez-Cordero",
+               role = c("aut", "cre"),
+               email = "igtezcordero@uma.es",
+               comment = c(ORCID = "0000-0003-1508-4203")
+               )
+Maintainer: Gutiérrez-Cordero, I. <igtezcordero@uma.es>
+Description: 
+    A package to study the production quality of Spanish speakers with aphasia. 
+    This succinct tool provides functions for managing data and obtaining key
+    measures for analyzing target-response formal similarity and 
+    conduite d'approche behavior in speech or writing samples. 
+    Additionally, it includes tools for classical error categorization, 
+    offering an easy way to evaluate and understand language production in aphasia.
+License: AGPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
+Imports:
+    tidyr (>= 1.1.4),
+    dplyr (>= 1.0.7),
+    tidyverse,
+    reshape2,
+    stringdist,
+    stringr,
+    PTXQC,
+    tibble,
+    tictoc,
+    magrittr,
+    purrr,
+    stats,
+    word2vec
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Depends: 
+    R (>= 3.5.0)
