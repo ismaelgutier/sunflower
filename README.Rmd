@@ -1,0 +1,30 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# sunflower: Classifying Spanish production errors
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of sunflower is to handle multiple response data, compute formal metrics, and classify production errors, whether in speech or spelling. The outputs of this package make it easy to run statistical analyses in R.
+
+## Installation
+
+You can install the development version of sunflower from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ismaelgutier/sunflower")
+```
