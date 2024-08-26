@@ -17,17 +17,6 @@
 #'
 #' @return A data frame with the separated columns. If \code{show_previous} is \code{TRUE}, the output includes the original columns that were not split, along with the separated columns and the `RA` column. If \code{show_previous} is \code{FALSE}, only the separated columns and the `RA` column are returned.
 #'
-#' @examples
-#'
-#' data("IGC")
-#'
-#' IGC %>% separate_responses(col_name = "final_response",
-#'                                 separate_with = ", ",
-#'                                 show_previous = F)
-#' separate_responses(df = IGC, col_name = "final_response",
-#'                                 separate_with = ", ",
-#'                                 show_previous = F)
-#'
 #' @export
 separate_responses <- function(df,
                                col_name,
@@ -70,4 +59,3 @@ separate_responses <- function(df,
     return(cbind(df %>% dplyr::select(RA), separated_columns))
   }
 }
-
