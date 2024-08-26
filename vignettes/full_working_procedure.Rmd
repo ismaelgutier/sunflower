@@ -160,7 +160,8 @@ Proceed with errors classification
 
 ```{r, classification}
 
-IGC_step4 <- IGC_step3 %>% classification(access_col = "accessed", RA_col = "RA")
+IGC_step4 <- IGC_step3 %>% classification(access_col = "accessed", RA_col = "RA", 
+                                          response_col = "Response", classify_RAs = T)
 
 IGC_step4_print_skinny <- IGC_step4 %>% select(task_item_ID, item, Response, RA, Attempt, lexicalization:semantic)
 
