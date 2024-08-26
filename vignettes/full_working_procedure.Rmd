@@ -35,7 +35,7 @@ Load the data `IGC` allocated in the package, select some columns to keep and vi
 
 ```{r, view data}
 
-data("IGC")
+IGC = sunflower::IGC
 #colnames(IGC)
 
 IGC = IGC %>% select(task_ID, task_type, ID, task_item_ID, item, final_response, correct)
