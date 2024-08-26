@@ -19,17 +19,14 @@ The goal of *sunflower* is to handle multiple response data, compute formal metr
 
 ## Installation
 
-You can install the development version of sunflower from [GitHub](https://github.com/) with:
-Also, make sure you install the [tidyverse package](https://www.tidyverse.org/) to allow to work with pipes,
-and the [word2vec CRAN package](https://cran.r-project.org/web/packages/word2vec/readme/README.html) for further computations depending word2vec models required to classify errors (last section in this markdown).
+The user can install the current version of sunflower from this [GitHub](https://github.com/) repository by using the following code lines. Make sure to install the [tidyverse package](https://www.tidyverse.org/) to allow to work with pipes, and the [word2vec package](https://cran.r-project.org/web/packages/word2vec/readme/README.html) for further computations depending on word2vec models required to classify errors (last section in this markdown).
 
 ```r
 install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 install.packages("tidyverse")
 ```
-
-To use *sunflower*, the user will only need to load it in R, we recommend to work with [RStudio](https://posit.co/download/rstudio-desktop/). 
+To use *sunflower*, the user will only need to load it in R (we recommend to work with [RStudio](https://posit.co/download/rstudio-desktop/)) along with the other required packages.
 
 ```r
 require("sunflower")
@@ -47,9 +44,9 @@ require("htmltools")
 ### Compute formal similarity metrics
 
 ```{r}
-df_to_formal_metrics = IGC_long_phon %>% select(-c(modality, task_modality,task_type, test, task))
+df_to_formal_metrics = sunflower::IGC_long_phon %>% dplyr::select(-c(modality, task_modality,task_type, test, task))
 
-formal_metrics_computed = df_to_formal_metrics %>% get_formal_metrics(item_col = "item_phon",
+formal_metrics_computed = df_to_formal_metrics %>% sunflower::get_formal_metrics(item_col = "item_phon",
                                              response_col = "response_phon",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "item_ID"))
@@ -70,7 +67,7 @@ positions_accuracy %>% head(8) %>% knitr::kable()
 ```{r include=FALSE}
 # Convertir targetL a character para evitar problemas al combinar dataframes
 positions_accuracy <- positions_accuracy %>%
-  mutate(targetL = as.character(targetL))
+  dplyr::mutate(targetL = as.character(targetL))
 
 # Duplicar y modificar el dataframe para crear 'positions_general'
 positions_general <- positions_accuracy %>%

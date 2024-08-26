@@ -3,9 +3,6 @@
 
 # sunflower: Assessing and Categorizing Production Errors in Spanish
 
-<!-- badges: start -->
-<!-- badges: end -->
-
 The goal of *sunflower* is to handle multiple response data, compute
 formal metrics, and classify production errors, whether in speech or
 spelling transcriptions. The outputs of this package make it easy to run
@@ -13,23 +10,25 @@ statistical analyses in [R](https://www.r-project.org/).
 
 ## Installation
 
-You can install the development version of sunflower from
-[GitHub](https://github.com/) with: Also, make sure you install the
-[tidyverse package](https://www.tidyverse.org/) to allow to work with
-pipes, and the [word2vec CRAN
+The user can install the current version of sunflower from this
+[GitHub](https://github.com/) repository by using the following code
+lines. Make sure to install the [tidyverse
+package](https://www.tidyverse.org/) to allow to work with pipes, and
+the [word2vec
 package](https://cran.r-project.org/web/packages/word2vec/readme/README.html)
-for further computations depending word2vec models required to classify
-errors (last section in this markdown).
+for further computations depending on word2vec models required to
+classify errors (last section in this markdown).
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 install.packages("tidyverse")
 ```
 
-To use *sunflower*, the user will only need to load it in R, we
+To use *sunflower*, the user will only need to load it in R (we
 recommend to work with
-[RStudio](https://posit.co/download/rstudio-desktop/).
+[RStudio](https://posit.co/download/rstudio-desktop/)) along with the
+other required packages.
 
 ``` r
 require("sunflower")
@@ -41,14 +40,13 @@ require("tidyverse")
 ### Compute formal similarity metrics
 
 ``` r
-df_to_formal_metrics = IGC_long_phon %>% select(-c(modality, task_modality,task_type, test, task))
+df_to_formal_metrics = sunflower::IGC_long_phon %>% dplyr::select(-c(modality, task_modality,task_type, test, task))
 
-
-formal_metrics_computed = df_to_formal_metrics %>% get_formal_metrics(item_col = "item_phon",
+formal_metrics_computed = df_to_formal_metrics %>% sunflower::get_formal_metrics(item_col = "item_phon",
                                              response_col = "response_phon",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "item_ID"))
-#> The function get_formal_metrics() took 1.22 seconds to be executed
+#> The function get_formal_metrics() took 1.20 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -89,7 +87,7 @@ positions_accuracy %>% head(8) %>% knitr::kable()
 
 `Note`: A plot depicting the positions’ accuracy of 14,418 datapoints.
 
-<img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
+<img src="man/figures/README-plot_positions-1.png" width="75%" />
 
 ### Classify productions
 
@@ -99,8 +97,8 @@ errors_classified = df_to_classify %>%
                             item_type = "task_type", source1 = wordlist) %>%
   get_cosine_similarity_df(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classification(access_col = "accessed", RA_col = "RA")
-#> The function get_formal_similarity_indexes() took 3.43 seconds to be executed
-#> The function get_cosine_similarity_df() took 4.05 seconds to be executed
+#> The function get_formal_similarity_indexes() took 3.76 seconds to be executed
+#> The function get_cosine_similarity_df() took 4.39 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
