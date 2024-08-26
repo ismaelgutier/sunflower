@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# sunflower: Classifying Spanish production errors
+# sunflower: Assessing and Categorizing Production Errors in Spanish
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -23,7 +23,8 @@ The goal of *sunflower* is to handle multiple response data, compute formal metr
 ## Installation
 
 You can install the development version of sunflower from [GitHub](https://github.com/) with:
-Also, make sure you install the tidyverse package to work with pipes.
+Also, make sure you install the [tidyverse package](https://www.tidyverse.org/) to allow to work with pipes,
+and the [word2vec CRAN package](https://cran.r-project.org/web/packages/word2vec/readme/README.html) for further computations depending word2vec models required to classify errors (last section in this markdown).
 
 ```r
 # install.packages("devtools")
@@ -34,5 +35,132 @@ install.packages("tidyverse")
 To use *sunflower*, the user will only need to load it in R, we recommend to work with [RStudio](https://posit.co/download/rstudio-desktop/). 
 
 ```r
-require(sunflower)
+require("sunflower")
+require("tidyverse")
 ```
+
+## How to use
+
+```{r include=FALSE}
+require("sunflower")
+require("tidyverse")
+require("htmltools")
+```
+
+### Compute formal similarity metrics
+
+```{r}
+df_to_formal_metrics = sunflower::IGC_long_phon %>% select(-c(modality, task_modality,task_type, test, task))
+
+
+formal_metrics_computed = df_to_formal_metrics %>% get_formal_metrics(item_col = "item_phon",
+                                             response_col = "response_phon",
+                                             attempt_col = "Attempt",
+                                             group_cols = c("ID", "item_ID"))
+
+formal_metrics_computed %>% head(8) %>% knitr::kable()
+
+```
+`Note`: Move the dataframe to the right to see all the columns and metrics.
+
+
+### Positional accuracy
+
+```{r message=FALSE}
+positions_accuracy = formal_metrics_computed %>% 
+  position_scores(match_col = "itemL_adj_strict_match_pos", last_ID_col = "targetL")
+
+positions_accuracy %>% head(8) %>% knitr::kable()
+```
+```{r include=FALSE}
+# Convertir targetL a character para evitar problemas al combinar dataframes
+positions_accuracy <- positions_accuracy %>%
+  mutate(targetL = as.character(targetL))
+
+# Duplicar y modificar el dataframe para crear 'positions_general'
+positions_general <- positions_accuracy %>%
+  mutate(targetL = "General")
+
+# Combinar ambos dataframes
+positions <- bind_rows(positions_accuracy, positions_general)
+
+# Especificar manualmente los niveles en el orden deseado
+desired_levels <- c("3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
+                    "13", "14", "15", "17", "21", "22", "24", "48", "General")
+
+# Convertir correct_pos a numérico y ordenar targetL como factor según desired_levels
+positions <- positions %>%
+  mutate(correct_pos = as.numeric(correct_pos),
+         targetL = factor(targetL, levels = desired_levels)) %>%
+  arrange(correct_pos, targetL)
+
+# Definir un conjunto de linetypes que se pueda repetir
+custom_linetypes <- rep(c("solid", "dashed", "dotted", "longdash", "dotdash"),
+                        length.out = nlevels(positions$targetL))
+
+# Calcular la precisión y contar el número de observaciones por grupo
+plot_positions <- positions %>%
+  group_by(Position, targetL) %>%
+  summarize(acc = mean(correct_pos, na.rm = TRUE),
+            n = n()) %>%
+  ggplot(aes(x = as.numeric(Position), y = acc, group = targetL,
+             fill = targetL, color = targetL, lty = targetL)) +
+  geom_line(size = 0.70, alpha = 0.6) +
+  geom_point(aes(size = n), shape = 21, color = "black", alpha = 0.6) +
+  scale_linetype_manual(values = custom_linetypes) +
+  theme(panel.border = element_rect(colour = "black", fill = NA),
+        panel.background = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_blank()) +
+  ylab("Proportion (%) of correct phonemes") +
+  xlab("Phoneme position") +
+  guides(fill = guide_legend(title = "Word Length"),
+         lty = guide_legend(title = "Word Length"),
+         color = guide_legend(title = "Word Length"),
+         size = guide_legend(title = "Datapoints")) + 
+  theme_gray() +
+  theme(legend.position = "right",
+        legend.key.size = unit(0.6, "lines"))
+
+```
+
+`Note`: A plot depicting the positions' accuracy of 14,418 datapoints.
+
+```{r plot_positions, out.width = "75%", fig.align="center", echo=FALSE}
+plot_positions
+```
+
+### Classify productions 
+
+```{r include=FALSE}
+df_to_classify = sunflower::IGC_long %>% select(-c(modality, task_modality,task_type, test, task))
+
+wordlist <- read_csv(file = file.choose(), 
+                     col_names = FALSE, 
+                     show_col_types = FALSE, 
+                     locale = locale(asciify = TRUE)) %>% as.vector()
+
+m_w2v = word2vec::read.word2vec(file = file.choose(), normalize = TRUE)
+```
+
+```{r}
+errors_classified = df_to_classify %>% 
+  get_formal_similarity_indexes(target_col = "item", response_col = "Response", 
+                            item_type = "task_type", source1 = wordlist) %>%
+  get_cosine_similarity_df(target_col = "item", response_col = "Response", model = m_w2v) %>%
+  classification(access_col = "accessed", RA_col = "RA")
+
+errors_classified %>% head(8) %>% knitr::kable()
+```
+
+`Note 1`: Move the dataframe to the right to see all the columns and errors.
+
+`Note 2`: The `source1 = wordlist` is a txt file contained in the dependency-bundle zip that can be found at our supplementary [OSF repository](https://osf.io/akuxv/). The `model = m_w2v` is a word2vec binary file located also in that zip (see the markdown in the vignettes for further info).
+
+----
+
+
+Any suggestions, comments, or questions about the functionality of the package are warmly welcomed. If you are interested in contributing to the project, such as by expanding it to other languages, please feel free to contact us.
+
+🌻

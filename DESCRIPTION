@@ -1,7 +1,7 @@
 Package: sunflower
 Type: Package
 Title: Classification of Production Errors, Management of Multiple Attempts Responses, and Computation of Formal Similarity Measures
-Version: 22-08-24
+Version: 0.0.01
 Author: Gutiérrez-Cordero, I [aut][cre](<https://orcid.org/0000-0003-1508-4203>)
 Authors@R: person(
                given = "Ismael",
