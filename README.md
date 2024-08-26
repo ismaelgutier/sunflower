@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sunflower: Classifying Spanish production errors
+# sunflower: Assessing and Categorizing Production Errors in Spanish
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -48,7 +48,7 @@ formal_metrics_computed = df_to_formal_metrics %>% get_formal_metrics(item_col =
                                              response_col = "response_phon",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "item_ID"))
-#> The function get_formal_metrics() took 1.17 seconds to be executed
+#> The function get_formal_metrics() took 1.28 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -99,8 +99,8 @@ errors_classified = df_to_classify %>%
                             item_type = "task_type", source1 = wordlist) %>%
   get_cosine_similarity_df(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classification(access_col = "accessed", RA_col = "RA")
-#> The function get_formal_similarity_indexes() took 3.64 seconds to be executed
-#> The function get_cosine_similarity_df() took 4.28 seconds to be executed
+#> The function get_formal_similarity_indexes() took 3.82 seconds to be executed
+#> The function get_cosine_similarity_df() took 4.43 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
