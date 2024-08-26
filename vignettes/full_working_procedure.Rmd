@@ -1,0 +1,169 @@
+---
+title: "Full working procedure using sunflower"
+author: "Ismael Gutiérrez-Cordero"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+```
+
+In this vignette, we present a practical example of using the sunflower package to work with datasets that include a column of responses containing multiple answers. We demonstrate how to convert the dataset into a long format to obtain formal similarity metrics. Additionally, we illustrate how to perform error classification based on classical criteria found in the literature (e.g., [Dell et al., 1997](https://doi.org/10.1037/0033-295x.104.4.801); [Gold & Kertesz, 2001](https://doi.org/10.1006/brln.2000.2441); see also, [García-Orza et al., 2020](https://doi.org/10.1016/j.cortex.2020.03.020)).
+
+# 0. Dependencies
+
+```{r dependencies}
+require(sunflower) # to work
+require(tidyverse) # to work along sunflower 
+require(knitr) # to work in Rmarkdown
+require(kableExtra) # to work in Rmarkdown
+require(rmarkdown) # to work in Rmarkdown
+```
+
+# 1. Managing multiple responses
+
+Load the data `IGC` allocated in the package, select some columns to keep and visualize it.
+
+```{r, view data}
+
+data("IGC")
+#colnames(IGC)
+
+IGC = IGC %>% select(task_ID, task_type, ID, task_item_ID, item, final_response, correct)
+
+paged_table(IGC, options = list(rows.print = 25, align = "ccc"))
+```
+
+Separate the data using the `separate_responses()` function and them rearrange as long format using the `join_responses()` to work in the following step. 
+
+```{r, long data}
+
+IGC_step1 = IGC %>% separate_responses(col_name = "final_response",
+                            separate_with = ", ") %>% 
+                        get_attempts(first_production = Attempt_1, drop_blank_spaces = T)
+
+IGC_step1_skinnydf = IGC_step1 %>% dplyr::select(-c(task_ID, task_type))
+
+paged_table(IGC_step1, options = list(rows.print = 25, align = "ccc"))
+
+```
+
+# 2. Formal Analysis
+
+Compute the similarity metrics using the `get_metrics()` function.
+
+```{r, formal metrics}
+
+IGC_step2 = IGC_step1 %>% get_formal_metrics(item_col = "item",
+                                             response_col = "Response",
+                                             attempt_col = "Attempt",
+                                             group_cols = c("ID", "task_item_ID"))
+
+IGC_step2_skinnydf = IGC_step2 %>% dplyr::select(-c(task_ID, task_type))
+
+paged_table(IGC_step2_skinnydf, options = list(rows.print = 25, align = "c"))
+
+```
+
+## 2.1. Positional Analysis
+
+Obtain the correct characters, in this case, letters, in their correct position using the `position_scores()` function.
+
+
+```{r, positions}
+
+IGC_step2.1 = IGC_step2 %>% position_scores(match_col = "itemL_adj_strict_match_pos",
+                                          last_ID_col = "targetL")
+
+IGC_step2.1_skinnydf = IGC_step2.1 %>% dplyr::select(-c(task_ID, task_type))
+
+paged_table(IGC_step2.1_skinnydf, options = list(rows.print = 25, align = "c"))
+
+```
+
+
+# 3. Classifying responses
+
+## 3.1. Prepare dataset
+
+Rerun the previous steps to prepare a functional dataframe.
+
+```{r load some required files: df and source wordlist RAE}
+
+data("IGC")
+#colnames(IGC)
+
+wordlist <- read_csv(file = file.choose(), 
+                     col_names = FALSE, 
+                     show_col_types = FALSE, 
+                     locale = locale(asciify = TRUE)) %>% as.vector()
+```
+
+This is a file (generated following the procedure described by [Dueñas Lerín] (https://duenaslerin.com/diccionario-palabras-espanol-en-texto-script/)) containing all the words in Spanish as available in the RAE dictionary. It can be downloaded from the author's page at https://github.com/JorgeDuenasLerin/diccionario-espanol-txt.
+
+```{r load some required files: word2vec model}
+
+m_w2v = word2vec::read.word2vec(file = file.choose(), normalize = TRUE)
+
+```
+
+This is a file (generated using the word2vec algorithm by [Cardellino](https://crscardellino.github.io/)) containing the embeddings of 1.5 billion words. It can be downloaded from the [author's page]( https://github.com/JorgeDuenasLerin/diccionario-espanol-txt) or in another mirror at [Github](https://github.com/dccuchile/spanish-word-embeddings), where others corpuses can be assessed; further details  provided by the author [here](https://crscardellino.github.io/SBWCE/)
+
+
+```{r, get indexes}
+
+IGC_step2_clean = IGC %>%
+                        separate_responses(
+                          col_name = "final_response",
+                          separate_with = ", ") %>% 
+                        get_attempts(
+                          first_production = Attempt_1, drop_blank_spaces = T)  %>%
+                        select(task_ID, ID, task_item_ID, task_type, item, Response, RA, Attempt) %>% 
+                        get_formal_metrics(item_col = "item",
+                          response_col = "Response",
+                          attempt_col = "Attempt",
+                          group_cols = c("ID", "task_item_ID"))
+
+IGC_step2clean_skinnydf = IGC_step2_clean %>% dplyr::select(-c(task_ID, task_type))
+
+paged_table(IGC_step2clean_skinnydf, options = list(rows.print = 25, align = "c"))
+
+# remove some values leaving NAs to check that the functions work correctly
+
+IGC_step2_cleanNA = IGC_step2_clean %>%
+  mutate(
+    Response = if_else(row_number() == 2, NA_character_, Response),
+    item = if_else(row_number() == 3, NA_character_, item)
+  )
+
+IGC_step3 <- IGC_step2_cleanNA %>% 
+  get_formal_similarity_indexes(target_col = "item", response_col = "Response", 
+                            item_type = "task_type", source1 = wordlist) %>%
+  get_cosine_similarity_df(target_col = "item", response_col = "Response", model = m_w2v)
+
+IGC_step3_skinnydf = IGC_step3 %>% dplyr::select(-c(task_ID, task_type))
+
+paged_table(IGC_step3_skinnydf, options = list(rows.print = 25, align = "c"))
+
+```
+
+Proceed with errors classification
+
+```{r, classification}
+
+IGC_step4 <- IGC_step3 %>% classification(access_col = "accessed", RA_col = "RA")
+
+IGC_step4_print_skinny <- IGC_step4 %>% select(task_item_ID, item, Response, RA, Attempt, lexicalization:semantic)
+
+paged_table(IGC_step4_print_skinny, options = list(rows.print = 25, align = "c"))
+
+```

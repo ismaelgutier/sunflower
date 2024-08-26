@@ -7,7 +7,7 @@
 get_attempts(df, first_production = Attempt_1, drop_blank_spaces = FALSE)
 }
 \arguments{
-\item{df}{A data frame containing the responses to join together.}
+\item{df}{A data frame containing the responses to split.}
 
 \item{first_production}{The column from which attempts start. For example, if `first_production` is `Attempt_1`, it will include `Attempt_1` and all columns to its right as subsequent attempts. Default is `Attempt_1`.}
 

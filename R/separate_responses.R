@@ -1,19 +1,21 @@
 #' @name separate_responses
 #'
-#' @title Split the response in consecutive columns
+#' @title Split the Response in Consecutive Columns
 #'
-#' @description Separates the text of an answer column into consecutive independent columns according to the number of separations in that answer column. Depends on the \code{counting_to_split()} function.
-#' @param df A data frame containing the responses to join together.
-#' @param col_name Target column to be considered as response column.
-#' @param separate_with A character string used separate the responses (e.g., " - ", " ", or " & "). By default it uses commas (i.e., ", ").
-#' @param show_previous Logical; whether the previous columns not used in the merge (i.e. the identifier columns) are provided in the output or not. If \code{'FALSE'} only the separated columns are provided in the output. Default is \code{'TRUE'}.
+#' @description
+#' This function separates the text in a specified column of a data frame into consecutive independent columns based on a specified separator. It uses the `separation_counting()` function to determine the number of separations needed and create new column names. It also creates an additional column (`RA`) indicating whether the response was split.
 #'
-#' @details This function relies on `separation_counting()`.
+#' @param df A data frame containing the responses to split.
+#' @param col_name The name of the target column to be split into multiple columns.
+#' @param separate_with A character string used to separate the responses (e.g., ", ", " - ", or " & "). By default, it uses a comma followed by a space (", ").
+#' @param show_previous Logical; indicates whether the previous columns not used in the separation (i.e., the identifier columns) should be included in the output. If \code{FALSE}, only the separated columns and the `RA` column are provided in the output. Default is \code{TRUE}.
 #'
+#' @details
+#' This function relies on the `separation_counting()` function to determine the number of separations and generate the new column names. The function handles NA values appropriately and converts all separated columns to character type for consistency.
 #'
+#' The `RA` column is created to flag rows that contain multiple responses. A value of 1 indicates that the response was split, while 0 indicates no splitting. If the value is NA in the response column, the `RA` value is also set to NA.
 #'
-#' @returns A data frame.
-#' @export
+#' @return A data frame with the separated columns. If \code{show_previous} is \code{TRUE}, the output includes the original columns that were not split, along with the separated columns and the `RA` column. If \code{show_previous} is \code{FALSE}, only the separated columns and the `RA` column are returned.
 #'
 #' @examples
 #'
@@ -25,6 +27,8 @@
 #' separate_responses(df = IGC, col_name = "final_response",
 #'                                 separate_with = ", ",
 #'                                 show_previous = F)
+#'
+#' @export
 separate_responses <- function(df,
                                col_name,
                                separate_with = ", ",
@@ -42,8 +46,8 @@ separate_responses <- function(df,
 
   # Create the RA column and handle NA in the separation
   df <- df %>% dplyr::mutate(
-    RA = ifelse(stringr::str_detect({{col_name}}, separate_with), 1, 0),
-    RA = ifelse(is.na({{col_name}}), NA, RA)
+    RA = ifelse(stringr::str_detect(!!rlang::sym(col_name), separate_with), 1, 0),
+    RA = ifelse(is.na(!!rlang::sym(col_name)), NA, RA)
   )
 
   # Separate the string based on the specified character
@@ -66,3 +70,4 @@ separate_responses <- function(df,
     return(cbind(df %>% dplyr::select(RA), separated_columns))
   }
 }
+

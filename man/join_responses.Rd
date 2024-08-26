@@ -15,7 +15,7 @@ join_responses(
 )
 }
 \arguments{
-\item{df}{A data frame containing the responses to join together.}
+\item{df}{A data frame containing the responses to split.}
 
 \item{resp_start}{The starting column for responses to join. This can be specified by column name (e.g., "response") or column position (e.g., 9). All response columns must be contiguous.}
 
