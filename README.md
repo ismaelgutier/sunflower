@@ -16,7 +16,10 @@ statistical analyses in [R](https://www.r-project.org/).
 You can install the development version of sunflower from
 [GitHub](https://github.com/) with: Also, make sure you install the
 [tidyverse package](https://www.tidyverse.org/) to allow to work with
-pipes.
+pipes, and the [word2vec CRAN
+package](https://cran.r-project.org/web/packages/word2vec/readme/README.html)
+for further computations depending word2vec models required to classify
+errors (last section in this markdown).
 
 ``` r
 # install.packages("devtools")
@@ -33,36 +36,9 @@ require("sunflower")
 require("tidyverse")
 ```
 
-# How to use
+## How to use
 
-``` r
-require("sunflower")
-#> Loading required package: sunflower
-require("tidyverse")
-#> Loading required package: tidyverse
-#> Warning: package 'tidyverse' was built under R version 4.2.3
-#> Warning: package 'ggplot2' was built under R version 4.2.3
-#> Warning: package 'tibble' was built under R version 4.2.3
-#> Warning: package 'tidyr' was built under R version 4.2.3
-#> Warning: package 'readr' was built under R version 4.2.3
-#> Warning: package 'purrr' was built under R version 4.2.3
-#> Warning: package 'dplyr' was built under R version 4.2.3
-#> Warning: package 'stringr' was built under R version 4.2.3
-#> Warning: package 'forcats' was built under R version 4.2.3
-#> Warning: package 'lubridate' was built under R version 4.2.3
-#> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-#> ✔ dplyr     1.1.4     ✔ readr     2.1.5
-#> ✔ forcats   1.0.0     ✔ stringr   1.5.1
-#> ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-#> ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-#> ✔ purrr     1.0.2
-#> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
-#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-```
-
-## Compute formal similarity metrics
+### Compute formal similarity metrics
 
 ``` r
 df_to_formal_metrics = sunflower::IGC_long_phon %>% select(-c(modality, task_modality,task_type, test, task))
@@ -72,7 +48,7 @@ formal_metrics_computed = df_to_formal_metrics %>% get_formal_metrics(item_col =
                                              response_col = "response_phon",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "item_ID"))
-#> The function get_formal_metrics() took 1.26 seconds to be executed
+#> The function get_formal_metrics() took 1.17 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -88,44 +64,43 @@ formal_metrics_computed %>% head(8) %>% knitr::kable()
 | 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      |
 | 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloθ  | SMMMM          | 01111            | 01111                      |
 
-## Positional accuracy
+`Note`: Move the dataframe to the right to see all the columns and
+metrics.
+
+### Positional accuracy
 
 ``` r
-
 positions_accuracy = formal_metrics_computed %>% 
   position_scores(match_col = "itemL_adj_strict_match_pos", last_ID_col = "targetL")
-#> New names:
-#> • `` -> `...1`
-#> • `` -> `...2`
-#> • `` -> `...3`
-#> • `` -> `...4`
-#> • `` -> `...5`
-#> • `` -> `...6`
-#> • `` -> `...7`
-#> • `` -> `...8`
-#> • `` -> `...9`
-#> • `` -> `...10`
-#> • `` -> `...11`
-#> • `` -> `...12`
+
+positions_accuracy %>% head(8) %>% knitr::kable()
 ```
 
+|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | Position | correct_pos |
+|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|:---------|:------------|
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 1        | 1           |
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 2        | 1           |
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 3        | 1           |
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 4        | 1           |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 1        | 1           |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 2        | 1           |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 3        | 1           |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 4        | 1           |
+
+`Note`: A plot depicting the positions’ accuracy of 14,418 datapoints.
+
+<img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
+
+### Classify productions
+
 ``` r
-plot_positions
-```
-
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
-
-## Classify productions
-
-``` r
-
 errors_classified = df_to_classify %>% 
   get_formal_similarity_indexes(target_col = "item", response_col = "Response", 
                             item_type = "task_type", source1 = wordlist) %>%
   get_cosine_similarity_df(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classification(access_col = "accessed", RA_col = "RA")
-#> The function get_formal_similarity_indexes() took 3.90 seconds to be executed
-#> The function get_cosine_similarity_df() took 4.54 seconds to be executed
+#> The function get_formal_similarity_indexes() took 3.64 seconds to be executed
+#> The function get_cosine_similarity_df() took 4.28 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
@@ -141,5 +116,20 @@ errors_classified %>% head(8) %>% knitr::kable()
 | 522 |       6 | veloz |   1 |       2 | lo       |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |       0 | lo    | DDMMD          | 00000            | 00000                      |         0.5714286 |           0 |         0 |                 0 |         0 |                1 |         0.3502317 |              0 |       0 |         0 |      0 |         0 |             0 |     0 |        0 |
 | 522 |       6 | veloz |   1 |       3 | feloz    |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |       0 | eloz  | SMMMM          | 01111            | 01111                      |         0.8000000 |           0 |         0 |                 0 |         0 |                0 |                NA |              0 |       0 |         0 |      0 |         0 |             0 |     0 |        0 |
 
-`Note`: Move the dataframe to the right to see all the columns and error
-types
+`Note 1`: Move the dataframe to the right to see all the columns and
+errors.
+
+`Note 2`: The `source1 = wordlist` is a txt file contained in the
+dependency-bundle zip that can be found at our supplementary [OSF
+repository](https://osf.io/akuxv/). The `model = m_w2v` is a word2vec
+binary file located also in that zip (see the markdown in the vignettes
+for further info).
+
+------------------------------------------------------------------------
+
+Any suggestions, comments, or questions about the functionality of the
+package are warmly welcomed. If you are interested in contributing to
+the project, such as by expanding it to other languages, please feel
+free to contact us.
+
+🌻
