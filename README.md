@@ -13,23 +13,25 @@ statistical analyses in [R](https://www.r-project.org/).
 
 ## Installation
 
-You can install the development version of sunflower from
-[GitHub](https://github.com/) with: Also, make sure you install the
-[tidyverse package](https://www.tidyverse.org/) to allow to work with
-pipes, and the [word2vec CRAN
+You can install the current version of *sunflower* from
+[GitHub](https://github.com/) using the following code lines. Also, it
+is recommended to install the [tidyverse
+package](https://www.tidyverse.org/) to allow the work with pipes, and
+the [word2vec CRAN
 package](https://cran.r-project.org/web/packages/word2vec/readme/README.html)
-for further computations depending word2vec models required to classify
-errors (last section in this markdown).
+for computations involving word2vec models required to classify errors
+(as described in the last section of this markdown).
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 install.packages("tidyverse")
 ```
 
-To use *sunflower*, the user will only need to load it in R, we
-recommend to work with
-[RStudio](https://posit.co/download/rstudio-desktop/).
+Once these packages have been installed, it is only required to load
+then in R (recommended working with
+[RStudio](https://posit.co/download/rstudio-desktop/) to have an optimal
+IDE).
 
 ``` r
 require("sunflower")
@@ -48,7 +50,7 @@ formal_metrics_computed = df_to_formal_metrics %>% get_formal_metrics(item_col =
                                              response_col = "response_phon",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "item_ID"))
-#> The function get_formal_metrics() took 1.28 seconds to be executed
+#> The function get_formal_metrics() took 1.20 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -99,8 +101,8 @@ errors_classified = df_to_classify %>%
                             item_type = "task_type", source1 = wordlist) %>%
   get_cosine_similarity_df(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classification(access_col = "accessed", RA_col = "RA")
-#> The function get_formal_similarity_indexes() took 3.82 seconds to be executed
-#> The function get_cosine_similarity_df() took 4.43 seconds to be executed
+#> The function get_formal_similarity_indexes() took 3.59 seconds to be executed
+#> The function get_cosine_similarity_df() took 4.20 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```

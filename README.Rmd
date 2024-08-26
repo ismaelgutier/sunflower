@@ -22,17 +22,16 @@ The goal of *sunflower* is to handle multiple response data, compute formal metr
 
 ## Installation
 
-You can install the development version of sunflower from [GitHub](https://github.com/) with:
-Also, make sure you install the [tidyverse package](https://www.tidyverse.org/) to allow to work with pipes,
-and the [word2vec CRAN package](https://cran.r-project.org/web/packages/word2vec/readme/README.html) for further computations depending word2vec models required to classify errors (last section in this markdown).
+You can install the current version of *sunflower* from [GitHub](https://github.com/) using the following code lines.
+Also, it is recommended to install the [tidyverse package](https://www.tidyverse.org/) to allow the work with pipes, 
+and the [word2vec CRAN package](https://cran.r-project.org/web/packages/word2vec/readme/README.html) for computations involving word2vec models required to classify errors (as described in the last section of this markdown).
 
 ```r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 install.packages("tidyverse")
 ```
-
-To use *sunflower*, the user will only need to load it in R, we recommend to work with [RStudio](https://posit.co/download/rstudio-desktop/). 
+Once these packages have been installed, it is only required to load then in R (recommended working with [RStudio](https://posit.co/download/rstudio-desktop/) to have an optimal IDE).
 
 ```r
 require("sunflower")
