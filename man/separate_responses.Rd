@@ -26,15 +26,3 @@ This function relies on the `separation_counting()` function to determine the nu
 
 The `RA` column is created to flag rows that contain multiple responses. A value of 1 indicates that the response was split, while 0 indicates no splitting. If the value is NA in the response column, the `RA` value is also set to NA.
 }
-\examples{
-
-data("IGC")
-
-IGC \%>\% separate_responses(col_name = "final_response",
-                                separate_with = ", ",
-                                show_previous = F)
-separate_responses(df = IGC, col_name = "final_response",
-                                separate_with = ", ",
-                                show_previous = F)
-
-}
