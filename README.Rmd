@@ -23,7 +23,9 @@ knitr::opts_chunk$set(
 
 <div align="justify">
 
-The goal of *sunflower* is to help to manage multiple response data, compute formal similarity indices to assess the quality of oral and written productions in patients with aphasia and other related disorders such as apraxia of speech in Spanish, and classify these productions according to classical typological in the field of Speech Therapy and Neuropsychology of Language. *sunflower* partially relies on natural language processing models, such as word2vec, to compute semantic similarity measures. The outputs provided by this package facilitate statistical analyses in [R](https://www.r-project.org/), a common tool in our field used for data wrangling, visualization and analysis.
+The goal of *sunflower* is to help to manage multiple response data, compute formal similarity indices to assess the quality of oral and written productions in patients with aphasia and other related disorders such as apraxia of speech in Spanish, and classify these productions according to classical typological in the field of Speech Therapy and Neuropsychology of Language. 
+
+*sunflower* partially relies on natural language processing models, such as word2vec, to compute semantic similarity measures. The outputs provided by this package facilitate statistical analyses in [R](https://www.r-project.org/), a common tool in our field used for data wrangling, visualization and analysis.
 
 ## Installation
 
@@ -160,9 +162,7 @@ errors_classified %>% head(8) %>% knitr::kable()
 
 ***Notes.*** Move the dataframe to the right to see all the columns and errors.
 
-To enable *sunflower* to classify errors, it requires good "nutrients". These are (1) word list sources, such as `source1 = wordlist`, a .txt file located in the dependency-bundle zip, which can be found in our supplementary [OSF repository mirror](https://osf.io/akuxv/); users can set up to 3 sources. And (2) a NLP model, in our case this is `model = m_w2v`, a binary file containing a Spanish Billion Word embeddings corpus created using the word2vec algorithm, also located in the same zip file (see the markdown in the vignettes for further information).
-
-The quality of the classification performed directly depends on the quality of the source files. Some words might not be available in the `wordlist`, which comes from a prestigious Spanish dictionary (RAE). We cannot solve this issue except by using double-checking and human supervision.
+To enable *sunflower* to classify errors, it requires good "nutrients". These are (1) word list sources, such as `source1 = wordlist`, a .txt file located in the dependency-bundle zip, which can be found in our supplementary [OSF repository mirror](https://osf.io/akuxv/); users can set up to 3 sources. And (2) a NLP model, in our case this is `model = m_w2v`, a binary file containing a Spanish Billion Word embeddings corpus created using the word2vec algorithm, also located in the same zip file (see the markdown in the vignettes for further information). The quality of the classification performed directly depends on the quality of the source files. Some words might not be available in the `wordlist`, which comes from a prestigious Spanish dictionary (RAE). We cannot solve this issue except by using double-checking and human supervision.
 
 
 ----
