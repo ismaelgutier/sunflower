@@ -1,14 +1,14 @@
-#' @name get_formal_metrics
+#' @name get_formal_indexes
 #'
-#' @title Compute formal metrics for to allow their analysis
+#' @title Compute formal indexes for to allow their analysis
 #'
-#' @description This function computes various formal metrics to analyze phoneme data. It calculates character counts, shared proportions, differences in character counts, Levenshtein distance, Damerau-Levenshtein distance, Jaro-Winkler similarity, and other metrics for comparing target and response columns in a dataframe.
+#' @description This function computes various formal indexes to analyze phoneme data. It calculates character counts, shared proportions, differences in character counts, Levenshtein distance, Damerau-Levenshtein distance, Jaro-Winkler similarity, and other indexes for comparing target and response columns in a dataframe.
 #'
 #' @param df A dataframe containing the data to analyze.
 #' @param item_col The name of the column containing the target items. Default is `"item"`.
 #' @param response_col The name of the column containing the response items. Default is `"Response"`.
 #' @param attempt_col The name of the column indicating the attempt number or sequence. Default is `"Attempt"`.
-#' @param group_cols A character vector specifying the column names to group by before calculating metrics. Default is `c("ID", "item_ID")`.
+#' @param group_cols A character vector specifying the column names to group by before calculating indexes. Default is `c("ID", "item_ID")`.
 #'
 #' @details The function performs the following operations:
 #' \itemize{
@@ -24,14 +24,14 @@
 #'
 #' The function uses the `PTXQC::LCS` function for LCS calculation and handles NA values appropriately. It also prints the execution time of the function.
 #'
-#' @returns A dataframe with additional columns for the calculated metrics.
+#' @returns A dataframe with additional columns for the calculated indexes.
 #'
 #' @examples
 #' #require(tictoc); require(dplyr); require(rlang)
 #'
 #' data("IGC_long")
 #'
-#' result <- get_formal_metrics(df = IGC_long,
+#' result <- get_formal_indexes(df = IGC_long,
 #'                                 item_col = "item",
 #'                                 response_col = "Response",
 #'                                 attempt_col = "Attempt",
@@ -40,7 +40,7 @@
 #' head(result)
 #'
 #' @export
-get_formal_metrics <- function(df,
+get_formal_indexes <- function(df,
                                    item_col = "item",
                                    response_col = "Response",
                                    attempt_col = "Attempt",
@@ -117,7 +117,7 @@ get_formal_metrics <- function(df,
   elapsed_time <- tictoc::toc(quiet = TRUE)
 
   # Print custom message with the elapsed time rounded to 2 decimal places
-  message(sprintf("The function get_formal_metrics() took %.2f seconds to be executed", elapsed_time$toc - elapsed_time$tic))
+  message(sprintf("The function get_formal_indexes() took %.2f seconds to be executed", elapsed_time$toc - elapsed_time$tic))
 
   return(dataframe)
 }

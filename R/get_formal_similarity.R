@@ -1,4 +1,4 @@
-#' @name get_formal_similarity_indexes
+#' @name get_formal_similarity
 #'
 #' @title Compute Formal Similarity Indexes Between Target and Response Columns
 #'
@@ -34,7 +34,7 @@
 #' }
 #'
 #' @export
-get_formal_similarity_indexes <- function(dataframe,
+get_formal_similarity <- function(dataframe,
                                       target_col = "item",
                                       response_col = "response",
                                       item_type = "task_type",
@@ -86,7 +86,7 @@ get_formal_similarity_indexes <- function(dataframe,
   elapsed_time <- tictoc::toc(quiet = TRUE)
 
   # Print custom message with the elapsed time rounded to 2 decimal places
-  message(sprintf("The function get_formal_similarity_indexes() took %.2f seconds to be executed", elapsed_time$toc - elapsed_time$tic))
+  message(sprintf("The function get_formal_similarity() took %.2f seconds to be executed", elapsed_time$toc - elapsed_time$tic))
 
   return(result)
 }

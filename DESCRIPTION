@@ -1,7 +1,7 @@
 Package: sunflower
 Type: Package
-Title: Classification of Production Errors, Management of Multiple Attempts Responses, and Computation of Formal Similarity Measures
-Version: 0.0.02
+Title: Managing Multiple Responses, Computing Formal Quality Measures, and Classifying Language Production Errors
+Version: 0.2.0
 Author: Gutiérrez-Cordero, I [aut][cre](<https://orcid.org/0000-0003-1508-4203>)
 Authors@R: person(
                given = "Ismael",
@@ -13,11 +13,12 @@ Authors@R: person(
 Maintainer: Gutiérrez-Cordero, I. <igtezcordero@uma.es>
 Description: 
     A package to study the production quality of Spanish speakers with aphasia. 
-    This succinct tool provides functions for managing data and obtaining key
-    measures for analyzing target-response formal similarity and 
-    conduite d'approche behavior in speech or writing samples. 
-    Additionally, it includes tools for classical error categorization, 
-    offering an easy way to evaluate and understand language production in aphasia.
+    sunflower is a succinct tool that allows for managing multiple responses, 
+    computing formal quality measures, and classifying language production errors. 
+    It is designed to assist clinicians and researchers with error classification and formal analysis tasks. 
+    While the package can compute formal measures on its own, it depends on additional "nutrients," 
+    such as word lists from dictionaries or databases and corpora that include word embeddings obtained 
+    through natural language processing to classify errors.
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true

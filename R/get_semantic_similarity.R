@@ -1,4 +1,4 @@
-#' @name get_cosine_similarity_df
+#' @name get_semantic_similarity
 #'
 #' @title Calculate Cosine Similarity Between Words in a DataFrame
 #'
@@ -14,7 +14,7 @@
 #' @returns A data frame with an additional column named `cosine_similarity`. This column contains the cosine similarity scores between the words in `target_col` and `response_col`. If an error occurs or the words are invalid, the value will be `NA`.
 #'
 #' @export
-get_cosine_similarity_df <- function(df, target_col, response_col, model) {
+get_semantic_similarity <- function(df, target_col, response_col, model) {
 
   # Start timing for the total execution
   tictoc::tic()
@@ -53,8 +53,7 @@ get_cosine_similarity_df <- function(df, target_col, response_col, model) {
   elapsed_time <- tictoc::toc(quiet = TRUE)
 
   # Print custom message with the elapsed time rounded to 2 decimal places
-  message(sprintf("The function get_cosine_similarity_df() took %.2f seconds to be executed", elapsed_time$toc - elapsed_time$tic))
-
+  message(sprintf("The function get_semantic_similarity() took %.2f seconds to be executed", elapsed_time$toc - elapsed_time$tic))
 
   return(df)
 }
