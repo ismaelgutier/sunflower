@@ -7,12 +7,8 @@
 
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-[![sunflower: version
-0.2.0](https://badgen.net/#static/sunflower/0.2.0/orange?icon=github)](https://github.com/ismaelgutier/sunflower)
-
-[\[Language:
-R\](https://badgen.net/#static/Language/R/yellow](https://www.r-project.org/)
+![](https://img.shields.io/badge/sunflower-v._0.2.0-orange?style=flat&logo=github&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey)
 
 <!-- badges: end -->
 
@@ -60,7 +56,7 @@ formal_metrics_computed = df_to_formal_metrics %>% get_formal_indexes(item_col =
                                              response_col = "response_phon",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "item_ID"))
-#> The function get_formal_indexes() took 1.37 seconds to be executed
+#> The function get_formal_indexes() took 1.22 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -111,8 +107,8 @@ errors_classified = df_to_classify %>%
                             item_type = "task_type", source1 = wordlist) %>%
   get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classify_errors(access_col = "accessed", RA_col = "RA", response_col = "Response", classify_RAs = T)
-#> The function get_formal_similarity() took 4.53 seconds to be executed
-#> The function get_semantic_similarity() took 5.26 seconds to be executed
+#> The function get_formal_similarity() took 3.98 seconds to be executed
+#> The function get_semantic_similarity() took 4.64 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
