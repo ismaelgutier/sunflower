@@ -29,20 +29,16 @@ The goal of *sunflower* is to help to manage multiple response data, compute for
 
 ## Installation
 
-You can install the current version of *sunflower* from [GitHub](https://github.com/) using the following code lines.
-Also, it is recommended to install the [tidyverse package](https://www.tidyverse.org/) to allow the work with pipes, 
-and the [word2vec CRAN package](https://cran.r-project.org/web/packages/word2vec/readme/README.html) for computations involving word2vec models required to classify errors (as described in the last section of this markdown).
+*sunflower* can be installed as an R package with:
 
 ```r
 install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
-install.packages("tidyverse")
 ```
-Once these packages have been installed, it is only required to load then in R (recommended working with [RStudio](https://posit.co/download/rstudio-desktop/) to have an optimal IDE).
+*sunflower* can use R native pipes (`|>`), it is recommended to install the [*tidyverse* package](https://www.tidyverse.org/). This will allow you to use the *tidyverse* pipes (`%>%`) and functions from packages like *dplyr*, *readr*, and *ggplot2* to support the work.
 
 ```r
-require("sunflower")
-require("tidyverse")
+install.packages("tidyverse")
 ```
 
 ## How to use
@@ -53,16 +49,26 @@ require("tidyverse")
 require("htmltools")
 ```
 
-### Compute formal similarity metrics
+### Loading the packages
+
+We only need to load two packages: *sunflower* and *tidyverse* for support.
+
+```r
+require("sunflower")
+require("tidyverse")
+```
+
+### Compute Formal Quality Indexes
 
 ```{r}
 df_to_formal_metrics = sunflower::IGC_long_phon %>% select(-c(modality, task_modality,task_type, test, task))
 
 
-formal_metrics_computed = df_to_formal_metrics %>% get_formal_indexes(item_col = "item_phon",
-                                             response_col = "response_phon",
-                                             attempt_col = "Attempt",
-                                             group_cols = c("ID", "item_ID"))
+formal_metrics_computed = df_to_formal_metrics %>% 
+                                  get_formal_indexes(item_col = "item_phon",
+                                       response_col = "response_phon",
+                                       attempt_col = "Attempt",
+                                       group_cols = c("ID", "item_ID"))
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 
@@ -70,7 +76,7 @@ formal_metrics_computed %>% head(8) %>% knitr::kable()
 `Note`: Move the dataframe to the right to see all the columns and metrics.
 
 
-### Positional accuracy
+### Obtain Positional Accuracy Data
 
 ```{r message=FALSE}
 positions_accuracy = formal_metrics_computed %>% 
@@ -137,7 +143,7 @@ plot_positions <- positions %>%
 plot_positions
 ```
 
-### Classify productions
+### Classify Errors
 
 ```{r include=FALSE}
 df_to_classify = sunflower::IGC_long %>% select(-c(modality, task_modality,task_type, test, task))
