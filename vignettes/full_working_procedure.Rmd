@@ -59,11 +59,11 @@ paged_table(IGC_step1, options = list(rows.print = 25, align = "ccc"))
 
 # 2. Formal Analysis
 
-Compute the similarity metrics using the `get_metrics()` function.
+Compute the similarity metrics using the `get_formal_indexes()` function.
 
 ```{r, formal metrics}
 
-IGC_step2 = IGC_step1 %>% get_formal_metrics(item_col = "item",
+IGC_step2 = IGC_step1 %>% get_formal_indexes(item_col = "item",
                                              response_col = "Response",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "task_item_ID"))
