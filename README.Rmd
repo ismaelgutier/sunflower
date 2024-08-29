@@ -35,7 +35,7 @@ The goal of *sunflower* is to help to manage multiple response data, compute for
 install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 ```
-*sunflower* can use R native pipes (`|>`), it is recommended to install the [*tidyverse* package](https://www.tidyverse.org/). This will allow you to use the *tidyverse* pipes (`%>%`) and functions from packages like *dplyr*, *readr*, and *ggplot2* to support the work.
+While *sunflower* can work by simply relying on R native pipes (`|>`), it is recommended to install the [*tidyverse* package](https://www.tidyverse.org/) as it allow to use *tidyverse* pipes (`%>%`) and functions from packages like *dplyr*, *readr*, and *ggplot2* to support the work.
 
 ```r
 install.packages("tidyverse")
