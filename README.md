@@ -65,7 +65,7 @@ formal_metrics_computed = df_to_formal_metrics %>% get_formal_indexes(item_col =
                                              response_col = "response_phon",
                                              attempt_col = "Attempt",
                                              group_cols = c("ID", "item_ID"))
-#> The function get_formal_indexes() took 1.21 seconds to be executed
+#> The function get_formal_indexes() took 1.22 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -117,8 +117,8 @@ errors_classified = df_to_classify %>%
                             item_type = "task_type", source1 = wordlist) %>%
   get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classify_errors(access_col = "accessed", RA_col = "RA", response_col = "Response", classify_RAs = T)
-#> The function get_formal_similarity() took 3.84 seconds to be executed
-#> The function get_semantic_similarity() took 4.46 seconds to be executed
+#> The function get_formal_similarity() took 3.54 seconds to be executed
+#> The function get_semantic_similarity() took 4.15 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
