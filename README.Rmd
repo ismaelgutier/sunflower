@@ -13,19 +13,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-# sunflower: Assessing and Categorizing Production Errors in Spanish
+# sunflower: A Package to Assess and Categorize Language Production Errors
 
 <!-- badges: start -->
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-[![sunflower: version 0.2.0](https://badgen.net/#static/sunflower/0.2.0/orange?icon=github )](https://github.com/ismaelgutier/sunflower)
-
-[![Language: R](https://badgen.net/#static/Language/R/yellow](https://www.r-project.org/)
+![](https://img.shields.io/badge/sunflower-v._0.2.0-orange?style=flat&logo=github&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey)
 
 <!-- badges: end -->
 
-The goal of *sunflower* is to handle multiple response data, compute formal metrics, and classify production errors, whether in speech or spelling transcriptions. The outputs of this package make it easy to run statistical analyses in [R](https://www.r-project.org/).
+<div align="justify">
+
+The goal of *sunflower* is to help to manage multiple response data, compute formal similarity indices to assess the quality of oral and written productions in patients with aphasia and other related disorders such as apraxia of speech in Spanish, and classify these productions according to classical typological in the field of Speech Therapy and Neuropsychology of Language. *sunflower* partially relies on natural language processing models, such as word2vec, to compute semantic similarity measures. The outputs provided by this package facilitate statistical analyses in [R](https://www.r-project.org/), a common tool in our field used for data wrangling, visualization and analysis.
 
 ## Installation
 
@@ -131,7 +129,7 @@ plot_positions <- positions %>%
 
 ```
 
-`Note`: A plot depicting the positions' accuracy of 14,418 datapoints.
+***Note.*** A plot depicting the positions' accuracy of 14,418 datapoints.
 
 ```{r plot_positions, out.width = "75%", fig.align="center", echo=FALSE}
 plot_positions
@@ -160,15 +158,16 @@ errors_classified = df_to_classify %>%
 errors_classified %>% head(8) %>% knitr::kable()
 ```
 
-`Note 1`: Move the dataframe to the right to see all the columns and errors.
+***Notes.*** Move the dataframe to the right to see all the columns and errors.
 
-`Note 2`: The `source1 = wordlist` is a txt file contained in the dependency-bundle zip that can be found at our supplementary [OSF repository](https://osf.io/akuxv/). The `model = m_w2v` is a word2vec binary file located also in that zip (see the markdown in the vignettes for further info).
+To enable *sunflower* to classify errors, it requires good "nutrients". These are (1) word list sources, such as `source1 = wordlist`, a .txt file located in the dependency-bundle zip, which can be found in our supplementary [OSF repository mirror](https://osf.io/akuxv/); users can set up to 3 sources. And (2) a NLP model, in our case this is `model = m_w2v`, a binary file containing a Spanish Billion Word embeddings corpus created using the word2vec algorithm, also located in the same zip file (see the markdown in the vignettes for further information).
 
-`Note 3`: The quality of the classification performed directly depends on the quality of the source files. Some words might not be available in the `wordlist`, which comes from a prestigious Spanish dictionary (RAE). We cannot solve this issue except by using double-checking and human supervision.
+The quality of the classification performed directly depends on the quality of the source files. Some words might not be available in the `wordlist`, which comes from a prestigious Spanish dictionary (RAE). We cannot solve this issue except by using double-checking and human supervision.
+
 
 ----
 
-
-Any suggestions, comments, or questions about the functionality of the package are warmly welcomed. If you are interested in contributing to the project, such as by expanding it to other languages, please feel free to contact us.
+Any suggestions, comments, or questions about the functionality of the package are warmly welcomed. If you are interested in contributing to the project, please feel free to contact us.
 
 Thank you 🌻
+
