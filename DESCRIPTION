@@ -19,7 +19,7 @@ Description:
     While the package can compute formal measures on its own, it depends on additional "nutrients," 
     such as word lists from dictionaries or databases and corpora that include word embeddings obtained 
     through natural language processing to classify errors.
-License: AGPL (>= 3)
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
