@@ -28,44 +28,46 @@ data wrangling, visualization and analysis.
 
 ## Installation
 
-You can install the current version of *sunflower* from
-[GitHub](https://github.com/) using the following code lines. Also, it
-is recommended to install the [tidyverse
-package](https://www.tidyverse.org/) to allow the work with pipes, and
-the [word2vec CRAN
-package](https://cran.r-project.org/web/packages/word2vec/readme/README.html)
-for computations involving word2vec models required to classify errors
-(as described in the last section of this markdown).
+*sunflower* can be installed as an R package with:
 
 ``` r
 install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
+```
+
+*sunflower* can use R native pipes (`|>`), it is recommended to install
+the [*tidyverse* package](https://www.tidyverse.org/). This will allow
+you to use the *tidyverse* pipes (`%>%`) and functions from packages
+like *dplyr*, *readr*, and *ggplot2* to support the work.
+
+``` r
 install.packages("tidyverse")
 ```
 
-Once these packages have been installed, it is only required to load
-then in R (recommended working with
-[RStudio](https://posit.co/download/rstudio-desktop/) to have an optimal
-IDE).
+## How to use
+
+### Loading the packages
+
+We only need to load two packages: *sunflower* and *tidyverse* for
+support.
 
 ``` r
 require("sunflower")
 require("tidyverse")
 ```
 
-## How to use
-
-### Compute formal similarity metrics
+### Compute Formal Quality Indexes
 
 ``` r
 df_to_formal_metrics = sunflower::IGC_long_phon %>% select(-c(modality, task_modality,task_type, test, task))
 
 
-formal_metrics_computed = df_to_formal_metrics %>% get_formal_indexes(item_col = "item_phon",
-                                             response_col = "response_phon",
-                                             attempt_col = "Attempt",
-                                             group_cols = c("ID", "item_ID"))
-#> The function get_formal_indexes() took 1.22 seconds to be executed
+formal_metrics_computed = df_to_formal_metrics %>% 
+                                  get_formal_indexes(item_col = "item_phon",
+                                       response_col = "response_phon",
+                                       attempt_col = "Attempt",
+                                       group_cols = c("ID", "item_ID"))
+#> The function get_formal_indexes() took 1.19 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -84,7 +86,7 @@ formal_metrics_computed %>% head(8) %>% knitr::kable()
 `Note`: Move the dataframe to the right to see all the columns and
 metrics.
 
-### Positional accuracy
+### Obtain Positional Accuracy Data
 
 ``` r
 positions_accuracy = formal_metrics_computed %>% 
@@ -109,7 +111,7 @@ datapoints.
 
 <img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
 
-### Classify productions
+### Classify Errors
 
 ``` r
 errors_classified = df_to_classify %>% 
@@ -117,8 +119,8 @@ errors_classified = df_to_classify %>%
                             item_type = "task_type", source1 = wordlist) %>%
   get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classify_errors(access_col = "accessed", RA_col = "RA", response_col = "Response", classify_RAs = T)
-#> The function get_formal_similarity() took 3.54 seconds to be executed
-#> The function get_semantic_similarity() took 4.15 seconds to be executed
+#> The function get_formal_similarity() took 3.51 seconds to be executed
+#> The function get_semantic_similarity() took 4.12 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
