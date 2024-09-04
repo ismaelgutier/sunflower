@@ -2,15 +2,24 @@
 #'
 #' @title Check if the Item Type is a Nonword
 #'
-#' @description Determines whether a given item type represents a nonword by checking if it contains "nonword", "NW", "pseudoword", "pseudo-word", or "non-word".
+#' @description This function determines whether a given item type represents a nonword. It does so by checking if the item type contains any of the specified patterns: "nonword", "nonwords", "NW", "pseudoword", "pseudowords", "pseudo-word", "pseudo-words", "non-word", "non-words", "pseudopalabra", or "pseudopalabras".
 #'
-#' @param item_type A character string representing the type of the item.
+#' @param item_type A character string representing the type of the item to be checked.
 #'
-#' @details This function checks if `item_type` matches common variations of the term "nonword", including "nonword", "NW", "pseudoword", "pseudo-word", and "non-word".
+#' @details The function searches for common variations of the term "nonword" within the `item_type` string. If any of the specified patterns are found, the function will return `1`.
 #'
-#' @returns A logical value (`TRUE` or `FALSE`). Returns `TRUE` if `item_type` matches any of the specified nonword variations, otherwise `FALSE`.
+#' @return An integer value (`1` or `0`). Returns `1` if the `item_type` matches any of the specified nonword patterns, otherwise `0`.
 #'
 #' @export
-is_target_nonword <- function(item_type) {
-  return(grepl("nonword|NW|pseudoword|pseudo-word|non-word", item_type, ignore.case = TRUE))
+is_target_nonword <- function(item_type, patterns = c("nonword", "nonwords", "NW",
+                                                      "pseudoword", "pseudowords",
+                                                      "pseudo-word", "pseudo-words",
+                                                      "non-word", "non-words",
+                                                      "pseudopalabra", "pseudopalabras")) {
+  pattern <- paste(patterns, collapse = "|")
+  if (grepl(pattern, item_type, ignore.case = TRUE)) {
+    return(1)
+  } else {
+    return(0)
+  }
 }

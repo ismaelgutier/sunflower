@@ -3,14 +3,14 @@
 
 # sunflower: A Package to Assess and Categorize Language Production Errors
 
-<!-- badges: start -->
+<!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.2.0-orange?style=flat&logo=github&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._0.2.0-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
 
-<!-- badges: end -->
+<!-- badges end -->
 <div align="justify">
 
 The goal of *sunflower* is to help to manage multiple response data,
@@ -120,8 +120,8 @@ errors_classified = df_to_classify %>%
                             item_type = "task_type", source1 = wordlist) %>%
   get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v) %>%
   classify_errors(access_col = "accessed", RA_col = "RA", response_col = "Response", classify_RAs = T)
-#> The function get_formal_similarity() took 3.84 seconds to be executed
-#> The function get_semantic_similarity() took 4.54 seconds to be executed
+#> The function get_formal_similarity() took 3.62 seconds to be executed
+#> The function get_semantic_similarity() took 4.28 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
