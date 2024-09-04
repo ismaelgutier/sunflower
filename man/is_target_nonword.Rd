@@ -4,17 +4,21 @@
 \alias{is_target_nonword}
 \title{Check if the Item Type is a Nonword}
 \usage{
-is_target_nonword(item_type)
+is_target_nonword(
+  item_type,
+  patterns = c("nonword", "nonwords", "NW", "pseudoword", "pseudowords", "pseudo-word",
+    "pseudo-words", "non-word", "non-words", "pseudopalabra", "pseudopalabras")
+)
 }
 \arguments{
-\item{item_type}{A character string representing the type of the item.}
+\item{item_type}{A character string representing the type of the item to be checked.}
 }
 \value{
-A logical value (`TRUE` or `FALSE`). Returns `TRUE` if `item_type` matches any of the specified nonword variations, otherwise `FALSE`.
+An integer value (`1` or `0`). Returns `1` if the `item_type` matches any of the specified nonword patterns, otherwise `0`.
 }
 \description{
-Determines whether a given item type represents a nonword by checking if it contains "nonword", "NW", "pseudoword", "pseudo-word", or "non-word".
+This function determines whether a given item type represents a nonword. It does so by checking if the item type contains any of the specified patterns: "nonword", "nonwords", "NW", "pseudoword", "pseudowords", "pseudo-word", "pseudo-words", "non-word", "non-words", "pseudopalabra", or "pseudopalabras".
 }
 \details{
-This function checks if `item_type` matches common variations of the term "nonword", including "nonword", "NW", "pseudoword", "pseudo-word", and "non-word".
+The function searches for common variations of the term "nonword" within the `item_type` string. If any of the specified patterns are found, the function will return `1`.
 }
