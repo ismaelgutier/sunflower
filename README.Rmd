@@ -49,7 +49,7 @@ require("htmltools")
 
 ### Loading the packages
 
-We only need to load two packages: *sunflower* and *tidyverse* for support.
+Once they are installed, we only need to load two packages: *sunflower* and *tidyverse* for support.
 
 ```r
 require("sunflower")
