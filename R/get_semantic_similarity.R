@@ -5,22 +5,22 @@
 #' @description This function calculates the cosine similarity between the words in two specified columns of a dataframe using a provided word embedding model. It adds a new column, `cosine_similarity`, to the dataframe with the calculated similarity scores.
 #'
 #' @param df A data frame containing the words to compare.
-#' @param target_col A string specifying the name of the column in the dataframe that contains the target words.
+#' @param item_col A string specifying the name of the column in the dataframe that contains the target words.
 #' @param response_col A string specifying the name of the column in the dataframe that contains the response words.
 #' @param model A word embedding model used to generate word vectors. The model should have a `predict` method that can return word embeddings.
 #'
-#' @details The function checks if the specified columns exist in the dataframe. For each pair of words (one from the `target_col` and one from the `response_col`) in each row, it retrieves their word embeddings using the provided model and computes the cosine similarity between them. If either word is invalid (e.g., contains spaces or commas), or if there's an error in processing, it returns `NA` for that pair. The resulting cosine similarity values are added to a new column named `cosine_similarity`.
+#' @details The function checks if the specified columns exist in the dataframe. For each pair of words (one from the `item_col` and one from the `response_col`) in each row, it retrieves their word embeddings using the provided model and computes the cosine similarity between them. If either word is invalid (e.g., contains spaces or commas), or if there's an error in processing, it returns `NA` for that pair. The resulting cosine similarity values are added to a new column named `cosine_similarity`.
 #'
-#' @returns A data frame with an additional column named `cosine_similarity`. This column contains the cosine similarity scores between the words in `target_col` and `response_col`. If an error occurs or the words are invalid, the value will be `NA`.
+#' @returns A data frame with an additional column named `cosine_similarity`. This column contains the cosine similarity scores between the words in `item_col` and `response_col`. If an error occurs or the words are invalid, the value will be `NA`.
 #'
 #' @export
-get_semantic_similarity <- function(df, target_col, response_col, model) {
+get_semantic_similarity <- function(df, item_col, response_col, model) {
 
   # Start timing for the total execution
   tictoc::tic()
 
   # Verificar si las columnas existen en el data frame
-  if (!(target_col %in% names(df)) || !(response_col %in% names(df))) {
+  if (!(item_col %in% names(df)) || !(response_col %in% names(df))) {
     stop("Las columnas especificadas no existen en el data frame.")
   }
 
@@ -46,7 +46,7 @@ get_semantic_similarity <- function(df, target_col, response_col, model) {
 
   # Añadir la columna de similitud coseno al data frame
   df$cosine_similarity <- apply(df, 1, function(row) {
-    calculate_similarity(row[target_col], row[response_col])
+    calculate_similarity(row[item_col], row[response_col])
   })
 
   # End timing for the total execution and capture the elapsed time

@@ -3,3 +3,4 @@
 ^README\.Rmd$
 ^LICENSE\.md$
 ^/dependency-bundle$
+^/R/old_functions$

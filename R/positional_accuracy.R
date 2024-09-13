@@ -1,4 +1,4 @@
-#' @name position_scores
+#' @name positional_accuracy
 #'
 #' @title Split Strings into Columns and Transform to Long Format
 #'
@@ -18,13 +18,13 @@
 #'                                 attempt_col = "Attempt",
 #'                                 group_cols = c("ID", "item_ID"))
 #'
-#' result_positions <- result %>% position_scores(match_col = "itemL_adj_strict_match_pos",
+#' result_positions <- result %>% positional_accuracy(match_col = "itemL_adj_strict_match_pos",
 #'                                               last_ID_col = "targetL")
 #' print(result_positions)
 #'
 #' @export
 #'
-position_scores <- function(df, match_col, last_ID_col) {
+positional_accuracy <- function(df, match_col, last_ID_col) {
 # Extract the column of interest
 strings <- df[[match_col]]
 

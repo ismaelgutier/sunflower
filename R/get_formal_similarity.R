@@ -2,12 +2,12 @@
 #'
 #' @title Compute Formal Indexes for Phoneme Data Analysis
 #'
-#' @description This function computes various formal indexes for analyzing phoneme data, providing insights into the similarity between target and response items. It includes character counts, shared proportions, differences in character counts, and several distance and similarity measures.
+#' @description This function computes various formal indexes for analyzing phoneme data, providing insights into the similarity between target and response items. It calculates character counts, proportions of shared characters, differences in character counts, and several distance and similarity measures, which are valuable for evaluating phonological data.
 #'
 #' @param df A dataframe containing the data to analyze.
 #' @param item_col The name of the column containing the target items. Default is `"item"`.
 #' @param response_col The name of the column containing the response items. Default is `"Response"`.
-#' @param attempt_col The name of the column indicating the attempt number or sequence. It is defined to work along with the `group_cols` parameter, allowing to handle repeated attempts (RAs) responses and obtain `"approach_diff"`. Default is `NULL`.
+#' @param attempt_col The name of the column indicating the attempt number or sequence. Used in conjunction with the `group_cols` parameter to handle repeated attempts (RAs) and to calculate the `"approach_diff"` metric. Default is `NULL`.
 #' @param group_cols A character vector specifying the column names to group by before calculating indexes. Default is `NULL`.
 #'
 #' @details The function performs the following operations:
@@ -16,38 +16,43 @@
 #'   \item \bold{p_shared_char}: Computes the proportion of characters shared between the target and response strings.
 #'   \item \bold{diff_char_num}: Calculates the difference in character counts between the target and response strings.
 #'   \item \bold{Ld}: Computes the Levenshtein distance between the target and response strings, which measures the number of single-character edits required to transform one string into the other.
-#'   \item \bold{DLd}: Computes the Damerau-Levenshtein distance between the target and response strings, which is an extension of the Levenshtein distance that also accounts for transpositions of adjacent characters.
-#'   \item \bold{JWd}: Computes the Jaro-Winkler similarity between the target and response strings, a metric that measures the similarity between two strings based on character matches and transpositions.
+#'   \item \bold{DLd}: Computes the Damerau-Levenshtein distance between the target and response strings, an extension of Levenshtein distance accounting for transpositions of adjacent characters.
+#'   \item \bold{JWd}: Computes the Jaro-Winkler similarity between the target and response strings, a metric that measures similarity based on character matches and transpositions.
 #'   \item \bold{pcc}: Computes the proportion of correct characters (pcc), calculated as \(1 - (DLd / nchar(target))\).
-#'   \item \bold{lcs}: Calculates the Longest Common Subsequence (LCS) between the target and response strings, handling NA values appropriately if one is missing. The LCS is the longest sequence that can be derived from both strings without changing the order of characters.
-#'   \item \bold{similarity_str}: Computes a similarity vector between the target and response strings (M = match, D = deletion, S = substitution; I = insertion).
-#'   \item \bold{strict_match_pos}: Calculates strict matching positions between the target and response strings, indicating where characters match exactly per position between target and response.
-#'   \item \bold{itemL_adj_strict_match_pos}: Adjusts the strict matching positions to the length of the target string. Useful to compute positional data with `position_scores()` function.
-#'   \item \bold{approach_diff} (if `attempt_col` and `group_cols` are both defined): Computes the difference in the proportion of correct characters (pcc) between consecutive attempts within each group defined by `group_cols`. This metric helps analyze changes in performance over multiple attempts.
+#'   \item \bold{lcs}: Calculates the Longest Common Subsequence (LCS) between the target and response strings, using the `PTXQC::LCS` function and handling NA values.
+#'   \item \bold{similarity_str}: Computes a similarity vector between the target and response strings (M = match, D = deletion, S = substitution, I = insertion).
+#'   \item \bold{strict_match_pos}: Calculates positions where characters match exactly between the target and response strings.
+#'   \item \bold{itemL_adj_strict_match_pos}: Adjusts the strict matching positions to the length of the target string, useful for computing positional data with other functions.
+#'   \item \bold{comment_warning}: Adds a warning if the response contains spaces or commas, potentially indicating repeated attempts (RA) responses.
+#'   \item \bold{approach_diff} (if `attempt_col` and `group_cols` are defined): Computes the difference in the proportion of correct characters (pcc) between consecutive attempts within each group defined by `group_cols`. This metric helps analyze changes in performance over multiple attempts.
 #' }
 #'
-#' The function uses the `PTXQC::LCS` function for LCS calculation and handles NA values appropriately. It also prints the execution time of the function.
+#' The function handles NA values appropriately, especially in character string operations like LCS and similarity measures. It prints the execution time of the function upon completion.
 #'
-#' If `attempt_col` is provided, it is necessary to specify `group_cols` for proper grouping. If `group_cols` is not defined while `attempt_col` is provided, the function will stop with an error message requesting the `group_cols` specification. Conversely, if `group_cols` is defined but `attempt_col` is not, the function will display a message suggesting the possible interest in defining `attempt_col` for computing `approach_diff`.
+#' If `attempt_col` is provided, it is mandatory to also specify `group_cols` for proper grouping. If `group_cols` is missing, the function will stop and display an error message requesting the `group_cols` specification. If `group_cols` is defined but `attempt_col` is not, the function will display a message suggesting that `attempt_col` could be useful for analyzing performance improvements across attempts.
 #'
-#' @returns A dataframe with additional columns for the calculated indexes.
+#' @returns A dataframe with the following additional columns:
+#' \itemize{
+#'   \item \bold{targetL}: Length of the target string.
+#'   \item \bold{responseL}: Length of the response string.
+#'   \item \bold{shared1char}: Indicator if the target and response start with the same letter.
+#'   \item \bold{p_shared_char}: Proportion of shared characters between target and response.
+#'   \item \bold{diff_char_num}: Difference in character counts between target and response.
+#'   \item \bold{Ld}: Levenshtein distance between target and response.
+#'   \item \bold{DLd}: Damerau-Levenshtein distance between target and response.
+#'   \item \bold{JWd}: Jaro-Winkler similarity between target and response.
+#'   \item \bold{pcc}: Proportion of correct characters.
+#'   \item \bold{lcs}: Longest Common Subsequence between target and response.
+#'   \item \bold{similarity_str}: Similarity vector between target and response (M, D, S, I).
+#'   \item \bold{strict_match_pos}: String indicating exact matches between target and response positions.
+#'   \item \bold{itemL_adj_strict_match_pos}: Adjusted match positions based on the length of the target.
+#'   \item \bold{approach_diff}: Difference in the proportion of correct characters between attempts (if `attempt_col` is provided).
+#'   \item \bold{comment_warning}: Warning for potential repeated attempt responses.
+#' }
 #'
-#' @examples
-#' #require(tictoc); require(dplyr); require(rlang)
-#'
-#' bb = midflong %>% get_formal_similarity(item_col = "item", response_col = "Response")
-#' print(bb)
-#'
-#' aa = midflong %>% get_formal_similarity(item_col = "item", response_col = "Response", group_cols = c("ID", "item_ID"))
-#' print(aa)
-#'
-#' cc = midflong %>% get_formal_similarity(item_col = "item", response_col = "Response", attempt_col = "Attempt", group_cols = c("ID"))
-#' View(cc)
-#'
-#' dd = midflong %>% get_formal_similarity(item_col = "item", response_col = "Response", attempt_col = "Attempt")
-#' print(dd)
 #'
 #' @export
+
 get_formal_similarity <- function(df,
                               item_col = "item",
                               response_col = "Response",
@@ -111,10 +116,10 @@ get_formal_similarity <- function(df,
                                           NA_character_,
                                           substr(strict_match_pos, 1, targetL)),
 
-      # Add comment_get_formal_similarity if response_col contains a space or a comma
-      comment_get_formal_similarity = ifelse(grepl("[ ,]", .data[[response_col]]),
-                                         "Could be a RA response.",
-                                         NA_character_)
+      # Add comment_warning if response_col contains a space or a comma
+      comment_warning = ifelse(grepl("[ ,]", .data[[response_col]]),
+                                "Could be a RA response.",
+                                "")
 
     ) %>%
     dplyr::ungroup() # Ungroup after all rowwise operations are done

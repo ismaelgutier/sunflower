@@ -143,7 +143,7 @@ IGC_step3 <- IGC_step2_cleanNA %>%
   get_formal_similarity(item_col = "item", response_col = "Response",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "task_item_ID")) %>%
-  get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v)
+  get_semantic_similarity(item_col = "item", response_col = "Response", model = m_w2v)
 
 # Compute accessed col
 

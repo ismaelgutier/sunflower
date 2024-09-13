@@ -70,21 +70,21 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.51 seconds to be executed
+#> The function get_formal_similarity() took 1.61 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | shared1char | comment_get_formal_similarity |
-|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|:------------|:------------------------------|
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | vago  | MMMM           | 1111             | 1111                       | TRUE        | NA                            |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | bario | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
-| 519 |       3 | tenia | tenja     |   0 |       1 | tenia    | tenja         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenia | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
-| 520 |       4 | medio | medjo     |   0 |       1 | medio    | medjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medio | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
-| 521 |       5 | patio | patjo     |   0 |       1 | patio    | patjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patio | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
-| 522 |       6 | veloz | beloθ     |   1 |       1 | ver      | beɾ           |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | ve    | MMSDD          | 11000            | 11000                      | TRUE        | NA                            |
-| 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      | FALSE       | NA                            |
-| 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloz  | SMMMM          | 01111            | 01111                      | FALSE       | NA                            |
+|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | shared1char | comment_warning |
+|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|:------------|:----------------|
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | vago  | MMMM           | 1111             | 1111                       | TRUE        | NA              |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | bario | MMMMM          | 11111            | 11111                      | TRUE        | NA              |
+| 519 |       3 | tenia | tenja     |   0 |       1 | tenia    | tenja         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenia | MMMMM          | 11111            | 11111                      | TRUE        | NA              |
+| 520 |       4 | medio | medjo     |   0 |       1 | medio    | medjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medio | MMMMM          | 11111            | 11111                      | TRUE        | NA              |
+| 521 |       5 | patio | patjo     |   0 |       1 | patio    | patjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patio | MMMMM          | 11111            | 11111                      | TRUE        | NA              |
+| 522 |       6 | veloz | beloθ     |   1 |       1 | ver      | beɾ           |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | ve    | MMSDD          | 11000            | 11000                      | TRUE        | NA              |
+| 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      | FALSE       | NA              |
+| 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloz  | SMMMM          | 01111            | 01111                      | FALSE       | NA              |
 
 `Note`: Move the dataframe to the right to see all the columns and
 metrics.
@@ -93,7 +93,7 @@ metrics.
 
 ``` r
 positions_accuracy = formal_metrics_computed %>% 
-  position_scores(match_col = "itemL_adj_strict_match_pos", last_ID_col = "targetL")
+  positional_accuracy(match_col = "itemL_adj_strict_match_pos", last_ID_col = "targetL")
 
 positions_accuracy %>% head(8) %>% knitr::kable()
 ```
@@ -119,25 +119,29 @@ datapoints.
 ``` r
 errors_classified = df_to_classify %>% 
   check_lexicality(item_col = "item", response_col = "Response", criterion = "database") %>%
-  get_formal_similarity(item_col = "item", response_col = "Response") %>%
-  get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v)
-#> The function check_lexicality() took 1.67 seconds to be executed
-#> The function get_formal_similarity() took 2.26 seconds to be executed
-#> The function get_semantic_similarity() took 2.59 seconds to be executed
+  get_formal_similarity(item_col = "item", response_col = "Response", 
+                        attempt_col = "Attempt", group_cols = c("ID", "item_ID")) %>%
+  get_semantic_similarity(item_col = "item", response_col = "Response", model = m_w2v) %>%
+  classify_errors(response_col = "Response", item_col = "item",
+                  access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
+#> The function check_lexicality() took 2.17 seconds to be executed
+#> The function get_formal_similarity() took 2.81 seconds to be executed
+#> The function get_semantic_similarity() took 3.20 seconds to be executed
+#> The function classify_errors() took 3.22 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  |  RA | Attempt | Response | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | lexicality | shared1char | comment_get_formal_similarity | cosine_similarity |
-|----:|--------:|:------|----:|--------:|:---------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|-----------:|:------------|:------------------------------|------------------:|
-| 517 |       1 | vago  |   0 |       1 | vago     |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | vago  | MMMM           | 1111             | 1111                       |          1 | TRUE        | NA                            |         1.0000000 |
-| 518 |       2 | bario |   0 |       1 | bario    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | bario | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
-| 519 |       3 | tenia |   0 |       1 | tenia    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenia | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
-| 520 |       4 | medio |   0 |       1 | medio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medio | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
-| 521 |       5 | patio |   0 |       1 | patio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patio | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
-| 522 |       6 | veloz |   1 |       1 | ver      |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | ve    | MMSDD          | 11000            | 11000                      |          1 | TRUE        | NA                            |         0.2804400 |
-| 522 |       6 | veloz |   1 |       2 | lo       |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      |          0 | FALSE       | NA                            |         0.3502317 |
-| 522 |       6 | veloz |   1 |       3 | feloz    |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloz  | SMMMM          | 01111            | 01111                      |          0 | FALSE       | NA                            |                NA |
+|  ID | item_ID | item  |  RA | Attempt | Response | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | correct | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | lexicality | shared1char | comment_warning | cosine_similarity | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
+|----:|--------:|:------|----:|--------:|:---------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|--------:|:------|:---------------|:-----------------|:---------------------------|-----------:|:------------|:----------------|------------------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
+| 517 |       1 | vago  |   0 |       1 | vago     |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | vago  | MMMM           | 1111             | 1111                       |          1 | TRUE        | NA              |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 518 |       2 | bario |   0 |       1 | bario    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | bario | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA              |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 519 |       3 | tenia |   0 |       1 | tenia    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | tenia | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA              |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 520 |       4 | medio |   0 |       1 | medio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | medio | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA              |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 521 |       5 | patio |   0 |       1 | patio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | patio | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA              |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 522 |       6 | veloz |   1 |       1 | ver      |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |       0 | ve    | MMSDD          | 11000            | 11000                      |          1 | TRUE        | NA              |         0.2804400 |       0 |         0 |      1 |         0 |     0 |        0 |           0 |         |
+| 522 |       6 | veloz |   1 |       2 | lo       |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |       0 | lo    | DDMMD          | 00000            | 00000                      |          0 | FALSE       | NA              |         0.3502317 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 522 |       6 | veloz |   1 |       3 | feloz    |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |       0 | eloz  | SMMMM          | 01111            | 01111                      |          0 | FALSE       | NA              |                NA |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.
