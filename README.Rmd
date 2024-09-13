@@ -78,7 +78,7 @@ formal_metrics_computed %>% head(8) %>% knitr::kable()
 
 ```{r message=FALSE}
 positions_accuracy = formal_metrics_computed %>% 
-  position_scores(match_col = "itemL_adj_strict_match_pos", last_ID_col = "targetL")
+  positional_accuracy(match_col = "itemL_adj_strict_match_pos", last_ID_col = "targetL")
 
 positions_accuracy %>% head(8) %>% knitr::kable()
 ```
@@ -152,8 +152,11 @@ m_w2v = word2vec::read.word2vec(file = file.choose(), normalize = TRUE)
 ```{r}
 errors_classified = df_to_classify %>% 
   check_lexicality(item_col = "item", response_col = "Response", criterion = "database") %>%
-  get_formal_similarity(item_col = "item", response_col = "Response") %>%
-  get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v)
+  get_formal_similarity(item_col = "item", response_col = "Response", 
+                        attempt_col = "Attempt", group_cols = c("ID", "item_ID")) %>%
+  get_semantic_similarity(item_col = "item", response_col = "Response", model = m_w2v) %>%
+  classify_errors(response_col = "Response", item_col = "item",
+                  access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
