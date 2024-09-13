@@ -70,7 +70,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.48 seconds to be executed
+#> The function get_formal_similarity() took 1.51 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -121,9 +121,9 @@ errors_classified = df_to_classify %>%
   check_lexicality(item_col = "item", response_col = "Response", criterion = "database") %>%
   get_formal_similarity(item_col = "item", response_col = "Response") %>%
   get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v)
-#> The function check_lexicality() took 1.57 seconds to be executed
-#> The function get_formal_similarity() took 2.17 seconds to be executed
-#> The function get_semantic_similarity() took 2.50 seconds to be executed
+#> The function check_lexicality() took 1.67 seconds to be executed
+#> The function get_formal_similarity() took 2.26 seconds to be executed
+#> The function get_semantic_similarity() took 2.59 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
@@ -163,13 +163,12 @@ Next, similarity measures between the targets and the responses are
 obtained using various algorithms within the `get_formal_similarity()`
 function. Finally, the cosine similarity between the two productions is
 computed if possible using the `get_semantic_similarity()` function,
-based on an NLP model. In our case, this is the parameter
-`model = m_w2v`, a binary file containing a Spanish Billion Word
-embeddings corpus created using the word2vec algorithm, which is also
-included in the same zip file (see the markdown in the vignettes for
-further information). This model is located within the dependency-bundle
-zip, which can be found in our supplementary [OSF repository
-mirror](https://osf.io/akuxv/).
+based on an NLP model. In our case, the parameter `model = m_w2v` refers
+to a binary file containing a Spanish Billion Words embeddings corpus
+created using the word2vec algorithm. This file is included in the zip
+file (for more information, see the markdown in the vignettes) located
+within the dependency-bundle zip, which can be found in our
+supplementary [OSF repository mirror](https://osf.io/akuxv/).
 
 ------------------------------------------------------------------------
 
