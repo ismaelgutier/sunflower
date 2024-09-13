@@ -5,7 +5,7 @@
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.2.0-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._0.9.13-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
@@ -13,18 +13,19 @@ v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/li
 <!-- badges end -->
 <div align="justify">
 
-The goal of *sunflower* is to help to manage multiple response data,
-compute formal similarity indices to assess the quality of oral and
-written productions in patients with aphasia and other related disorders
-such as apraxia of speech in Spanish, and classify these productions
-according to classical typological in the field of Speech Therapy and
-Neuropsychology of Language.
-
-*sunflower* partially relies on natural language processing models, such
-as word2vec, to compute semantic similarity measures. The outputs
-provided by this package facilitate statistical analyses in
-[R](https://www.r-project.org/), a common tool in our field used for
-data wrangling, visualization and analysis.
+*sunflower* is a package designed to assist clinicians and researchers
+in the fields of Speech Therapy and Neuropsychology of Language. Its
+primary goal is to facilitate the management of multiple response data
+and compute formal similarity indices to assess the quality of oral and
+written productions in patients with aphasia and related disorders, such
+as apraxia of speech, in Spanish. Additionally, the package allows for
+the classification of these productions according to classical
+typologies in the field, prior to computing formal and semantic
+similarity measures. For the computation of the latter, *sunflower*
+partially relies on natural language processing models such as word2vec.
+The outputs provided by this package facilitate statistical analyses in
+R, a widely-used tool in the field for data wrangling, visualization,
+and analysis.
 
 ## Installation
 
@@ -35,11 +36,12 @@ install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 ```
 
-While *sunflower* can work by simply relying on R native pipes (`|>`),
-it is recommended to install the [*tidyverse*
-package](https://www.tidyverse.org/) as it allow to use *tidyverse*
-pipes (`%>%`) and functions from packages like *dplyr*, *readr*, and
-*ggplot2* to support the work.
+While *sunflower* can work using the native R pipe operator (`|>`), it
+is recommended to install the [*tidyverse*
+package](https://www.tidyverse.org/). This allows you to use the
+*tidyverse* pipe operator (`%>%`) and functions from packages such as
+*dplyr*, *readr*, and *ggplot2*, which can significantly enhance your
+workflow.
 
 ``` r
 install.packages("tidyverse")
@@ -64,25 +66,25 @@ df_to_formal_metrics = sunflower::IGC_long_phon %>% select(-c(modality, task_mod
 
 
 formal_metrics_computed = df_to_formal_metrics %>% 
-                                  get_formal_indexes(item_col = "item_phon",
-                                       response_col = "response_phon",
-                                       attempt_col = "Attempt",
-                                       group_cols = c("ID", "item_ID"))
-#> The function get_formal_indexes() took 1.21 seconds to be executed
+    get_formal_similarity(item_col = "item", 
+                          response_col = "response",
+                          attempt_col = "Attempt",
+                          group_cols = c("ID", "item_ID"))
+#> The function get_formal_similarity() took 1.48 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos |
-|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | baɡo  | MMMM           | 1111             | 1111                       |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | baɾjo | MMMMM          | 11111            | 11111                      |
-| 519 |       3 | tenia | tenja     |   0 |       1 | tenia    | tenja         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenja | MMMMM          | 11111            | 11111                      |
-| 520 |       4 | medio | medjo     |   0 |       1 | medio    | medjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medjo | MMMMM          | 11111            | 11111                      |
-| 521 |       5 | patio | patjo     |   0 |       1 | patio    | patjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patjo | MMMMM          | 11111            | 11111                      |
-| 522 |       6 | veloz | beloθ     |   1 |       1 | ver      | beɾ           |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | be    | MMSDD          | 11000            | 11000                      |
-| 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      |
-| 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloθ  | SMMMM          | 01111            | 01111                      |
+|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | shared1char | comment_get_formal_similarity |
+|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|:------------|:------------------------------|
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | vago  | MMMM           | 1111             | 1111                       | TRUE        | NA                            |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | bario | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
+| 519 |       3 | tenia | tenja     |   0 |       1 | tenia    | tenja         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenia | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
+| 520 |       4 | medio | medjo     |   0 |       1 | medio    | medjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medio | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
+| 521 |       5 | patio | patjo     |   0 |       1 | patio    | patjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patio | MMMMM          | 11111            | 11111                      | TRUE        | NA                            |
+| 522 |       6 | veloz | beloθ     |   1 |       1 | ver      | beɾ           |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | ve    | MMSDD          | 11000            | 11000                      | TRUE        | NA                            |
+| 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      | FALSE       | NA                            |
+| 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloz  | SMMMM          | 01111            | 01111                      | FALSE       | NA                            |
 
 `Note`: Move the dataframe to the right to see all the columns and
 metrics.
@@ -116,50 +118,67 @@ datapoints.
 
 ``` r
 errors_classified = df_to_classify %>% 
-  get_formal_similarity(target_col = "item", response_col = "Response", 
-                            item_type = "task_type", source1 = wordlist) %>%
-  get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v) %>%
-  classify_errors(access_col = "accessed", RA_col = "RA", response_col = "Response", classify_RAs = T)
-#> The function get_formal_similarity() took 3.62 seconds to be executed
-#> The function get_semantic_similarity() took 4.28 seconds to be executed
+  check_lexicality(item_col = "item", response_col = "Response", criterion = "database") %>%
+  get_formal_similarity(item_col = "item", response_col = "Response") %>%
+  get_semantic_similarity(target_col = "item", response_col = "Response", model = m_w2v)
+#> The function check_lexicality() took 1.57 seconds to be executed
+#> The function get_formal_similarity() took 2.17 seconds to be executed
+#> The function get_semantic_similarity() took 2.50 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  |  RA | Attempt | Response | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | correct | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | shared_proportion | shared1char | is_plural | is_target_nonword | same_root | is_response_word | cosine_similarity | lexicalization | nonword | neologism | formal | unrelated | mixed | semantic | no_response | human_check |
-|----:|--------:|:------|----:|--------:|:---------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|--------:|:------|:---------------|:-----------------|:---------------------------|------------------:|------------:|----------:|------------------:|----------:|-----------------:|------------------:|---------------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:------------|
-| 517 |       1 | vago  |   0 |       1 | vago     |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | vago  | MMMM           | 1111             | 1111                       |         1.0000000 |           1 |         0 |                 0 |         1 |                1 |         1.0000000 |              0 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |             |
-| 518 |       2 | bario |   0 |       1 | bario    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | bario | MMMMM          | 11111            | 11111                      |         1.0000000 |           1 |         0 |                 0 |         1 |                1 |         1.0000000 |              0 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |             |
-| 519 |       3 | tenia |   0 |       1 | tenia    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | tenia | MMMMM          | 11111            | 11111                      |         1.0000000 |           1 |         0 |                 0 |         1 |                1 |         1.0000000 |              0 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |             |
-| 520 |       4 | medio |   0 |       1 | medio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | medio | MMMMM          | 11111            | 11111                      |         1.0000000 |           1 |         0 |                 0 |         1 |                1 |         1.0000000 |              0 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |             |
-| 521 |       5 | patio |   0 |       1 | patio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | patio | MMMMM          | 11111            | 11111                      |         1.0000000 |           1 |         0 |                 0 |         1 |                1 |         1.0000000 |              0 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |             |
-| 522 |       6 | veloz |   1 |       1 | ver      |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |       0 | ve    | MMSDD          | 11000            | 11000                      |         0.5000000 |           1 |         0 |                 0 |         0 |                1 |         0.2804400 |              0 |       0 |         0 |      0 |         1 |     0 |        0 |           0 |             |
-| 522 |       6 | veloz |   1 |       2 | lo       |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |       0 | lo    | DDMMD          | 00000            | 00000                      |         0.5714286 |           0 |         0 |                 0 |         0 |                1 |         0.3502317 |              0 |       0 |         0 |      0 |         1 |     0 |        0 |           0 |             |
-| 522 |       6 | veloz |   1 |       3 | feloz    |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |       0 | eloz  | SMMMM          | 01111            | 01111                      |         0.8000000 |           0 |         0 |                 0 |         0 |                0 |                NA |              0 |       1 |         0 |      0 |        NA |     0 |        0 |           0 |             |
+|  ID | item_ID | item  |  RA | Attempt | Response | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | lexicality | shared1char | comment_get_formal_similarity | cosine_similarity |
+|----:|--------:|:------|----:|--------:|:---------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|-----------:|:------------|:------------------------------|------------------:|
+| 517 |       1 | vago  |   0 |       1 | vago     |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | vago  | MMMM           | 1111             | 1111                       |          1 | TRUE        | NA                            |         1.0000000 |
+| 518 |       2 | bario |   0 |       1 | bario    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | bario | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
+| 519 |       3 | tenia |   0 |       1 | tenia    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenia | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
+| 520 |       4 | medio |   0 |       1 | medio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medio | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
+| 521 |       5 | patio |   0 |       1 | patio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patio | MMMMM          | 11111            | 11111                      |          1 | TRUE        | NA                            |         1.0000000 |
+| 522 |       6 | veloz |   1 |       1 | ver      |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | ve    | MMSDD          | 11000            | 11000                      |          1 | TRUE        | NA                            |         0.2804400 |
+| 522 |       6 | veloz |   1 |       2 | lo       |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      |          0 | FALSE       | NA                            |         0.3502317 |
+| 522 |       6 | veloz |   1 |       3 | feloz    |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloz  | SMMMM          | 01111            | 01111                      |          0 | FALSE       | NA                            |                NA |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.
 
-To enable *sunflower* to classify errors, it requires good “nutrients”.
-These are (1) word list sources, such as `source1 = wordlist`, a .txt
-file located in the dependency-bundle zip, which can be found in our
-supplementary [OSF repository mirror](https://osf.io/akuxv/); users can
-set up to 3 sources. And (2) a NLP model, in our case this is
-`model = m_w2v`, a binary file containing a Spanish Billion Word
-embeddings corpus created using the word2vec algorithm, also located in
-the same zip file (see the markdown in the vignettes for further
-information).
+*sunflower* allows for the classification of production errors once some
+indexes related to responses to a stimulus have been obtained and
+contextualized based on whether they come from repeated attempts or
+single productions. This process involves three steps. First, a
+lexicality check of the response is performed using the
+`lexicality_check()` function, which involves determining whether the
+response is a real word. To do this, the package searches for the
+response in a database such as *BuscaPalabras*
+([BPal](https://www.uv.es/~mperea/Davis_Perea_in_press.pdf)) and
+compares its frequency with the target word to determine if it is a real
+word based on whether it has a higher frequency or not when the
+parameter `criterion = "database"` is set. Alternatively, the response
+can be checked against a dictionary (*sunflower* searches for responses
+among entries from the *Real Academia Española*,
+[RAE](https://www.rae.es/)) when the parameter
+`criterion = "dictionary"` is used.
 
-The quality of the classification performed directly depends on the
-quality of the source files. Some words might not be available in the
-`wordlist`, which comes from a prestigious Spanish dictionary (RAE). We
-cannot solve this issue except by using double-checking and human
-supervision.
+Next, similarity measures between the targets and the responses are
+obtained using various algorithms within the `get_formal_similarity()`
+function. Finally, the cosine similarity between the two productions is
+computed if possible using the `get_semantic_similarity()` function,
+based on an NLP model. In our case, this is the parameter
+`model = m_w2v`, a binary file containing a Spanish Billion Word
+embeddings corpus created using the word2vec algorithm, which is also
+included in the same zip file (see the markdown in the vignettes for
+further information). This model is located within the dependency-bundle
+zip, which can be found in our supplementary [OSF repository
+mirror](https://osf.io/akuxv/).
 
 ------------------------------------------------------------------------
 
-Any suggestions, comments, or questions about the functionality of the
-package are warmly welcomed. If you are interested in contributing to
-the project, please feel free to contact us.
+Thanks to Cristian Cardellino for making his work on the [Spanish
+Billion Word Corpus and
+Embeddings](https://crscardellino.github.io/SBWCE/) publicly available.
 
-Thank you 🌻
+------------------------------------------------------------------------
+
+Any suggestions, comments, or questions about the package’s
+functionality are warmly welcomed. If you’d like to contribute to the
+project, please feel free to get in touch. 🌻
