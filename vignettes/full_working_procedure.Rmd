@@ -76,12 +76,12 @@ paged_table(IGC_step2_skinnydf, options = list(rows.print = 25, align = "c"))
 
 ## 2.1. Positional Analysis
 
-Obtain the correct characters, in this case, letters, in their correct position using the `position_scores()` function.
+Obtain the correct characters, in this case, letters, in their correct position using the `positional_accuracy()` function.
 
 
 ```{r, positions}
 
-IGC_step2.1 = IGC_step2 %>% position_scores(match_col = "itemL_adj_strict_match_pos",
+IGC_step2.1 = IGC_step2 %>% positional_accuracy(match_col = "itemL_adj_strict_match_pos",
                                           last_ID_col = "targetL")
 
 IGC_step2.1_skinnydf = IGC_step2.1 %>% dplyr::select(-c(task_ID, correct, task_type))
