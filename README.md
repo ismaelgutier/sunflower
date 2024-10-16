@@ -36,12 +36,12 @@ install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 ```
 
-While *sunflower* can work using the native R pipe operator (`|>`), it
-is recommended to install the [*tidyverse*
-package](https://www.tidyverse.org/). This allows you to use the
-*tidyverse* pipe operator (`%>%`) and functions from packages such as
-*dplyr*, *readr*, and *ggplot2*, which can significantly enhance your
-workflow.
+Once they are installed, we only need to load the *sunflower* package.
+The *sunflower* package works using the pipe operator (`%>%`) from the
+[*tidyverse* package](https://www.tidyverse.org/), allowing it to work
+seamlessly with functions from other packages in the *tidyverse*, such
+as *dplyr* for data wrangling, *readr* for data reading, and *ggplot2*
+for data visualization. This can significantly enhance our workflow.
 
 ``` r
 install.packages("tidyverse")
@@ -51,8 +51,9 @@ install.packages("tidyverse")
 
 ### Loading the packages
 
-Once they are installed, we only need to load two packages: *sunflower*
-and *tidyverse* for support.
+Once installed, we only need to load the *sunflower* package. However,
+as previously mentioned, the *tidyverse* package can also be valuable
+for other complementary tasks.
 
 ``` r
 require("sunflower")
@@ -62,7 +63,8 @@ require("tidyverse")
 ### Compute Formal Quality Indexes
 
 ``` r
-df_to_formal_metrics = sunflower::IGC_long_phon %>% select(-c(modality, task_modality,task_type, test, task))
+df_to_formal_metrics = sunflower::IGC_long_phon %>% 
+  dplyr::select(-c(modality, task_modality,task_type, test, task)) # keep some relevant columns
 
 
 formal_metrics_computed = df_to_formal_metrics %>% 
@@ -70,7 +72,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.62 seconds to be executed
+#> The function get_formal_similarity() took 1.65 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -124,10 +126,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "Response", model = m_w2v) %>%
   classify_errors(response_col = "Response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 1.89 seconds to be executed
-#> The function get_formal_similarity() took 2.57 seconds to be executed
-#> The function get_semantic_similarity() took 2.96 seconds to be executed
-#> The function classify_errors() took 2.97 seconds to be executed
+#> The function check_lexicality() took 2.11 seconds to be executed
+#> The function get_formal_similarity() took 2.78 seconds to be executed
+#> The function get_semantic_similarity() took 3.19 seconds to be executed
+#> The function classify_errors() took 3.22 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```

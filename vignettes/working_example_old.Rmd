@@ -1,5 +1,5 @@
 ---
-title: "Full working procedure using sunflower"
+title: "Full working procedure using `sunflower`"
 author: "Ismael Gutiérrez-Cordero"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -53,7 +53,7 @@ IGC_step1 = IGC %>% separate_responses(col_name = "final_response",
 
 IGC_step1_skinnydf = IGC_step1 %>% dplyr::select(-c(task_ID, task_type))
 
-paged_table(IGC_step1, options = list(rows.print = 25, align = "ccc"))
+paged_table(IGC_step1_skinnydf, options = list(rows.print = 25, align = "ccc"))
 
 ```
 
@@ -102,7 +102,7 @@ Rerun the previous steps to prepare a functional dataframe.
 IGC = sunflower::IGC
 ```
 
-This is a file (generated following the procedure described by [Dueñas Lerín] (https://duenaslerin.com/diccionario-palabras-espanol-en-texto-script/)) containing all the words in Spanish as available in the RAE dictionary. It can be downloaded from the author's page at https://github.com/JorgeDuenasLerin/diccionario-espanol-txt.
+This is a file (generated following the procedure described by [Dueñas Lerín](https://duenaslerin.com/diccionario-palabras-espanol-en-texto-script/)) containing all the words in Spanish as available in the RAE dictionary. It can be downloaded from the author's page at https://github.com/JorgeDuenasLerin/diccionario-espanol-txt.
 
 ```{r load some required files: word2vec model}
 
