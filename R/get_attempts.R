@@ -36,7 +36,7 @@ get_attempts <- function(df,
     # Clean and transform data
     dplyr::mutate(
       # Remove the prefix "Attempt_" from the `Attempt` column
-      Attempt = str_replace(Attempt, "Attempt_", ""),
+      Attempt = stringr::str_replace(Attempt, "Attempt_", ""),
       # Replace empty strings in `Response` with NA and ensure `Response` is of character type
       Response = ifelse(Response == "", NA, as.character(Response))
     )
