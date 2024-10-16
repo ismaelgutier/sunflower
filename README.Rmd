@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.9.13-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
+![](https://img.shields.io/badge/sunflower-v._0.16.10-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
 
 <!-- badges end -->
 
@@ -35,10 +35,6 @@ devtools::install_github("ismaelgutier/sunflower")
 ```
 
 Once they are installed, we only need to load the *sunflower* package. The *sunflower* package works using the pipe operator (`%>%`) from the [*tidyverse* package](https://www.tidyverse.org/), allowing it to work seamlessly with functions from other packages in the *tidyverse*, such as *dplyr* for data wrangling, *readr* for data reading, and *ggplot2* for data visualization. This can significantly enhance our workflow.
-
-```r
-install.packages("tidyverse")
-```
 
 ## How to use
 
