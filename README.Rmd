@@ -34,7 +34,7 @@ install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 ```
 
-Once they are installed, we only need to load the *sunflower* package. The *sunflower* package works using the pipe operator (`%>%`) from the [*tidyverse* package](https://www.tidyverse.org/), allowing it to work seamlessly with functions from other packages in the *tidyverse*, such as *dplyr* for data wrangling, *readr* for data reading, and *ggplot2* for data visualization. This can significantly enhance our workflow.
+Once the package is installed, we only need to load it. The *sunflower* package works using the pipe operator (`%>%`) from the [*tidyverse* package](https://www.tidyverse.org/), allowing it to work seamlessly with functions from other packages in the *tidyverse*, such as *dplyr* for data wrangling, *readr* for data reading, and *ggplot2* for data visualization. This can significantly enhance our workflow.
 
 ## How to use
 
