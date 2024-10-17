@@ -36,12 +36,12 @@ install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 ```
 
-Once they are installed, we only need to load the *sunflower* package.
-The *sunflower* package works using the pipe operator (`%>%`) from the
-[*tidyverse* package](https://www.tidyverse.org/), allowing it to work
-seamlessly with functions from other packages in the *tidyverse*, such
-as *dplyr* for data wrangling, *readr* for data reading, and *ggplot2*
-for data visualization. This can significantly enhance our workflow.
+Once the package is installed, we only need to load it. The *sunflower*
+package works using the pipe operator (`%>%`) from the [*tidyverse*
+package](https://www.tidyverse.org/), allowing it to work seamlessly
+with functions from other packages in the *tidyverse*, such as *dplyr*
+for data wrangling, *readr* for data reading, and *ggplot2* for data
+visualization. This can significantly enhance our workflow.
 
 ## How to use
 
@@ -68,7 +68,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.67 seconds to be executed
+#> The function get_formal_similarity() took 3.25 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -122,10 +122,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "Response", model = m_w2v) %>%
   classify_errors(response_col = "Response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 1.58 seconds to be executed
-#> The function get_formal_similarity() took 2.24 seconds to be executed
-#> The function get_semantic_similarity() took 2.61 seconds to be executed
-#> The function classify_errors() took 2.61 seconds to be executed
+#> The function check_lexicality() took 2.58 seconds to be executed
+#> The function get_formal_similarity() took 3.30 seconds to be executed
+#> The function get_semantic_similarity() took 3.92 seconds to be executed
+#> The function classify_errors() took 3.95 seconds to be executed
 
 errors_classified %>% head(8) %>% knitr::kable()
 ```
