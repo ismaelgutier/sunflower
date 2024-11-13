@@ -5,7 +5,7 @@
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.16.10-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._0.13.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
@@ -58,55 +58,58 @@ require("tidyverse")
 ### Compute Formal Quality Indexes
 
 ``` r
-df_to_formal_metrics = sunflower::IGC_long_phon %>% 
+
+df_to_formal_metrics = IGC_long_phon %>% 
   dplyr::select(-c(modality, task_modality,task_type, test, task)) # keep some relevant columns
 
-
 formal_metrics_computed = df_to_formal_metrics %>% 
-    get_formal_similarity(item_col = "item", 
-                          response_col = "response",
+    get_formal_similarity(item_col = "item_phon", 
+                          response_col = "response_phon",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.75 seconds to be executed
+#> The function get_formal_similarity() took 1.81 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | shared1char | comment_warning |
-|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|:------------|:----------------|
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | vago  | MMMM           | 1111             | 1111                       | TRUE        |                 |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | bario | MMMMM          | 11111            | 11111                      | TRUE        |                 |
-| 519 |       3 | tenia | tenja     |   0 |       1 | tenia    | tenja         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenia | MMMMM          | 11111            | 11111                      | TRUE        |                 |
-| 520 |       4 | medio | medjo     |   0 |       1 | medio    | medjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medio | MMMMM          | 11111            | 11111                      | TRUE        |                 |
-| 521 |       5 | patio | patjo     |   0 |       1 | patio    | patjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patio | MMMMM          | 11111            | 11111                      | TRUE        |                 |
-| 522 |       6 | veloz | beloθ     |   1 |       1 | ver      | beɾ           |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | ve    | MMSDD          | 11000            | 11000                      | TRUE        |                 |
-| 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      | FALSE       |                 |
-| 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloz  | SMMMM          | 01111            | 01111                      | FALSE       |                 |
+|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | shared1char | adj_strict_match_pos | comment_warning |
+|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|:------------|:---------------------|:----------------|
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | baɡo  | MMMM           | 1111             | 1111                       | TRUE        | 1111                 |                 |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | baɾjo | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
+| 519 |       3 | tenia | tenja     |   0 |       1 | tenia    | tenja         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenja | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
+| 520 |       4 | medio | medjo     |   0 |       1 | medio    | medjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medjo | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
+| 521 |       5 | patio | patjo     |   0 |       1 | patio    | patjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patjo | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
+| 522 |       6 | veloz | beloθ     |   1 |       1 | ver      | beɾ           |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | be    | MMSDD          | 11000            | 11000                      | TRUE        | 11000                |                 |
+| 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      | FALSE       | 00000                |                 |
+| 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloθ  | SMMMM          | 01111            | 01111                      | FALSE       | 01111                |                 |
 
-`Note`: Move the dataframe to the right to see all the columns and
+***Note.*** Move the dataframe to the right to see all the columns and
 metrics.
 
 ### Obtain Positional Accuracy Data
 
 ``` r
-positions_accuracy = formal_metrics_computed %>% 
-  positional_accuracy(match_col = "itemL_adj_strict_match_pos", last_ID_col = "targetL")
 
-positions_accuracy %>% head(8) %>% knitr::kable()
+positions_accuracy = formal_metrics_computed %>% 
+  positional_accuracy(item_col = "item_phon", response_col = "response_phon", 
+                      match_col = "itemL_adj_strict_match_pos")
+  
+
+positions_accuracy %>% select(ID:response_phon, RA, Attempt, Position:element_in_response) %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | Position | correct_pos |
-|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|:---------|:------------|
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 1        | 1           |
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 2        | 1           |
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 3        | 1           |
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 | 4        | 1           |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 1        | 1           |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 2        | 1           |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 3        | 1           |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 | 4        | 1           |
+|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | Position | correct_pos | element_in_item | element_in_response |
+|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|---------:|:------------|:----------------|:--------------------|
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        1 | 1           | b               | b                   |
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        2 | 1           | a               | a                   |
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        3 | 1           | ɡ               | ɡ                   |
+| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        4 | 1           | o               | o                   |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        1 | 1           | b               | b                   |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        2 | 1           | a               | a                   |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        3 | 1           | ɾ               | ɾ                   |
+| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        4 | 1           | j               | j                   |
 
-***Note.*** A plot depicting the positions’ accuracy of 14,418
+***Note.*** A plot depicting the positions’ accuracy of 44764
 datapoints.
 
 <img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
@@ -114,6 +117,7 @@ datapoints.
 ### Classify Errors
 
 ``` r
+
 errors_classified = df_to_classify %>% 
   check_lexicality(item_col = "item", response_col = "Response", criterion = "database") %>%
   get_formal_similarity(item_col = "item", response_col = "Response", 
@@ -121,24 +125,26 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "Response", model = m_w2v) %>%
   classify_errors(response_col = "Response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 2.60 seconds to be executed
-#> The function get_formal_similarity() took 3.40 seconds to be executed
-#> The function get_semantic_similarity() took 3.86 seconds to be executed
-#> The function classify_errors() took 3.89 seconds to be executed
+#> The function check_lexicality() took 2.13 seconds to be executed
+#> The function get_formal_similarity() took 2.81 seconds to be executed
+#> The function get_semantic_similarity() took 3.21 seconds to be executed
+#> The function classify_errors() took 3.23 seconds to be executed
 
-errors_classified %>% head(8) %>% knitr::kable()
+errors_classified %>% 
+  select(ID, item_ID, item, Response, RA, Attempt, nonword:comment) %>% 
+  head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  |  RA | Attempt | Response | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | correct | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | lexicality | shared1char | comment_warning | cosine_similarity | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
-|----:|--------:|:------|----:|--------:|:---------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|--------:|:------|:---------------|:-----------------|:---------------------------|-----------:|:------------|:----------------|------------------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
-| 517 |       1 | vago  |   0 |       1 | vago     |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | vago  | MMMM           | 1111             | 1111                       |          1 | TRUE        |                 |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 518 |       2 | bario |   0 |       1 | bario    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | bario | MMMMM          | 11111            | 11111                      |          1 | TRUE        |                 |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 519 |       3 | tenia |   0 |       1 | tenia    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | tenia | MMMMM          | 11111            | 11111                      |          1 | TRUE        |                 |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 520 |       4 | medio |   0 |       1 | medio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | medio | MMMMM          | 11111            | 11111                      |          1 | TRUE        |                 |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 521 |       5 | patio |   0 |       1 | patio    |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |       1 | patio | MMMMM          | 11111            | 11111                      |          1 | TRUE        |                 |         1.0000000 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 522 |       6 | veloz |   1 |       1 | ver      |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |       0 | ve    | MMSDD          | 11000            | 11000                      |          1 | TRUE        |                 |         0.2804400 |       0 |         0 |      1 |         0 |     0 |        0 |           0 |         |
-| 522 |       6 | veloz |   1 |       2 | lo       |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |       0 | lo    | DDMMD          | 00000            | 00000                      |          0 | FALSE       |                 |         0.3502317 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 522 |       6 | veloz |   1 |       3 | feloz    |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |       0 | eloz  | SMMMM          | 01111            | 01111                      |          0 | FALSE       |                 |                NA |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  ID | item_ID | item  | Response |  RA | Attempt | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
+|----:|--------:|:------|:---------|----:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
+| 517 |       1 | vago  | vago     |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 518 |       2 | bario | bario    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 519 |       3 | tenia | tenia    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 520 |       4 | medio | medio    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 521 |       5 | patio | patio    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 522 |       6 | veloz | ver      |   1 |       1 |       0 |         0 |      1 |         0 |     0 |        0 |           0 |         |
+| 522 |       6 | veloz | lo       |   1 |       2 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 522 |       6 | veloz | feloz    |   1 |       3 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.
@@ -146,8 +152,9 @@ errors.
 *sunflower* allows for the classification of production errors once some
 indexes related to responses to a stimulus have been obtained and
 contextualized based on whether they come from repeated attempts or
-single productions. This process involves three steps. First, a
-lexicality check of the response is performed using the
+single productions. This process involves three steps.
+
+First, a lexicality check of the response is performed using the
 `lexicality_check()` function, which involves determining whether the
 response is a real word. To do this, the package searches for the
 response in a database such as *BuscaPalabras*

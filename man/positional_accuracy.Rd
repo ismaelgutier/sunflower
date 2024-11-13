@@ -4,33 +4,41 @@
 \alias{positional_accuracy}
 \title{Split Strings into Columns and Transform to Long Format}
 \usage{
-positional_accuracy(df, match_col, last_ID_col)
+positional_accuracy(df, match_col, item_col, response_col)
 }
 \arguments{
 \item{df}{A data frame containing the column to be split and transformed.}
 
 \item{match_col}{The name of the column in the data frame to be split into multiple columns.}
 
-\item{last_ID_col}{The name of the last column in the original data frame that should be included in the final output. Columns after this will be split into separate columns and included in the long format.}
+\item{item_col}{The name of the column from which characters will be extracted based on their position.}
+
+\item{response_col}{The name of the column from which characters will be extracted based on their position.}
 }
 \value{
-A data frame in long format with the original data and the new columns for character positions.
+A data frame in long format with the original data and the new columns for character positions, as well as three additional columns:
+\item{Position}{The position of the character in the original string.}
+\item{correct_pos}{The character from the match_col at the given position.}
+\item{element_in_item}{The character from the item column corresponding to the character position. If the position exceeds the length of the item, it returns NA.}
+\item{element_in_response}{The character from the response column corresponding to the character position. If the position exceeds the length of the response, it returns NA.}
 }
 \description{
-This function splits strings in a specified column of a data frame into individual characters, creates separate columns for each character position, and then transforms the data from wide to long format. Useful for analyzing character-level data or responses.
+This function splits strings in a specified column of a data frame into individual characters, creates separate columns for each character position, and then transforms the data from wide to long format. It also extracts the corresponding characters from specified item and response columns based on their positions. This is useful for analyzing character-level data or responses in a structured way.
 }
 \examples{
+# Example Data Frame
+df <- data.frame(
+  itemL_adj_strict_match_pos = c("abc", "de", "fghij"),
+  item = c("abcd", "efgh", "ijklm"),
+  Response = c("ab", "d", "fghi"),
+  stringsAsFactors = FALSE
+)
 
-data("IGC_long")
-
-result <- get_formal_metrics(df = IGC_long,
-                                item_col = "item",
-                                response_col = "Response",
-                                attempt_col = "Attempt",
-                                group_cols = c("ID", "item_ID"))
-
-result_positions <- result \%>\% positional_accuracy(match_col = "itemL_adj_strict_match_pos",
-                                              last_ID_col = "targetL")
+# Using the positional_accuracy function
+result_positions <- positional_accuracy(df,
+                                        match_col = "itemL_adj_strict_match_pos",
+                                        item_col = "item",
+                                        response_col = "Response")
 print(result_positions)
 
 }
