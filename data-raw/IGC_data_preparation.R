@@ -1,5 +1,4 @@
 # Code to prepare `IGC` datasets
-
 usethis::use_data(IGC, overwrite = TRUE)
 usethis::use_data(IGC_long, overwrite = TRUE)
 usethis::use_data(IGC_long_phon, overwrite = TRUE)
@@ -10,9 +9,12 @@ require(readxl)
 require(writexl)
 
 # Data cleaning code
-IGC <- read_excel("~/mi paquete de R/sunflower/dataframes/ANC_database_raw_NEW.xlsx") %>% dplyr::filter(test == "Gutiérrez-Cordero") %>% dplyr::filter(modality == "spoken")
-IGC_long <- read_excel("~/mi paquete de R/sunflower/dataframes/dataframeWORK.xlsx") %>% dplyr::filter(test == "Gutiérrez-Cordero") %>% dplyr::filter(modality == "spoken")
-IGC_long_phon <- read_excel("~/mi paquete de R/sunflower/dataframes/dataframeWORKphono.xlsx") %>% dplyr::filter(test == "Gutiérrez-Cordero") %>% dplyr::filter(modality == "spoken")
+IGC <- read_excel("~/mi paquete de R/sunflower/dataframes/ANC_database_raw_NEW.xlsx") %>%
+  dplyr::filter(test == "Gutiérrez-Cordero") %>% dplyr::filter(modality == "spoken")
+IGC_long <- read_excel("~/mi paquete de R/sunflower/dataframes/dataframeWORK.xlsx") %>%
+  dplyr::filter(test == "Gutiérrez-Cordero") %>% dplyr::filter(modality == "spoken")
+IGC_long_phon <- read_excel("~/mi paquete de R/sunflower/dataframes/dataframeWORKphono.xlsx") %>%
+  dplyr::filter(test == "Gutiérrez-Cordero") %>% dplyr::filter(modality == "spoken")
 
 # Get column names
 colnames(IGC)
@@ -61,4 +63,3 @@ write_xlsx(IGC_long_phon, path = "IGC_long_phon.xlsx")
 usethis::use_data(IGC, IGC, overwrite = T)
 usethis::use_data(IGC_long, IGC_long, overwrite = T)
 usethis::use_data(IGC_long_phon, IGC_long_phon, overwrite = T)
-
