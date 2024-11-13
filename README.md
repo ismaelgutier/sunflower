@@ -59,29 +59,30 @@ require("tidyverse")
 
 ``` r
 
-df_to_formal_metrics = IGC_long_phon %>% 
-  dplyr::select(-c(modality, task_modality,task_type, test, task)) # keep some relevant columns
+load("data/mine/IGC_long_phon.RDA")
+
+df_to_formal_metrics = IGC_long_phon
 
 formal_metrics_computed = df_to_formal_metrics %>% 
     get_formal_similarity(item_col = "item_phon", 
                           response_col = "response_phon",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.83 seconds to be executed
+#> The function get_formal_similarity() took 2.40 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | targetL | responseL | p_shared_char | p_shared_char_in_pos | diff_char_num |  Ld | DLd |       JWd | pcc | approach_diff | accessed | lcs   | similarity_str | strict_match_pos | itemL_adj_strict_match_pos | shared1char | adj_strict_match_pos | comment_warning |
-|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|--------:|----------:|--------------:|---------------------:|--------------:|----:|----:|----------:|----:|--------------:|---------:|:------|:---------------|:-----------------|:---------------------------|:------------|:---------------------|:----------------|
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |       4 |         4 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | baɡo  | MMMM           | 1111             | 1111                       | TRUE        | 1111                 |                 |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | baɾjo | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
-| 519 |       3 | tenia | tenja     |   0 |       1 | tenia    | tenja         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | tenja | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
-| 520 |       4 | medio | medjo     |   0 |       1 | medio    | medjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | medjo | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
-| 521 |       5 | patio | patjo     |   0 |       1 | patio    | patjo         |       5 |         5 |     1.0000000 |                  1.0 |             0 |   0 |   0 | 0.0000000 | 1.0 |            NA |        1 | patjo | MMMMM          | 11111            | 11111                      | TRUE        | 11111                |                 |
-| 522 |       6 | veloz | beloθ     |   1 |       1 | ver      | beɾ           |       5 |         3 |     0.5000000 |                  0.4 |             4 |   3 |   3 | 0.2488889 | 0.4 |            NA |        0 | be    | MMSDD          | 11000            | 11000                      | TRUE        | 11000                |                 |
-| 522 |       6 | veloz | beloθ     |   1 |       2 | lo       | lo            |       5 |         2 |     0.5714286 |                  0.0 |             3 |   3 |   3 | 1.0000000 | 0.4 |           0.0 |        0 | lo    | DDMMD          | 00000            | 00000                      | FALSE       | 00000                |                 |
-| 522 |       6 | veloz | beloθ     |   1 |       3 | feloz    | feloθ         |       5 |         5 |     0.8000000 |                  0.8 |             2 |   1 |   1 | 0.1333333 | 0.8 |           0.4 |        0 | eloθ  | SMMMM          | 01111            | 01111                      | FALSE       | 01111                |                 |
+|   ID | task                          | item_ID | item       | response   | item_phon  | response_phon |  RA | Attempt | accessed | targetL | responseL | shared1char | p_shared_char | diff_char_num |  Ld | DLd |       JWd |       pcc | lcs        | similarity_str | strict_match_pos | adj_strict_match_pos | comment_warning | approach_diff |
+|-----:|:------------------------------|--------:|:-----------|:-----------|:-----------|:--------------|----:|--------:|---------:|--------:|----------:|:------------|--------------:|--------------:|----:|----:|----------:|----------:|:-----------|:---------------|:-----------------|:---------------------|:----------------|--------------:|
+|  517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago       | vago       | baɡo       | baɡo          |   0 |       1 |        1 |       4 |         4 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | baɡo       | MMMM           | 1111             | 1111                 |                 |            NA |
+|  637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano    | rellano    | reʎano     | reʎano        |   0 |       1 |        1 |       6 |         6 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | reʎano     | MMMMMM         | 111111           | 111111               |                 |            NA |
+|  797 | Gutiérrez-Cordero_w_rep_task3 |       1 | melancolía | melancolía | melankolia | melankolia    |   1 |       1 |        1 |      10 |        10 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | melankolia | MMMMMMMMMM     | 1111111111       | 1111111111           |                 |            NA |
+|  797 | Gutiérrez-Cordero_w_rep_task3 |       1 | melancolía | melancolía | melankolia | melankolia    |   1 |       2 |        1 |      10 |        10 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | melankolia | MMMMMMMMMM     | 1111111111       | 1111111111           |                 |           0.0 |
+|  797 | Gutiérrez-Cordero_w_rep_task3 |       1 | melancolía | melancolía | melankolia | melankolia    |   1 |       3 |        1 |      10 |        10 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | melankolia | MMMMMMMMMM     | 1111111111       | 1111111111           |                 |           0.0 |
+| 1014 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago       | vagos      | baɡo       | baɡos         |   0 |       1 |        0 |       4 |         5 | TRUE        |     0.8888889 |             1 |   1 |   1 | 0.0400000 | 0.7500000 | baɡo       | MMMMI          | 11110            | 1111                 |                 |            NA |
+| 1134 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano    | relago     | reʎano     | relaɡo        |   1 |       1 |        0 |       6 |         6 | TRUE        |     0.6666667 |             4 |   2 |   2 | 0.1777778 | 0.6666667 | re         | MMSMSM         | 110101           | 110101               |                 |            NA |
+| 1134 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano    | me         | reʎano     | me            |   1 |       2 |        0 |       6 |         2 | FALSE       |     0.2500000 |             6 |   5 |   5 | 0.4444444 | 0.1666667 | e          | SMDDDD         | 010000           | 010000               |                 |          -0.5 |
 
 ***Note.*** Move the dataframe to the right to see all the columns and
 metrics.
@@ -92,24 +93,24 @@ metrics.
 
 positions_accuracy = formal_metrics_computed %>% 
   positional_accuracy(item_col = "item_phon", response_col = "response_phon", 
-                      match_col = "itemL_adj_strict_match_pos")
+                      match_col = "adj_strict_match_pos")
   
 
 positions_accuracy %>% select(ID:response_phon, RA, Attempt, Position:element_in_response) %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  | item_phon |  RA | Attempt | response | response_phon | Position | correct_pos | element_in_item | element_in_response |
-|----:|--------:|:------|:----------|----:|--------:|:---------|:--------------|---------:|:------------|:----------------|:--------------------|
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        1 | 1           | b               | b                   |
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        2 | 1           | a               | a                   |
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        3 | 1           | ɡ               | ɡ                   |
-| 517 |       1 | vago  | baɡo      |   0 |       1 | vago     | baɡo          |        4 | 1           | o               | o                   |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        1 | 1           | b               | b                   |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        2 | 1           | a               | a                   |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        3 | 1           | ɾ               | ɾ                   |
-| 518 |       2 | bario | baɾjo     |   0 |       1 | bario    | baɾjo         |        4 | 1           | j               | j                   |
+|  ID | task                          | item_ID | item    | response | item_phon | response_phon |  RA | Attempt | Position | correct_pos | element_in_item | element_in_response |
+|----:|:------------------------------|--------:|:--------|:---------|:----------|:--------------|----:|--------:|---------:|:------------|:----------------|:--------------------|
+| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        1 | 1           | b               | b                   |
+| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        2 | 1           | a               | a                   |
+| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        3 | 1           | ɡ               | ɡ                   |
+| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        4 | 1           | o               | o                   |
+| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        1 | 1           | r               | r                   |
+| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        2 | 1           | e               | e                   |
+| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        3 | 1           | ʎ               | ʎ                   |
+| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        4 | 1           | a               | a                   |
 
-***Note.*** A plot depicting the positions’ accuracy of 44764
+***Note.*** A plot depicting the positions’ accuracy of 28836
 datapoints.
 
 <img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
@@ -119,32 +120,32 @@ datapoints.
 ``` r
 
 errors_classified = df_to_classify %>% 
-  check_lexicality(item_col = "item", response_col = "Response", criterion = "database") %>%
-  get_formal_similarity(item_col = "item", response_col = "Response", 
+  check_lexicality(item_col = "item", response_col = "response", criterion = "database") %>%
+  get_formal_similarity(item_col = "item", response_col = "response", 
                         attempt_col = "Attempt", group_cols = c("ID", "item_ID")) %>%
-  get_semantic_similarity(item_col = "item", response_col = "Response", model = m_w2v) %>%
-  classify_errors(response_col = "Response", item_col = "item",
+  get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
+  classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 2.13 seconds to be executed
-#> The function get_formal_similarity() took 2.80 seconds to be executed
-#> The function get_semantic_similarity() took 3.22 seconds to be executed
-#> The function classify_errors() took 3.24 seconds to be executed
+#> The function check_lexicality() took 2.16 seconds to be executed
+#> The function get_formal_similarity() took 2.83 seconds to be executed
+#> The function get_semantic_similarity() took 3.23 seconds to be executed
+#> The function classify_errors() took 3.29 seconds to be executed
 
 errors_classified %>% 
-  select(ID, item_ID, item, Response, RA, Attempt, nonword:comment) %>% 
+  select(ID, item_ID, item, response, RA, Attempt, correct, nonword:comment) %>% 
   head(8) %>% knitr::kable()
 ```
 
-|  ID | item_ID | item  | Response |  RA | Attempt | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
-|----:|--------:|:------|:---------|----:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
-| 517 |       1 | vago  | vago     |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 518 |       2 | bario | bario    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 519 |       3 | tenia | tenia    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 520 |       4 | medio | medio    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 521 |       5 | patio | patio    |   0 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 522 |       6 | veloz | ver      |   1 |       1 |       0 |         0 |      1 |         0 |     0 |        0 |           0 |         |
-| 522 |       6 | veloz | lo       |   1 |       2 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 522 |       6 | veloz | feloz    |   1 |       3 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|   ID | item_ID | item       | response   |  RA | Attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
+|-----:|--------:|:-----------|:-----------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
+|  517 |       1 | vago       | vago       |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  637 |       1 | rellano    | rellano    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  797 |       1 | melancolía | melancolía |   1 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  797 |       1 | melancolía | melancolía |   1 |       2 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  797 |       1 | melancolía | melancolía |   1 |       3 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 1014 |       1 | vago       | vagos      |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 1134 |       1 | rellano    | relago     |   1 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 1134 |       1 | rellano    | me         |   1 |       2 |       0 |       0 |         1 |      0 |         0 |     0 |        0 |           0 |         |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.

@@ -1,9 +1,17 @@
+# Ignorar archivos y carpetas específicos en el paquete
+
+# Archivos de proyecto de RStudio
 ^.*\.Rproj$
 ^\.Rproj\.user$
+
+# Documentación y licencia
 ^README\.Rmd$
 ^LICENSE\.md$
+
+# Carpetas y archivos a ignorar
 ^dependency-bundle$
 ^R/old_functions$
 ^raw-data$
 ^data/mine$
+^manuscript/
 ^pruebas\.R$
