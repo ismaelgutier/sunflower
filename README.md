@@ -67,7 +67,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response_phon",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.81 seconds to be executed
+#> The function get_formal_similarity() took 1.83 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -126,9 +126,9 @@ errors_classified = df_to_classify %>%
   classify_errors(response_col = "Response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
 #> The function check_lexicality() took 2.13 seconds to be executed
-#> The function get_formal_similarity() took 2.81 seconds to be executed
-#> The function get_semantic_similarity() took 3.21 seconds to be executed
-#> The function classify_errors() took 3.23 seconds to be executed
+#> The function get_formal_similarity() took 2.80 seconds to be executed
+#> The function get_semantic_similarity() took 3.22 seconds to be executed
+#> The function classify_errors() took 3.24 seconds to be executed
 
 errors_classified %>% 
   select(ID, item_ID, item, Response, RA, Attempt, nonword:comment) %>% 
