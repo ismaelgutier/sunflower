@@ -22,7 +22,7 @@
 #'   \item \bold{lcs}: Calculates the Longest Common Subsequence (LCS) between the target and response strings, using the `PTXQC::LCS` function and handling NA values.
 #'   \item \bold{similarity_str}: Computes a similarity vector between the target and response strings (M = match, D = deletion, S = substitution, I = insertion).
 #'   \item \bold{strict_match_pos}: Calculates positions where characters match exactly between the target and response strings.
-#'   \item \bold{itemL_adj_strict_match_pos}: Adjusts the strict matching positions to the length of the target string, useful for computing positional data with other functions.
+#'   \item \bold{adj_strict_match_pos}: Adjusts the strict matching positions to the length of the target string, useful for computing positional data with other functions.
 #'   \item \bold{comment_warning}: Adds a warning if the response contains spaces or commas, potentially indicating repeated attempts (RA) responses.
 #'   \item \bold{approach_diff} (if `attempt_col` and `group_cols` are defined): Computes the difference in the proportion of correct characters (pcc) between consecutive attempts within each group defined by `group_cols`. This metric helps analyze changes in performance over multiple attempts.
 #' }
@@ -45,7 +45,7 @@
 #'   \item \bold{lcs}: Longest Common Subsequence between target and response.
 #'   \item \bold{similarity_str}: Similarity vector between target and response (M, D, S, I).
 #'   \item \bold{strict_match_pos}: String indicating exact matches between target and response positions.
-#'   \item \bold{itemL_adj_strict_match_pos}: Adjusted match positions based on the length of the target.
+#'   \item \bold{adj_strict_match_pos}: Adjusted match positions based on the length of the target.
 #'   \item \bold{approach_diff}: Difference in the proportion of correct characters between attempts (if `attempt_col` is provided).
 #'   \item \bold{comment_warning}: Warning for potential repeated attempt responses.
 #' }
@@ -112,7 +112,7 @@ get_formal_similarity <- function(df,
                                 }),
 
       # Adjust strict matching positions to the length of the item
-      itemL_adj_strict_match_pos = ifelse(is.na(strict_match_pos),
+      adj_strict_match_pos = ifelse(is.na(strict_match_pos),
                                           NA_character_,
                                           substr(strict_match_pos, 1, targetL)),
 
