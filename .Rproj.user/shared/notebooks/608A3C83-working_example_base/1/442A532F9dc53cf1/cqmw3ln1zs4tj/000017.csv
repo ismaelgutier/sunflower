@@ -1,0 +1,10 @@
+"0","      # Calcular la similitud coseno
+      word2vec::word2vec_similarity(vec_word1, vec_word2, type = ""cosine"")
+"
+"1","     "
+"1","     plate"
+"1","
+table"
+"1"," 0.3108448"
+"1","
+"

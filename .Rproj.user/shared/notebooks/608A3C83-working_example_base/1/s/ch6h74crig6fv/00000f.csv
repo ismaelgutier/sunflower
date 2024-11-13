@@ -1,0 +1,7 @@
+"0",""
+"0","IGC_step2.1 = IGC_step2 %>% positional_accuracy(match_col = ""itemL_adj_strict_match_pos"","
+"0","                                          last_ID_col = ""targetL"")"
+"2","New names:"
+"0","IGC_step2.1_skinnydf = IGC_step2.1 %>% dplyr::select(-c(task_ID, correct, task_type))"
+"0",""
+"0","paged_table(IGC_step2.1_skinnydf, options = list(rows.print = 25, align = ""c""))"

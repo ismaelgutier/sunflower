@@ -1,0 +1,10 @@
+"0",""
+"0","IGC_step2 = IGC_step1 %>% get_formal_similarity(item_col = ""item"","
+"0","                                               response_col = ""Response"","
+"0","                                               attempt_col = ""Attempt"","
+"0","                                               group_cols = c(""ID"", ""task_item_ID""))"
+"2","The function get_formal_similarity() took 1.59 seconds to be executed
+"
+"0","IGC_step2_skinnydf = IGC_step2 %>% dplyr::select(-c(task_ID, task_type))"
+"0",""
+"0","paged_table(IGC_step2_skinnydf, options = list(rows.print = 25, align = ""c""))"
