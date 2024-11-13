@@ -1,7 +1,0 @@
-"0",""
-"0","IGC = sunflower::IGC"
-"0","#colnames(IGC)"
-"0",""
-"0","IGC = IGC %>% select(task_ID, task_type, ID, task_item_ID, item, final_response, correct)"
-"0",""
-"0","paged_table(IGC, options = list(rows.print = 25, align = ""ccc""))"
