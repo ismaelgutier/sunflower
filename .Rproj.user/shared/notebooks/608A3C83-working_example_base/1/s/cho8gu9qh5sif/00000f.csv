@@ -1,0 +1,5 @@
+"0","require(sunflower) # to work"
+"0","require(tidyverse) # to work along sunflower "
+"0","require(knitr) # to work in Rmarkdown"
+"0","require(kableExtra) # to work in Rmarkdown"
+"0","require(rmarkdown) # to work in Rmarkdown"

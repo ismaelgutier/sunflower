@@ -1,20 +1,6 @@
-# Archivos y directorios específicos de R
-.pruebas
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.Rdata
-
-# Archivos de autenticación y sistema
-.httr-oauth
-.DS_Store
-
-# Directorio de Quarto
-.quarto
-
-# Directorios específicos del proyecto
 dependency-bundle/
 R/old_functions/
 data/mine/
 raw-data/
+manuscript/
+.Rproj.user
