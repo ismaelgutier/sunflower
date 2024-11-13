@@ -1,6 +1,23 @@
-dependency-bundle/
-R/old_functions/
-data/mine/
-raw-data/
-manuscript/
+# Ignorar archivos PDF
+*.pdf
+
+# Ignorar archivos temporales de R
 .Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Ignorar la carpeta raw-data y todo su contenido
+raw-data/
+
+# Ignorar la carpeta dependency-bundle y todo su contenido
+dependency-bundle/
+
+# Ignorar la carpeta R/old_functions y todo su contenido
+R/old_functions/
+
+# Ignorar la carpeta data/mine y todo su contenido
+data/mine/
+
+# Ignorar la carpeta manuscript y todo su contenido
+manuscript/
