@@ -7,14 +7,14 @@
 #' @param df A data frame to work with.
 #' @param col_name The target column containing the responses that will be analyzed.
 #' @param separate_with A character string used to separate the responses (e.g., " - ", " ", or " & "). By default, it uses commas followed by an empty space (i.e., ", ").
-#' @param new_col_names A base name for the new columns that will be created. The actual column names will be this base name followed by the column number (e.g., "Attempt_1", "Attempt_2"). Default is \code{"Attempt"}.
+#' @param new_col_names A base name for the new columns that will be created. The actual column names will be this base name followed by the column number (e.g., "attempt_1", "attempt_2"). Default is \code{"attempt"}.
 #' @returns A list containing two elements: \code{column_names}, a character vector with the names of the new columns; and \code{count}, an integer representing the number of columns needed.
 #' @export
 #'
 separation_counting <- function(df,
                                 col_name,
                                 separate_with = ", ",
-                                new_col_names = "Attempt"){
+                                new_col_names = "attempt"){
 
   # Extract the column from the data frame and handle NA
   col_to_count1 <- df %>% dplyr::pull({{col_name}})

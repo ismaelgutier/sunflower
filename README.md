@@ -5,7 +5,7 @@
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.13.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._0.14.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
@@ -68,7 +68,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response_phon",
                           attempt_col = "Attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.40 seconds to be executed
+#> The function get_formal_similarity() took 1.17 seconds to be executed
 
 formal_metrics_computed %>% head(8) %>% knitr::kable()
 ```
@@ -96,10 +96,10 @@ positions_accuracy = formal_metrics_computed %>%
                       match_col = "adj_strict_match_pos")
   
 
-positions_accuracy %>% select(ID:response_phon, RA, Attempt, Position:element_in_response) %>% head(8) %>% knitr::kable()
+positions_accuracy %>% select(ID:response_phon, RA, Attempt, position:element_in_response) %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | task                          | item_ID | item    | response | item_phon | response_phon |  RA | Attempt | Position | correct_pos | element_in_item | element_in_response |
+|  ID | task                          | item_ID | item    | response | item_phon | response_phon |  RA | Attempt | position | correct_pos | element_in_item | element_in_response |
 |----:|:------------------------------|--------:|:--------|:---------|:----------|:--------------|----:|--------:|---------:|:------------|:----------------|:--------------------|
 | 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        1 | 1           | b               | b                   |
 | 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        2 | 1           | a               | a                   |
@@ -126,10 +126,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 2.16 seconds to be executed
-#> The function get_formal_similarity() took 2.83 seconds to be executed
-#> The function get_semantic_similarity() took 3.23 seconds to be executed
-#> The function classify_errors() took 3.29 seconds to be executed
+#> The function check_lexicality() took 2.19 seconds to be executed
+#> The function get_formal_similarity() took 2.91 seconds to be executed
+#> The function get_semantic_similarity() took 3.31 seconds to be executed
+#> The function classify_errors() took 3.36 seconds to be executed
 
 errors_classified %>% 
   select(ID, item_ID, item, response, RA, Attempt, correct, nonword:comment) %>% 

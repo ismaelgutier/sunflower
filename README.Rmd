@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.13.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
+![](https://img.shields.io/badge/sunflower-v._0.14.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
 
 <!-- badges end -->
 
@@ -87,7 +87,7 @@ positions_accuracy = formal_metrics_computed %>%
                       match_col = "adj_strict_match_pos")
   
 
-positions_accuracy %>% select(ID:response_phon, RA, Attempt, Position:element_in_response) %>% head(8) %>% knitr::kable()
+positions_accuracy %>% select(ID:response_phon, RA, Attempt, position:element_in_response) %>% head(8) %>% knitr::kable()
 
 ```
 
@@ -120,10 +120,10 @@ custom_linetypes <- rep(c("solid", "dashed", "dotted", "longdash", "dotdash"),
 
 # Calcular la precisión y contar el número de observaciones por grupo
 plot_positions <- positions %>%
-  group_by(Position, targetL) %>%
+  group_by(position, targetL) %>%
   summarize(acc = mean(correct_pos, na.rm = TRUE),
             n = n()) %>%
-  ggplot(aes(x = as.numeric(Position), y = acc, group = targetL,
+  ggplot(aes(x = as.numeric(position), y = acc, group = targetL,
              fill = targetL, color = targetL, lty = targetL)) +
   geom_line(size = 0.70, alpha = 0.6) +
   geom_point(aes(size = n), shape = 21, color = "black", alpha = 0.6) +

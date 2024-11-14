@@ -13,5 +13,5 @@
 ^R/old_functions$
 ^raw-data$
 ^data/mine$
-^manuscript/
+^manuscript$
 ^pruebas\.R$
