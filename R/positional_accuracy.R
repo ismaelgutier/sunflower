@@ -10,7 +10,7 @@
 #' @param response_col The name of the column from which characters will be extracted based on their position.
 #'
 #' @returns A data frame in long format with the original data and the new columns for character positions, as well as three additional columns:
-#' \item{Position}{The position of the character in the original string.}
+#' \item{position}{The position of the character in the original string.}
 #' \item{correct_pos}{The character from the match_col at the given position.}
 #' \item{element_in_item}{The character from the item column corresponding to the character position. If the position exceeds the length of the item, it returns NA.}
 #' \item{element_in_response}{The character from the response column corresponding to the character position. If the position exceeds the length of the response, it returns NA.}
@@ -68,24 +68,24 @@ positional_accuracy <- function(df, match_col, item_col, response_col) {
     # Add back the 'x' columns
     dplyr::bind_cols(split_df) %>%
     # Transform to long format
-    tidyr::pivot_longer(cols = tidyselect::starts_with("x"), names_to = "Position", values_to = "correct_pos", names_repair = "minimal") %>%
-    # Rename 'Position' column by removing the 'x' prefix
-    dplyr::mutate(Position = as.numeric(stringr::str_remove(Position, "^x"))) %>%
+    tidyr::pivot_longer(cols = tidyselect::starts_with("x"), names_to = "position", values_to = "correct_pos", names_repair = "minimal") %>%
+    # Rename 'position' column by removing the 'x' prefix
+    dplyr::mutate(position = as.numeric(stringr::str_remove(position, "^x"))) %>%
     # Filter rows where x1 has NA (keep those rows)
-    dplyr::filter(!is.na(correct_pos) | Position == 1) %>%
+    dplyr::filter(!is.na(correct_pos) | position == 1) %>%
     # Remove rows where all columns from x2 onward are NA
-    dplyr::group_by(across(!c(Position, correct_pos))) %>%
-    dplyr::filter(!all(is.na(correct_pos) & Position != 1)) %>%
+    dplyr::group_by(across(!c(position, correct_pos))) %>%
+    dplyr::filter(!all(is.na(correct_pos) & position != 1)) %>%
     dplyr::ungroup() %>%
     # Create new columns for elements in item and response based on position
     dplyr::mutate(
-      element_in_item = substr(!!sym(item_col), Position, Position),
-      element_in_response = substr(!!sym(response_col), Position, Position)
+      element_in_item = substr(!!sym(item_col), position, position),
+      element_in_response = substr(!!sym(response_col), position, position)
     ) %>%
     # Replace any out-of-bounds positions with NA
     dplyr::mutate(
-      element_in_item = if_else(Position <= nchar(!!sym(item_col)), element_in_item, NA_character_),
-      element_in_response = if_else(Position <= nchar(!!sym(response_col)), element_in_response, NA_character_)
+      element_in_item = if_else(position <= nchar(!!sym(item_col)), element_in_item, NA_character_),
+      element_in_response = if_else(position <= nchar(!!sym(response_col)), element_in_response, NA_character_)
     )
 
   # Return the modified data frame

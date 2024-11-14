@@ -17,7 +17,7 @@ positional_accuracy(df, match_col, item_col, response_col)
 }
 \value{
 A data frame in long format with the original data and the new columns for character positions, as well as three additional columns:
-\item{Position}{The position of the character in the original string.}
+\item{position}{The position of the character in the original string.}
 \item{correct_pos}{The character from the match_col at the given position.}
 \item{element_in_item}{The character from the item column corresponding to the character position. If the position exceeds the length of the item, it returns NA.}
 \item{element_in_response}{The character from the response column corresponding to the character position. If the position exceeds the length of the response, it returns NA.}
