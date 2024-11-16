@@ -13,7 +13,7 @@ IGC_long_phon <- read_excel("~/mi paquete de R/sunflower/dataframes/dataframeWOR
 # Get column names
 colnames(IGC)
 colnames(IGC_long)
-colnames(IGC_long_sample)
+colnames(IGC_long_phon)
 
 # sunflower --------------------------------------------------------------------
 
@@ -59,9 +59,9 @@ IGC_long_sample <- read_xlsx("data-raw/IGC_long_sample.xlsx")
 IGC_long_phon_sample <- read_xlsx("data-raw/IGC_long_phon_sample.xlsx")
 
 # Save read xlsxs as Rdas
-save(IGC_sample, IGC_sample, IGC_sample, file = "data/IGC_sample.Rda")
-save(IGC_long_sample, IGC_long_sample, IGC_long_sample, file = "data/IGC_long_sample.Rda")
-save(IGC_long_phon_sample, IGC_long_phon_sample, IGC_long_phon_sample, file = "data/IGC_long_phon_sample.Rda")
+save(IGC_sample, IGC_sample, IGC_sample, file = "data/IGC_sample.RData")
+save(IGC_long_sample, IGC_long_sample, IGC_long_sample, file = "data/IGC_long_sample.RData")
+save(IGC_long_phon_sample, IGC_long_phon_sample, IGC_long_phon_sample, file = "data/IGC_long_phon_sample.RData")
 
 # mine -------------------------------------------------------------------------
 
@@ -107,7 +107,7 @@ IGC_long <- read_xlsx("data-raw/IGC_long.xlsx")
 IGC_long_phon <- read_xlsx("data-raw/IGC_long_phon.xlsx")
 
 # Save read xlsxs as Rdas
-save(IGC, IGC, IGC, file = "data/mine/IGC.Rda")
-save(IGC_long, IGC_long, IGC_long, file = "data/mine/IGC_long.Rda")
-save(IGC_long_phon, IGC_long_phon, IGC_long_phon, file = "data/mine/IGC_long_phon.Rda")
+save(IGC, IGC, IGC, file = "data/mine/IGC.RData")
+save(IGC_long, IGC_long, IGC_long, file = "data/mine/IGC_long.RData")
+save(IGC_long_phon, IGC_long_phon, IGC_long_phon, file = "data/mine/IGC_long_phon.RData")
 

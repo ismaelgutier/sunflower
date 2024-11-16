@@ -1,7 +1,7 @@
 Package: sunflower
 Type: Package
 Title: Managing Multiple Responses, Computing Formal Quality Measures, and Classifying Language Production Errors
-Version: 0.13.11
+Version: 0.16.11
 Author: Gutiérrez-Cordero, I [aut][cre](<https://orcid.org/0000-0003-1508-4203>)
 Authors@R: person(
                given = "Ismael",
@@ -26,6 +26,7 @@ RoxygenNote: 7.3.1
 Imports:
     tidyr (>= 1.1.4),
     dplyr (>= 1.0.7),
+    rlang,
     tidyverse,
     reshape2,
     stringdist,
