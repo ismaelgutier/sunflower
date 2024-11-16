@@ -75,7 +75,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.01 seconds to be executed
+#> The function get_formal_similarity() took 2.36 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -96,7 +96,7 @@ metrics.
 
 ### Obtain Positional Accuracy Data
 
-Display the results of the positional accuracy analysis.
+Apply the pertinent function to obtain positional accuracies…
 
 ``` r
 positions_accuracy = formal_metrics_computed %>% 
@@ -104,6 +104,8 @@ positions_accuracy = formal_metrics_computed %>%
                       response_col = "response_phon", 
                       match_col = "adj_strict_match_pos")
 ```
+
+Display the results of the positional accuracy analysis.
 
 |  ID | item_ID | item     | response |  RA | attempt | item_phon | response_phon | position | correct_pos | element_in_item | element_in_response |
 |----:|--------:|:---------|:---------|----:|--------:|:----------|:--------------|---------:|:------------|:----------------|:--------------------|
@@ -135,10 +137,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 0.50 seconds to be executed
-#> The function get_formal_similarity() took 0.62 seconds to be executed
-#> The function get_semantic_similarity() took 0.67 seconds to be executed
-#> The function classify_errors() took 0.70 seconds to be executed
+#> The function check_lexicality() took 0.58 seconds to be executed
+#> The function get_formal_similarity() took 0.71 seconds to be executed
+#> The function get_semantic_similarity() took 0.75 seconds to be executed
+#> The function classify_errors() took 0.78 seconds to be executed
 ```
 
 Display the classification that was conducted.

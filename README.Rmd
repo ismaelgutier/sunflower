@@ -94,7 +94,7 @@ formal_metrics_computed %>% head(8) %>% knitr::kable()
 
 ### Obtain Positional Accuracy Data
 
-Display the results of the positional accuracy analysis.
+Apply the pertinent function to obtain positional accuracies...
 
 ```{r message=FALSE}
 positions_accuracy = formal_metrics_computed %>% 
@@ -102,6 +102,8 @@ positions_accuracy = formal_metrics_computed %>%
                       response_col = "response_phon", 
                       match_col = "adj_strict_match_pos")
 ```
+
+Display the results of the positional accuracy analysis.
 
 ```{r echo=FALSE}
 positions_accuracy %>% select(ID:response_phon, RA, attempt, position:element_in_response) %>% head(8) %>% knitr::kable()
