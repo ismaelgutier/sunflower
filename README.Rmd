@@ -163,11 +163,12 @@ plot_positions <- positions %>%
         legend.key.size = unit(0.6, "lines"))
 ```
 
-***Note.*** A plot depicting the positions' accuracy of `r nrow(positions)` datapoints.
-
 ```{r plot_positions, out.width = "75%", fig.align="center", echo=FALSE}
 plot_positions
 ```
+
+***Note.*** This plot depicts the positional accuracy of `r nrow(positions)` datapoints.
+
 
 ### Classify Errors
 
