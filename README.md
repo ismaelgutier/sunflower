@@ -75,7 +75,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.36 seconds to be executed
+#> The function get_formal_similarity() took 2.52 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -120,10 +120,10 @@ Display the results of the positional accuracy analysis.
 
 If we were to plot this dataframe, we would obtain…
 
-***Note.*** A plot depicting the positions’ accuracy of 58186
-datapoints.
-
 <img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
+
+***Note.*** This plot depicts the positional accuracy of 58186
+datapoints.
 
 ### Classify Errors
 
@@ -137,10 +137,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 0.58 seconds to be executed
-#> The function get_formal_similarity() took 0.71 seconds to be executed
+#> The function check_lexicality() took 0.49 seconds to be executed
+#> The function get_formal_similarity() took 0.68 seconds to be executed
 #> The function get_semantic_similarity() took 0.75 seconds to be executed
-#> The function classify_errors() took 0.78 seconds to be executed
+#> The function classify_errors() took 0.80 seconds to be executed
 ```
 
 Display the classification that was conducted.
