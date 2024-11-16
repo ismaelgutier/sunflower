@@ -79,13 +79,13 @@ positional_accuracy <- function(df, match_col, item_col, response_col) {
     dplyr::ungroup() %>%
     # Create new columns for elements in item and response based on position
     dplyr::mutate(
-      element_in_item = substr(!!sym(item_col), position, position),
-      element_in_response = substr(!!sym(response_col), position, position)
+      element_in_item = substr(!!rlang::sym(item_col), position, position),
+      element_in_response = substr(!!rlang::sym(response_col), position, position)
     ) %>%
     # Replace any out-of-bounds positions with NA
     dplyr::mutate(
-      element_in_item = if_else(position <= nchar(!!sym(item_col)), element_in_item, NA_character_),
-      element_in_response = if_else(position <= nchar(!!sym(response_col)), element_in_response, NA_character_)
+      element_in_item = dplyr::if_else(position <= nchar(!!rlang::sym(item_col)), element_in_item, NA_character_),
+      element_in_response = dplyr::if_else(position <= nchar(!!rlang::sym(response_col)), element_in_response, NA_character_)
     )
 
   # Return the modified data frame

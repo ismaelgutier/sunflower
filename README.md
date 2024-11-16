@@ -5,7 +5,7 @@
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.14.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._0.16.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
@@ -57,68 +57,77 @@ require("tidyverse")
 
 ### Compute Formal Quality Indexes
 
+We can load a pre-loaded dataframe from the package, which is available
+for anyone interested in testing the functions. These dataframes
+include: `IGC_sample`, `IGC_long_sample`, `IGC_long_phon_sample` and
+`simulated_sample`.
+
 ``` r
-
-load("data/mine/IGC_long_phon.RDA")
-
-df_to_formal_metrics = IGC_long_phon
-
-formal_metrics_computed = df_to_formal_metrics %>% 
-    get_formal_similarity(item_col = "item_phon", 
-                          response_col = "response_phon",
-                          attempt_col = "Attempt",
-                          group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.17 seconds to be executed
-
-formal_metrics_computed %>% head(8) %>% knitr::kable()
+df_to_formal_metrics = sunflower::IGC_long_phon_sample
 ```
 
-|   ID | task                          | item_ID | item       | response   | item_phon  | response_phon |  RA | Attempt | accessed | targetL | responseL | shared1char | p_shared_char | diff_char_num |  Ld | DLd |       JWd |       pcc | lcs        | similarity_str | strict_match_pos | adj_strict_match_pos | comment_warning | approach_diff |
-|-----:|:------------------------------|--------:|:-----------|:-----------|:-----------|:--------------|----:|--------:|---------:|--------:|----------:|:------------|--------------:|--------------:|----:|----:|----------:|----------:|:-----------|:---------------|:-----------------|:---------------------|:----------------|--------------:|
-|  517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago       | vago       | baɡo       | baɡo          |   0 |       1 |        1 |       4 |         4 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | baɡo       | MMMM           | 1111             | 1111                 |                 |            NA |
-|  637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano    | rellano    | reʎano     | reʎano        |   0 |       1 |        1 |       6 |         6 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | reʎano     | MMMMMM         | 111111           | 111111               |                 |            NA |
-|  797 | Gutiérrez-Cordero_w_rep_task3 |       1 | melancolía | melancolía | melankolia | melankolia    |   1 |       1 |        1 |      10 |        10 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | melankolia | MMMMMMMMMM     | 1111111111       | 1111111111           |                 |            NA |
-|  797 | Gutiérrez-Cordero_w_rep_task3 |       1 | melancolía | melancolía | melankolia | melankolia    |   1 |       2 |        1 |      10 |        10 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | melankolia | MMMMMMMMMM     | 1111111111       | 1111111111           |                 |           0.0 |
-|  797 | Gutiérrez-Cordero_w_rep_task3 |       1 | melancolía | melancolía | melankolia | melankolia    |   1 |       3 |        1 |      10 |        10 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | melankolia | MMMMMMMMMM     | 1111111111       | 1111111111           |                 |           0.0 |
-| 1014 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago       | vagos      | baɡo       | baɡos         |   0 |       1 |        0 |       4 |         5 | TRUE        |     0.8888889 |             1 |   1 |   1 | 0.0400000 | 0.7500000 | baɡo       | MMMMI          | 11110            | 1111                 |                 |            NA |
-| 1134 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano    | relago     | reʎano     | relaɡo        |   1 |       1 |        0 |       6 |         6 | TRUE        |     0.6666667 |             4 |   2 |   2 | 0.1777778 | 0.6666667 | re         | MMSMSM         | 110101           | 110101               |                 |            NA |
-| 1134 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano    | me         | reʎano     | me            |   1 |       2 |        0 |       6 |         2 | FALSE       |     0.2500000 |             6 |   5 |   5 | 0.4444444 | 0.1666667 | e          | SMDDDD         | 010000           | 010000               |                 |          -0.5 |
+However, in this example we are going to conduct the formal quality
+analysis using phonological broad transcriptions from a larger dataset.
+
+``` r
+formal_metrics_computed = df_to_formal_metrics %>% 
+    get_formal_similarity(item_col = "item", 
+                          response_col = "response",
+                          attempt_col = "attempt",
+                          group_cols = c("ID", "item_ID"))
+#> The function get_formal_similarity() took 2.01 seconds to be executed
+```
+
+Display some of the results from the formal quality analysis.
+
+| ID_general | test | task_type       | task_modality |  ID | item_ID | item     | response |  RA | attempt | item_phon | response_phon | targetL | responseL | shared1char | p_shared_char | diff_char_num |  Ld | DLd |       JWd |       pcc | lcs      | similarity_str | strict_match_pos | adj_strict_match_pos | comment_warning | approach_diff |
+|-----------:|:-----|:----------------|:--------------|----:|--------:|:---------|:---------|----:|--------:|:----------|:--------------|--------:|----------:|:------------|--------------:|--------------:|----:|----:|----------:|----------:|:---------|:---------------|:-----------------|:---------------------|:----------------|--------------:|
+|          1 | BETA | word_repetition | repetition    |   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |       8 |         8 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | sorpresa | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
+|          2 | BETA | word_repetition | repetition    |   2 |       2 | banco    | banco    |   0 |       1 | banko     | banko         |       5 |         5 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | banco    | MMMMM          | 11111            | 11111                |                 |            NA |
+|          3 | BETA | word_repetition | repetition    |   3 |       3 | reloj    | reloj    |   0 |       1 | relox     | relox         |       5 |         5 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | reloj    | MMMMM          | 11111            | 11111                |                 |            NA |
+|          4 | BETA | word_repetition | repetition    |   4 |       4 | arañazo  | arañazo  |   0 |       1 | aɾaɲaθo   | aɾaɲaθo       |       7 |         7 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | arañazo  | MMMMMMM        | 1111111          | 1111111              |                 |            NA |
+|          5 | BETA | word_repetition | repetition    |   5 |       5 | misterio | misterio |   0 |       1 | misteɾjo  | misteɾjo      |       8 |         8 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | misterio | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
+|          6 | BETA | word_repetition | repetition    |   6 |       6 | lima     | lima     |   0 |       1 | lima      | lima          |       4 |         4 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | lima     | MMMM           | 1111             | 1111                 |                 |            NA |
+|          7 | BETA | word_repetition | repetition    |   7 |       7 | pimienta | pimienta |   0 |       1 | pimjenta  | pimjenta      |       8 |         8 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | pimienta | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
+|          8 | BETA | word_repetition | repetition    |   8 |       8 | taladro  | talablo  |   1 |       1 | taladɾo   | talablo       |       7 |         7 | TRUE        |     0.7142857 |             4 |   2 |   2 | 0.1142857 | 0.7142857 | tala     | MMMMSSM        | 1111001          | 1111001              |                 |            NA |
 
 ***Note.*** Move the dataframe to the right to see all the columns and
 metrics.
 
 ### Obtain Positional Accuracy Data
 
+Display the results of the positional accuracy analysis.
+
 ``` r
-
 positions_accuracy = formal_metrics_computed %>% 
-  positional_accuracy(item_col = "item_phon", response_col = "response_phon", 
+  positional_accuracy(item_col = "item_phon", 
+                      response_col = "response_phon", 
                       match_col = "adj_strict_match_pos")
-  
-
-positions_accuracy %>% select(ID:response_phon, RA, Attempt, position:element_in_response) %>% head(8) %>% knitr::kable()
 ```
 
-|  ID | task                          | item_ID | item    | response | item_phon | response_phon |  RA | Attempt | position | correct_pos | element_in_item | element_in_response |
-|----:|:------------------------------|--------:|:--------|:---------|:----------|:--------------|----:|--------:|---------:|:------------|:----------------|:--------------------|
-| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        1 | 1           | b               | b                   |
-| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        2 | 1           | a               | a                   |
-| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        3 | 1           | ɡ               | ɡ                   |
-| 517 | Gutiérrez-Cordero_w_rep_task1 |       1 | vago    | vago     | baɡo      | baɡo          |   0 |       1 |        4 | 1           | o               | o                   |
-| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        1 | 1           | r               | r                   |
-| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        2 | 1           | e               | e                   |
-| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        3 | 1           | ʎ               | ʎ                   |
-| 637 | Gutiérrez-Cordero_w_rep_task2 |       1 | rellano | rellano  | reʎano    | reʎano        |   0 |       1 |        4 | 1           | a               | a                   |
+|  ID | item_ID | item     | response |  RA | attempt | item_phon | response_phon | position | correct_pos | element_in_item | element_in_response |
+|----:|--------:|:---------|:---------|----:|--------:|:----------|:--------------|---------:|:------------|:----------------|:--------------------|
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        1 | 1           | s               | s                   |
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        2 | 1           | o               | o                   |
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        3 | 1           | ɾ               | ɾ                   |
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        4 | 1           | p               | p                   |
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        5 | 1           | ɾ               | ɾ                   |
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        6 | 1           | e               | e                   |
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        7 | 1           | s               | s                   |
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |        8 | 1           | a               | a                   |
 
-***Note.*** A plot depicting the positions’ accuracy of 28836
+If we were to plot this dataframe, we would obtain…
+
+***Note.*** A plot depicting the positions’ accuracy of 58186
 datapoints.
 
 <img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
 
 ### Classify Errors
 
-``` r
+Following the necessary steps to classify the errors correctly.
 
+``` r
 errors_classified = df_to_classify %>% 
   check_lexicality(item_col = "item", response_col = "response", criterion = "database") %>%
   get_formal_similarity(item_col = "item", response_col = "response", 
@@ -126,26 +135,24 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 2.19 seconds to be executed
-#> The function get_formal_similarity() took 2.91 seconds to be executed
-#> The function get_semantic_similarity() took 3.31 seconds to be executed
-#> The function classify_errors() took 3.36 seconds to be executed
-
-errors_classified %>% 
-  select(ID, item_ID, item, response, RA, Attempt, correct, nonword:comment) %>% 
-  head(8) %>% knitr::kable()
+#> The function check_lexicality() took 0.50 seconds to be executed
+#> The function get_formal_similarity() took 0.62 seconds to be executed
+#> The function get_semantic_similarity() took 0.67 seconds to be executed
+#> The function classify_errors() took 0.70 seconds to be executed
 ```
 
-|   ID | item_ID | item       | response   |  RA | Attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
-|-----:|--------:|:-----------|:-----------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
-|  517 |       1 | vago       | vago       |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-|  637 |       1 | rellano    | rellano    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-|  797 |       1 | melancolía | melancolía |   1 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-|  797 |       1 | melancolía | melancolía |   1 |       2 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-|  797 |       1 | melancolía | melancolía |   1 |       3 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 1014 |       1 | vago       | vagos      |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 1134 |       1 | rellano    | relago     |   1 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 1134 |       1 | rellano    | me         |   1 |       2 |       0 |       0 |         1 |      0 |         0 |     0 |        0 |           0 |         |
+Display the classification that was conducted.
+
+|   ID | item_ID | item  | response |  RA | Attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
+|-----:|--------:|:------|:---------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
+|  517 |       1 | vago  | vago     |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 1014 |       1 | vago  | vagos    |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  518 |       2 | bario | bario    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 1015 |       2 | bario | barios   |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  519 |       3 | tenia | tenia    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 1016 |       3 | tenia | tenias   |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  520 |       4 | medio | medio    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+| 1017 |       4 | medio | medios   |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.
@@ -176,8 +183,10 @@ based on an NLP model. In our case, the parameter `model = m_w2v` refers
 to a binary file containing a Spanish Billion Words embeddings corpus
 created using the word2vec algorithm. This file is included in the zip
 file (for more information, see the markdown in the vignettes) located
-within the dependency-bundle zip, which can be found in our
-supplementary [OSF repository mirror](https://osf.io/akuxv/).
+within the
+<a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle
+zip</a>, which can be found in our supplementary [OSF repository
+mirror](https://osf.io/akuxv/).
 
 ------------------------------------------------------------------------
 

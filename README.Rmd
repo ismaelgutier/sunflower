@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.14.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
+![](https://img.shields.io/badge/sunflower-v._0.16.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
 
 <!-- badges end -->
 
@@ -56,53 +56,70 @@ require("tidyverse")
 
 ### Compute Formal Quality Indexes
 
-```{r include=FALSE}
+We can load a pre-loaded dataframe from the package, which is available for anyone interested in testing the functions. These dataframes include: `IGC_sample`, `IGC_long_sample`, `IGC_long_phon_sample` and `simulated_sample`.
 
+```{r}
+df_to_formal_metrics = sunflower::IGC_long_phon_sample
+```
+
+However, in this example we are going to conduct the formal quality analysis using phonological broad transcriptions from a larger dataset.
+
+```{r echo=FALSE}
+df_to_formal_metrics = readxl::read_xlsx("manuscript/data/long_with_phon.xlsx") %>%
+  dplyr::select(ID_general, test, task_type, task_modality, ID, 
+                item_ID = task_item_ID, item, response, 
+                RA = cda_behavior, attempt = Attempt,
+                item_phon = target_word_transcrito_clean, response_phon = response_word_transcrito_clean) %>%
+  dplyr::filter(test %in% c("SnodgrassVanderwart", "BETA", "EPLA", "Gutiérrez-Cordero")) %>%
+  dplyr::filter(!stringr::str_detect(task_type, "nonword")) %>%
+  dplyr::arrange(ID)
 ```
 
 ```{r}
-
-load("data/mine/IGC_long_phon.RDA")
-
-df_to_formal_metrics = IGC_long_phon
-
 formal_metrics_computed = df_to_formal_metrics %>% 
-    get_formal_similarity(item_col = "item_phon", 
-                          response_col = "response_phon",
-                          attempt_col = "Attempt",
+    get_formal_similarity(item_col = "item", 
+                          response_col = "response",
+                          attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-
-formal_metrics_computed %>% head(8) %>% knitr::kable()
-
 ```
+
+Display some of the results from the formal quality analysis.
+
+```{r echo=FALSE}
+formal_metrics_computed %>% head(8) %>% knitr::kable()
+```
+
 ***Note.*** Move the dataframe to the right to see all the columns and metrics.
 
 
 ### Obtain Positional Accuracy Data
 
+Display the results of the positional accuracy analysis.
+
 ```{r message=FALSE}
-
 positions_accuracy = formal_metrics_computed %>% 
-  positional_accuracy(item_col = "item_phon", response_col = "response_phon", 
+  positional_accuracy(item_col = "item_phon", 
+                      response_col = "response_phon", 
                       match_col = "adj_strict_match_pos")
-  
-
-positions_accuracy %>% select(ID:response_phon, RA, Attempt, position:element_in_response) %>% head(8) %>% knitr::kable()
-
 ```
 
-```{r include=FALSE}
+```{r echo=FALSE}
+positions_accuracy %>% select(ID:response_phon, RA, attempt, position:element_in_response) %>% head(8) %>% knitr::kable()
+```
 
+If we were to plot this dataframe, we would obtain...
+
+```{r include=FALSE}
 # Convertir targetL a character para evitar problemas al combinar dataframes
 positions_accuracy <- positions_accuracy %>%
-  mutate(targetL = as.character(targetL))
+  dplyr::mutate(targetL = as.character(targetL))
 
 # Duplicar y modificar el dataframe para crear 'positions_general'
 positions_general <- positions_accuracy %>%
-  mutate(targetL = "General")
+  dplyr::mutate(targetL = "General")
 
 # Combinar ambos dataframes
-positions <- bind_rows(positions_accuracy, positions_general)
+positions <- dplyr::bind_rows(positions_accuracy, positions_general)
 
 # Especificar manualmente los niveles en el orden deseado
 desired_levels <- c("3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
@@ -110,9 +127,9 @@ desired_levels <- c("3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
 
 # Convertir correct_pos a numérico y ordenar targetL como factor según desired_levels
 positions <- positions %>%
-  mutate(correct_pos = as.numeric(correct_pos),
+  dplyr::mutate(correct_pos = as.numeric(correct_pos),
          targetL = factor(targetL, levels = desired_levels)) %>%
-  arrange(correct_pos, targetL)
+  dplyr::arrange(correct_pos, targetL)
 
 # Definir un conjunto de linetypes que se pueda repetir
 custom_linetypes <- rep(c("solid", "dashed", "dotted", "longdash", "dotdash"),
@@ -139,10 +156,9 @@ plot_positions <- positions %>%
          lty = guide_legend(title = "Word Length"),
          color = guide_legend(title = "Word Length"),
          size = guide_legend(title = "Datapoints")) + 
-  theme_gray() +
+  papaja::theme_apa() +
   theme(legend.position = "right",
         legend.key.size = unit(0.6, "lines"))
-
 ```
 
 ***Note.*** A plot depicting the positions' accuracy of `r nrow(positions)` datapoints.
@@ -154,13 +170,14 @@ plot_positions
 ### Classify Errors
 
 ```{r include=FALSE}
-df_to_classify = IGC_long_phon
+df_to_classify = sunflower::IGC_long_phon_sample
 
 m_w2v = word2vec::read.word2vec(file = "dependency-bundle/sbw_vectors.bin", normalize = TRUE)
 ```
 
-```{r}
+Following the necessary steps to classify the errors correctly.
 
+```{r}
 errors_classified = df_to_classify %>% 
   check_lexicality(item_col = "item", response_col = "response", criterion = "database") %>%
   get_formal_similarity(item_col = "item", response_col = "response", 
@@ -168,11 +185,14 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
+```
 
+Display the classification that was conducted.
+
+```{r echo=FALSE}
 errors_classified %>% 
-  select(ID, item_ID, item, response, RA, Attempt, correct, nonword:comment) %>% 
+  dplyr::select(ID, item_ID, item, response, RA, Attempt, correct, nonword:comment) %>% 
   head(8) %>% knitr::kable()
-
 ```
 
 ***Notes.*** Move the dataframe to the right to see all the columns and errors.
@@ -181,7 +201,7 @@ errors_classified %>%
 
 First, a lexicality check of the response is performed using the `lexicality_check()` function, which involves determining whether the response is a real word. To do this, the package searches for the response in a database such as *BuscaPalabras* ([BPal](https://www.uv.es/~mperea/Davis_Perea_in_press.pdf)) and compares its frequency with the target word to determine if it is a real word based on whether it has a higher frequency or not when the parameter `criterion = "database"` is set. Alternatively, the response can be checked against a dictionary (*sunflower* searches for responses among entries from the *Real Academia Española*, [RAE](https://www.rae.es/)) when the parameter `criterion = "dictionary"` is used.
 
-Next, similarity measures between the targets and the responses are obtained using various algorithms within the `get_formal_similarity()` function. Finally, the cosine similarity between the two productions is computed if possible using the `get_semantic_similarity()` function, based on an NLP model. In our case, the parameter `model = m_w2v` refers to a binary file containing a Spanish Billion Words embeddings corpus created using the word2vec algorithm. This file is included in the zip file (for more information, see the markdown in the vignettes) located within the dependency-bundle zip, which can be found in our supplementary [OSF repository mirror](https://osf.io/akuxv/).
+Next, similarity measures between the targets and the responses are obtained using various algorithms within the `get_formal_similarity()` function. Finally, the cosine similarity between the two productions is computed if possible using the `get_semantic_similarity()` function, based on an NLP model. In our case, the parameter `model = m_w2v` refers to a binary file containing a Spanish Billion Words embeddings corpus created using the word2vec algorithm. This file is included in the zip file (for more information, see the markdown in the vignettes) located within the <a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle zip</a>, which can be found in our supplementary [OSF repository mirror](https://osf.io/akuxv/).
 
 ----
 
