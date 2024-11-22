@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.16.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
+![](https://img.shields.io/badge/sunflower-v._0.22.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
 
 <!-- badges end -->
 
@@ -202,7 +202,7 @@ errors_classified %>%
 
 *sunflower* allows for the classification of production errors once some indexes related to responses to a stimulus have been obtained and contextualized based on whether they come from repeated attempts or single productions. This process involves three steps.
 
-First, a lexicality check of the response is performed using the `lexicality_check()` function, which involves determining whether the response is a real word. To do this, the package searches for the response in a database such as *BuscaPalabras* ([BPal](https://www.uv.es/~mperea/Davis_Perea_in_press.pdf)) and compares its frequency with the target word to determine if it is a real word based on whether it has a higher frequency or not when the parameter `criterion = "database"` is set. Alternatively, the response can be checked against a dictionary (*sunflower* searches for responses among entries from the *Real Academia Española*, [RAE](https://www.rae.es/)) when the parameter `criterion = "dictionary"` is used.
+First, a lexicality check of the response is performed using the `check_lexicality()` function, which involves determining whether the response is a real word. To do this, the package searches for the response in a database such as *BuscaPalabras* ([BPal](https://www.uv.es/~mperea/Davis_Perea_in_press.pdf)) and compares its frequency with the target word to determine if it is a real word based on whether it has a higher frequency or not when the parameter `criterion = "database"` is set. Alternatively, the response can be checked against a dictionary (*sunflower* searches for responses among entries from the *Real Academia Española*, [RAE](https://www.rae.es/)) when the parameter `criterion = "dictionary"` is used.
 
 Next, similarity measures between the targets and the responses are obtained using various algorithms within the `get_formal_similarity()` function. Finally, the cosine similarity between the two productions is computed if possible using the `get_semantic_similarity()` function, based on an NLP model. In our case, the parameter `model = m_w2v` refers to a binary file containing a Spanish Billion Words embeddings corpus created using the word2vec algorithm. This file is included in the zip file (for more information, see the markdown in the vignettes) located within the <a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle zip</a>, which can be found in our supplementary [OSF repository mirror](https://osf.io/akuxv/).
 

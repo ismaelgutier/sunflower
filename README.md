@@ -5,7 +5,7 @@
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.16.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._0.22.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
@@ -75,7 +75,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.52 seconds to be executed
+#> The function get_formal_similarity() took 3.44 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -137,9 +137,9 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 0.49 seconds to be executed
+#> The function check_lexicality() took 0.54 seconds to be executed
 #> The function get_formal_similarity() took 0.68 seconds to be executed
-#> The function get_semantic_similarity() took 0.75 seconds to be executed
+#> The function get_semantic_similarity() took 0.73 seconds to be executed
 #> The function classify_errors() took 0.80 seconds to be executed
 ```
 
@@ -165,7 +165,7 @@ contextualized based on whether they come from repeated attempts or
 single productions. This process involves three steps.
 
 First, a lexicality check of the response is performed using the
-`lexicality_check()` function, which involves determining whether the
+`check_lexicality()` function, which involves determining whether the
 response is a real word. To do this, the package searches for the
 response in a database such as *BuscaPalabras*
 ([BPal](https://www.uv.es/~mperea/Davis_Perea_in_press.pdf)) and

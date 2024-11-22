@@ -1,0 +1,172 @@
+---
+title: "Data Analysis Workflow using the Sunflower Package"
+author: "Ismael Gutiérrez-Cordero"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+In this vignette, we present a practical example of using the sunflower package to work with datasets that include a column of responses containing multiple answers. We demonstrate how to convert the dataset into a long format to obtain formal similarity metrics. Additionally, we illustrate how to perform error classification based on classical criteria found in the literature (e.g., [Dell et al., 1997](https://doi.org/10.1037/0033-295x.104.4.801); [Gold & Kertesz, 2001](https://doi.org/10.1006/brln.2000.2441); see also, [García-Orza et al., 2020](https://doi.org/10.1016/j.cortex.2020.03.020)).
+
+# Environment Setup
+
+```{r}
+# Clear the workspace and unload all packages
+#rm(list = ls())
+#invisible(lapply(paste("package:", names(sessionInfo()$otherPkgs), sep = ""),
+#                 detach, character.only = TRUE, unload = TRUE))
+
+# Install and load `devtools` package
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+library(devtools)
+
+# Install RTools on Windows (if applicable)
+# Visit: https://cran.rstudio.com/bin/windows/Rtools/ for installation.
+# Not needed on macOS or Linux (I am not an user, so I am guessing)
+```
+
+# Install and Load Required Packages
+
+```{r}
+# Install additional packages if needed
+possible_dependencies <- c("tidyverse", "htmlTable", "knitr")
+for (pkg in possible_dependencies) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+}
+
+# Install the `xfun` package (if necessary)
+if (!requireNamespace("xfun", quietly = TRUE)) {
+  install.packages("xfun", type = "source")
+}
+
+# Install the `sunflower` package from GitHub
+if (!requireNamespace("sunflower", quietly = TRUE)) {
+  devtools::install_github("ismaelgutier/sunflower")
+}
+
+# Load required libraries
+library(sunflower)
+```
+
+# Step 1
+## Load and Wrangle Data
+
+```{r}
+# Load dataset
+dataframe0 <- sunflower::IGC_sample
+
+# Separate responses
+dataframe1 <- dataframe0 %>% 
+  sunflower::separate_responses(col_name = "response",
+                                separate_with = ", ")
+
+# Extract attempts and clean blank spaces
+dataframe2 <- dataframe1 %>% 
+  sunflower::get_attempts(first_production = attempt_1, 
+                          drop_blank_spaces = TRUE)
+```
+
+# Step 2
+## Formal Similarity Analysis
+
+```{r}
+# Calculate formal similarity
+dataframe3 <- dataframe2 %>%
+    sunflower::get_formal_similarity(item_col = "item",
+                                     response_col = "response",
+                                     attempt_col = "attempt",
+                                     group_cols = c("task_item_ID"))
+```
+
+# Step 2.1
+## Positional Accuracy
+
+```{r}
+# Calculate positional accuracy
+dataframe3.1 <- dataframe3 %>% 
+    sunflower::positional_accuracy(item_col = "item", 
+                                   response_col = "response",
+                                   match_col = "adj_strict_match_pos")
+```
+
+# Step 3
+## Lexicality Check
+
+```{r}
+# Check lexicality
+dataframe4 <- dataframe3 %>%
+    sunflower::check_lexicality(item_col = "item",
+                                response_col = "response",
+                                criterion = "dictionary")
+```
+
+## Semantic Similarity Analysis
+
+```{r}
+# Load a pre-trained word2vec model
+model <- word2vec::read.word2vec(file = file.choose(), normalize = FALSE)
+
+# Calculate semantic similarity
+dataframe5 <- dataframe4 %>%
+    sunflower::get_semantic_similarity(item_col = "item",
+                                       response_col = "response",
+                                       model = model)
+```
+
+## Error Classification
+
+### Classify Errors Considering Retrieval Attempts (RAs)
+
+```{r}
+dataframe6a <- dataframe5 %>%
+  dplyr::select(-correct) %>% # remove old correct_column (the user might also rename if want to keep it)
+  dplyr::mutate(accessed = ifelse(item == response, 1, 0)) %>%
+  sunflower::classify_errors(access_col = "accessed", 
+                  RA_col = "RA",
+                  response_col = "response", 
+                  item_col = "item",
+                  also_classify_RAs = TRUE,
+                  cosine_limit_value = 0.46)
+knitr::kable(dataframe6a) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width = "120%", height = "500px")
+```
+
+### Classify Errors Without Considering RAs
+
+```{r}
+dataframe6b <- dataframe5 %>%
+  dplyr::select(-correct) %>% # remove old correct_column (the user might also rename if want to keep it)
+  dplyr::mutate(accessed = ifelse(item == response, 1, 0)) %>%
+  sunflower::classify_errors_regular(access_col = "accessed", 
+                          response_col = "response", 
+                          item_col = "item",
+                          cosine_limit_value = 0.46)
+knitr::kable(dataframe6b) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  kableExtra::scroll_box(width = "120%", height = "500px")
+
+```
+
+# Conclusion
+
+This R Markdown document provides a complete workflow for analyzing data using the sunflower package, incorporating data wrangling, similarity metrics, and error classification.
+
+# R Session Info.
+```{r}
+sessionInfo()
+```
