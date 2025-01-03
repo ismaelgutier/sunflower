@@ -5,7 +5,7 @@
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._0.22.11-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._1.03.01-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
@@ -75,7 +75,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 3.44 seconds to be executed
+#> The function get_formal_similarity() took 1.86 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -137,10 +137,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 0.54 seconds to be executed
-#> The function get_formal_similarity() took 0.68 seconds to be executed
-#> The function get_semantic_similarity() took 0.73 seconds to be executed
-#> The function classify_errors() took 0.80 seconds to be executed
+#> The function check_lexicality() took 0.11 seconds to be executed
+#> The function get_formal_similarity() took 0.16 seconds to be executed
+#> The function get_semantic_similarity() took 0.19 seconds to be executed
+#> The function classify_errors() took 0.21 seconds to be executed
 ```
 
 Display the classification that was conducted.
@@ -183,12 +183,28 @@ function. Finally, the cosine similarity between the two productions is
 computed if possible using the `get_semantic_similarity()` function,
 based on an NLP model. In our case, the parameter `model = m_w2v` refers
 to a binary file containing a Spanish Billion Words embeddings corpus
-created using the word2vec algorithm. This file is included in the zip
+created using the *word2vec* algorithm. This file is included in the zip
 file (for more information, see the markdown in the vignettes) located
 within the
 <a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle
-zip</a>, which can be found in our supplementary [OSF repository
-mirror](https://osf.io/akuxv/).
+zip</a>, which can be found in our supplementary [OSF mirror
+repository](https://osf.io/akuxv/).
+
+------------------------------------------------------------------------
+
+#### Making it faster - A guided usage tutorial
+
+<span style="color: darkgreen; background-color: lightyellow;">Before
+continuing, it is worth mentioning that there is a file that allows
+executing all the functions relatively quickly as a sample, which can be
+downloaded from <a href="https://osf.io/urz4y">its link in our OSF</a>.
+This can be helpful for both novice users and those who want to explore
+the package’s functionalities in a more straightforward and/or faster
+way. Users would only need to run the code presented in the script in
+the link and would require the <em>word2vec</em> model made available in
+the
+<a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle
+zip</a>.</span>
 
 ------------------------------------------------------------------------
 
