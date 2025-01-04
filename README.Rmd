@@ -163,10 +163,11 @@ plot_positions <- positions %>%
          size = guide_legend(title = "Datapoints")) + 
   papaja::theme_apa() +
   theme(legend.position = "right",
-        legend.key.size = unit(0.6, "lines"))
+        legend.spacing = unit(-1, "lines"))  # Reduce the space between legend labels
+
 ```
 
-```{r plot_positions, out.width = "75%", fig.align="center", echo=FALSE}
+```{r plot_positions, fig.height=7, fig.width=7, out.width = "75%", out.height= "75%", fig.align="center", echo=FALSE}
 plot_positions
 ```
 
@@ -196,9 +197,11 @@ errors_classified = df_to_classify %>%
 Display the classification that was conducted.
 
 ```{r echo=FALSE}
-errors_classified %>% 
-  dplyr::select(ID, item_ID, item, response, RA, attempt, correct, nonword:check_comment) %>% 
-  head(8) %>% knitr::kable()
+errors_classified %>%
+  dplyr::select(ID, item_ID, item, response, RA, attempt, correct, nonword:check_comment) %>%
+  filter(nchar(response) > 3) %>%  # Filtra respuestas con longitud mayor a 3 caracteres
+  sample_n(12) %>%  # Selecciona 12 filas aleatorias
+  knitr::kable()  # Muestra en formato de tabla
 ```
 
 ***Notes.*** Move the dataframe to the right to see all the columns and errors.
