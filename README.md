@@ -75,7 +75,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.02 seconds to be executed
+#> The function get_formal_similarity() took 1.98 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -120,7 +120,7 @@ Display the results of the positional accuracy analysis.
 
 If we were to plot this dataframe, we would obtain…
 
-<img src="man/figures/README-plot_positions-1.png" width="75%" style="display: block; margin: auto;" />
+<img src="man/figures/README-plot_positions-1.png" width="75%" height="75%" style="display: block; margin: auto;" />
 
 ***Note.*** This plot depicts the positional accuracy of 58186
 datapoints.
@@ -137,24 +137,28 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 2.83 seconds to be executed
-#> The function get_formal_similarity() took 3.44 seconds to be executed
-#> The function get_semantic_similarity() took 3.77 seconds to be executed
-#> The function classify_errors() took 3.79 seconds to be executed
+#> The function check_lexicality() took 1.53 seconds to be executed
+#> The function get_formal_similarity() took 2.08 seconds to be executed
+#> The function get_semantic_similarity() took 2.38 seconds to be executed
+#> The function classify_errors() took 2.41 seconds to be executed
 ```
 
 Display the classification that was conducted.
 
-|  ID | item_ID | item     | response |  RA | attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | check_comment |
-|----:|--------:|:---------|:---------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------------|
-|   1 |       1 | sorpresa | sorpresa |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   2 |       2 | banco    | banco    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   3 |       3 | reloj    | reloj    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   4 |       4 | arañazo  | arañazo  |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   5 |       5 | misterio | misterio |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   6 |       6 | lima     | lima     |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   7 |       7 | pimienta | pimienta |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   8 |       8 | taladro  | talablo  |   1 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   ID | item_ID | item       | response   |  RA | attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | check_comment |
+|-----:|--------:|:-----------|:-----------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------------|
+|  382 |      13 | plátano    | plátano    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  147 |      23 | foca       | foca       |   1 |       3 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  291 |      22 | pájaro     | pollo      |   1 |       3 |       0 |       0 |         1 |      0 |         0 |     0 |        0 |           0 |               |
+| 1664 |      51 | hongo      | hongo      |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+| 2117 |      12 | dromedario | medo       |   1 |       4 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+| 1999 |     163 | mecedora   | meza       |   1 |       4 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+| 1633 |      20 | mano       | mano       |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+| 2040 |      12 | dromedario | dromedario |   1 |       6 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  137 |      13 | ardilla    | arni       |   1 |       7 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  366 |      37 | canon      | canon      |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  126 |       2 | bota       | bota       |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  321 |      16 | plata      | flata      |   1 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.
