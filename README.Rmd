@@ -157,17 +157,15 @@ plot_positions <- positions %>%
                                   by = 1)) +  # Add ticks for every 1 unit
   ylab("Proportion (%) of correct phonemes") +
   xlab("Phoneme position") +
-  guides(fill = guide_legend(title = "Word Length"),
-         lty = guide_legend(title = "Word Length"),
-         color = guide_legend(title = "Word Length"),
-         size = guide_legend(title = "Datapoints")) + 
+  guides(fill = guide_legend(title = "Word Length", ncol = 2),  # Set the legend to 2 columns
+         lty = guide_legend(title = "Word Length", ncol = 2),
+         color = guide_legend(title = "Word Length", ncol = 2),
+         size = guide_legend(title = "Datapoints", ncol = 2)) +
   papaja::theme_apa() +
-  theme(legend.position = "right",
-        legend.spacing = unit(-1, "lines"))  # Reduce the space between legend labels
-
+  theme(legend.position = "right")
 ```
 
-```{r plot_positions, fig.height=7, fig.width=7, out.width = "75%", out.height= "75%", fig.align="center", echo=FALSE}
+```{r plot_positions, out.width = "75%", fig.align="center", echo=FALSE}
 plot_positions
 ```
 
@@ -200,7 +198,7 @@ Display the classification that was conducted.
 errors_classified %>%
   dplyr::select(ID, item_ID, item, response, RA, attempt, correct, nonword:check_comment) %>%
   filter(nchar(response) > 3) %>%  # Filtra respuestas con longitud mayor a 3 caracteres
-  sample_n(12) %>%  # Selecciona 12 filas aleatorias
+  sample_n(9) %>%  # Selecciona 12 filas aleatorias
   knitr::kable()  # Muestra en formato de tabla
 ```
 
