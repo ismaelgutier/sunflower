@@ -2,9 +2,9 @@
 #'
 #' @title Classify Responses Based on Multiple Criteria (Including Repeated Attempts)
 #'
-#' @description This function classifies responses in a dataframe into different categories based on specified criteria, including handling of repeated attempts (RA). It adds new columns to the dataframe for each error category, including nonword, neologism, formal, unrelated, mixed, and semantic. Additionally, it computes a `comment` column indicating if manual review is required based on the sum of error indicators and the `correct` column.
+#' @description This function classifies responses in a dataframe into different categories based on specified criteria, including handling of repeated attempts (RA). It adds new columns to the dataframe for each error category: `nonword`, `neologism`, `formal`, `unrelated`, `mixed`, and `semantic`. Additionally, it computes a `check_comment` column indicating if manual review is required based on the sum of error indicators and the `correct` column. Rows with repeated attempts (RA) are handled based on the `also_classify_RAs` parameter.
 #'
-#' @param dataframe A data frame containing the response data to be classified.
+#' @param dataframe A dataframe containing the response data to be classified.
 #' @param access_col A string specifying the name of the column in the dataframe that indicates whether the response was accessed correctly (default is "accessed").
 #' @param RA_col A string specifying the name of the column in the dataframe that indicates whether the response was a repeated attempt (default is "RA").
 #' @param cosine_limit_value A numeric value specifying the threshold for cosine similarity used in error classification (default is 0.46).
@@ -13,22 +13,23 @@
 #' @param also_classify_RAs A logical value indicating whether to classify rows with `RA` equal to 1 according to the conditions (default is FALSE). If FALSE, such rows will have the error classification results set to NA.
 #'
 #' @details The function processes the dataframe by renaming columns and applying a series of conditions to create new error classification columns. The conditions are as follows:
-#' - `nonword`: Identifies responses that are classified as nonwords.
-#' - `neologism`: Identifies responses that are classified as neologisms.
-#' - `formal`: Identifies responses that are classified as formal errors.
-#' - `unrelated`: Identifies responses that are classified as unrelated errors.
-#' - `mixed`: Identifies responses that are classified as mixed errors.
-#' - `semantic`: Identifies responses that are classified as semantic errors.
+#' - `nonword`: Identifies responses classified as nonwords based on lexicality and shared character proportion.
+#' - `neologism`: Identifies responses classified as neologisms based on lexicality and shared character proportion.
+#' - `formal`: Identifies responses classified as formal errors using lexicality, cosine similarity, and shared character proportion.
+#' - `unrelated`: Identifies responses classified as unrelated errors using lexicality, cosine similarity, and shared character proportion.
+#' - `mixed`: Identifies responses classified as mixed errors based on cosine similarity and shared character proportion.
+#' - `semantic`: Identifies responses classified as semantic errors based on cosine similarity and shared character proportion.
 #'
-#' Each condition uses logical operations to check the values in the dataframe's columns and applies criteria based on those values to determine the error classification. The resulting classifications are added as new columns in the dataframe with binary indicators (1 for true, 0 for false).
-#'
-#' Additionally, the function includes:
-#' - `no_response`: A binary column indicating if the `response_col` is NA or an empty space (1 if TRUE, 0 if FALSE).
-#' - `comment`: A column indicating "required" if the sum of the error columns (from `nonword` to `no_response`) plus the `correct` column is 0 or greater than or equal to 2 for that row; otherwise, it is empty. Set as "is only considered as RA" in case of RA and parameter `also_classify_RAs = FALSE`.
+#' Additional columns include:
+#' - `no_response`: A binary column indicating if the `response_col` is NA or an empty space (1 for TRUE, 0 for FALSE).
+#' - `check_comment`: A column indicating:
+#'   - `"is only considered as RA"` if `RA` is 1 and `also_classify_RAs` is FALSE.
+#'   - `"required"` if the sum of error columns (from `nonword` to `no_response`) plus the `correct` column is 0 or greater than or equal to 2 for that row.
+#'   - `""` (empty) otherwise.
 #'
 #' When `also_classify_RAs` is FALSE, rows where `RA` is 1 will have the error classification results set to NA. When `also_classify_RAs` is TRUE, error classification is performed normally regardless of the `RA` value.
 #'
-#' @returns A data frame with additional columns for each error category: `nonword`, `neologism`, `formal`, `unrelated`, `mixed`, and `semantic`. Each column contains binary values indicating the error classification status of each response, along with `no_response` and `comment` columns. For rows where `RA` is 1 and `also_classify_RAs` is FALSE, these columns will contain NA values.
+#' @returns A dataframe with additional columns for each error category: `nonword`, `neologism`, `formal`, `unrelated`, `mixed`, and `semantic`. Each column contains binary values indicating the error classification status of each response, along with `no_response` and `check_comment` columns. For rows where `RA` is 1 and `also_classify_RAs` is FALSE, these columns will contain NA values.
 #'
 #' @export
 classify_errors <- function(dataframe,
@@ -96,13 +97,18 @@ classify_errors <- function(dataframe,
     ) %>%
     # New column for human check
     dplyr::mutate(
-      comment = dplyr::case_when(
+      check_comment = dplyr::case_when(
         !also_classify_RAs & RA == 1 ~ "is only considered as RA",
         rowSums(dplyr::across(c(nonword, neologism, formal, unrelated, mixed, semantic, no_response)), na.rm = TRUE) + correct >= 2 ~ "required",
         rowSums(dplyr::across(c(nonword, neologism, formal, unrelated, mixed, semantic, no_response)), na.rm = TRUE) + correct == 0 ~ "required",
         TRUE ~ ""
       )
     )
+
+  # Check if there are any flagged instances
+  if (any(dataframe$check_comment == "required")) {
+    message("Some instances have been flagged with a comment needing a check. Please review the dataframe for details.")
+  }
 
   # End timing for the total execution and capture the elapsed time
   elapsed_time <- tictoc::toc(quiet = TRUE)

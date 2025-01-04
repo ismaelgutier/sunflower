@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._1.03.01-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
+![](https://img.shields.io/badge/sunflower-v._1.01-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
 
 <!-- badges end -->
 
@@ -35,17 +35,16 @@ knitr::opts_chunk$set(
 install.packages("devtools")
 devtools::install_github("ismaelgutier/sunflower")
 ```
-
-The *sunflower* package works using the pipe operator (`%>%`) from the [*tidyverse* package](https://www.tidyverse.org/), allowing it to work seamlessly with functions from other packages in the *tidyverse*, such as *dplyr* for data wrangling, *readr* for data reading, and *ggplot2* for data visualization. This can significantly enhance our workflow.
-
-## How to use
-
 ```{r include=FALSE}
 require("sunflower")
 require("tidyverse")
 require("htmltools")
+require("readxl")
 ```
 
+The *sunflower* package works using the pipe operator (`%>%`) from the [*tidyverse* package](https://www.tidyverse.org/), allowing it to work seamlessly with functions from other packages in the *tidyverse*, such as *dplyr* for data wrangling, *readr* for data reading, and *ggplot2* for data visualization. This can significantly enhance our workflow.
+
+## How to use
 
 ### Loading the packages
 
@@ -153,6 +152,9 @@ plot_positions <- positions %>%
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.line = element_blank()) +
+  scale_x_continuous(breaks = seq(min(positions$position, na.rm = TRUE), 
+                                  max(positions$position, na.rm = TRUE), 
+                                  by = 1)) +  # Add ticks for every 1 unit
   ylab("Proportion (%) of correct phonemes") +
   xlab("Phoneme position") +
   guides(fill = guide_legend(title = "Word Length"),
@@ -185,7 +187,7 @@ Following the necessary steps to classify the errors correctly.
 errors_classified = df_to_classify %>% 
   check_lexicality(item_col = "item", response_col = "response", criterion = "database") %>%
   get_formal_similarity(item_col = "item", response_col = "response", 
-                        attempt_col = "Attempt", group_cols = c("ID", "item_ID")) %>%
+                        attempt_col = "attempt", group_cols = c("ID", "item_ID")) %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
@@ -195,7 +197,7 @@ Display the classification that was conducted.
 
 ```{r echo=FALSE}
 errors_classified %>% 
-  dplyr::select(ID, item_ID, item, response, RA, Attempt, correct, nonword:comment) %>% 
+  dplyr::select(ID, item_ID, item, response, RA, attempt, correct, nonword:check_comment) %>% 
   head(8) %>% knitr::kable()
 ```
 
@@ -211,7 +213,7 @@ Next, similarity measures between the targets and the responses are obtained usi
 
 #### Making it faster - A guided usage tutorial
 
-<span style="color: darkgreen; background-color: lightyellow;">Before continuing, it is worth mentioning that there is a file that allows executing all the functions relatively quickly as a sample, which can be downloaded from  <a href="https://osf.io/urz4y">its link in our OSF</a>. This can be helpful for both novice users and those who want to explore the package's functionalities in a more straightforward and/or faster way. Users would only need to run the code presented in the script in the link and would require the <em>word2vec</em> model made available in the <a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle zip</a>.</span>
+Before continuing, it is worth mentioning that there is a file that allows executing all the functions relatively quickly as a sample, which can be downloaded from  <a href="https://osf.io/urz4y">its link in our OSF</a>. This can be helpful for both novice users and those who want to explore the package's functionalities in a more straightforward and/or faster way. Users would only need to run the code presented in the script in the link and would require the <em>word2vec</em> model made available in the <a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle zip</a>.</span>
 
 ----
 
