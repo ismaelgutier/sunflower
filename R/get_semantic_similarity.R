@@ -9,9 +9,9 @@
 #' @param response_col A string specifying the name of the column in the dataframe that contains the response words.
 #' @param model A word embedding model used to generate word vectors. The model should have a `predict` method that can return word embeddings.
 #'
-#' @details The function checks if the specified columns exist in the dataframe. For each pair of words (one from the `item_col` and one from the `response_col`) in each row, it retrieves their word embeddings using the provided model and computes the cosine similarity between them. If either word is invalid (e.g., contains spaces or commas), or if there's an error in processing, it returns `NA` for that pair. The resulting cosine similarity values are added to a new column named `cosine_similarity`.
+#' @details The function checks if the specified columns exist in the dataframe. For each pair of words (one from the `item_col` and one from the `response_col`) in each row, it retrieves their word embeddings using the provided model and computes the cosine similarity between them. If either word is invalid (e.g., contains spaces or commas), or if there is an error during processing (such as missing word embeddings), the function returns `NA` for that pair. If either of the specified columns contains `NA` values, the cosine similarity for that row is also set to `NA`.
 #'
-#' @returns A data frame with an additional column named `cosine_similarity`. This column contains the cosine similarity scores between the words in `item_col` and `response_col`. If an error occurs or the words are invalid, the value will be `NA`.
+#' @returns A data frame with an additional column named `cosine_similarity`. This column contains the cosine similarity scores between the words in `item_col` and `response_col`. If an error occurs, the words are invalid, or if the pair contains `NA`, the corresponding similarity value will be `NA`.
 #'
 #' @export
 get_semantic_similarity <- function(df, item_col, response_col, model) {
@@ -26,6 +26,11 @@ get_semantic_similarity <- function(df, item_col, response_col, model) {
 
   # Función auxiliar para calcular la similitud coseno para una fila
   calculate_similarity <- function(word1, word2) {
+    # Si cualquiera de las palabras es NA, devolver NA
+    if (is.na(word1) || is.na(word2)) {
+      return(NA)
+    }
+
     # Ignorar palabras no válidas
     if (grepl("[, ]", word1) || grepl("[, ]", word2)) {
       return(NA)
@@ -57,4 +62,5 @@ get_semantic_similarity <- function(df, item_col, response_col, model) {
 
   return(df)
 }
+
 

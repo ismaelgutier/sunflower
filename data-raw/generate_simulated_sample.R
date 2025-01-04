@@ -4,9 +4,9 @@ rm(list = ls())
 require(dplyr)
 
 # Función para crear data frame
-crear_df <- function(item_id, item, response, task_name, date) {
+crear_df <- function(item_ID, item, response, task_name, date) {
   data.frame(
-    item_id = item_id,
+    item_ID = item_ID,
     item = item,
     response = response,
     task_name = task_name,
@@ -62,14 +62,12 @@ data6 <- crear_df(
 
 # Unificar todos los data frames y arreglar item_id duplicados
 simulated_sample <- bind_rows(data1, data2, data3, data4, data5, data6) %>%
-  mutate(item_id = row_number()) %>% # Asigna un nuevo item_id único
-  arrange(item_id)
-
-# Crear directorio "data" si no existe
-if (!dir.exists("data")) dir.create("data")
+  mutate(item_ID = row_number()) %>% # Asigna un nuevo item_id único
+  arrange(item_ID)
 
 # Guardar el archivo
-save(simulated_sample, file = "data/simulated_df.RData")
+save(simulated_sample, file = "C:/Users/Maria/Desktop/sunflower 2025/data/simulated_sample.RDa")
+usethis::use_data(simulated_sample, overwrite = TRUE)
 
 # Visualizar los datos y el resumen
 View(simulated_sample)

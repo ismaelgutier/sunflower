@@ -5,7 +5,7 @@
 
 <!-- badges start -->
 
-![](https://img.shields.io/badge/sunflower-v._1.03.01-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
+![](https://img.shields.io/badge/sunflower-v._1.01-orange?style=flat&link=https%3A%2F%2Fgithub.com%2Fismaelgutier%2Fsunflower)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![](https://img.shields.io/badge/Language-grey?style=flat&logo=R&color=grey&link=https%3A%2F%2Fwww.r-project.org%2F)
@@ -75,21 +75,21 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 1.86 seconds to be executed
+#> The function get_formal_similarity() took 2.02 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
 
-| ID_general | test | task_type       | task_modality |  ID | item_ID | item     | response |  RA | attempt | item_phon | response_phon | targetL | responseL | shared1char | p_shared_char | diff_char_num |  Ld | DLd |       JWd |       pcc | lcs      | similarity_str | strict_match_pos | adj_strict_match_pos | comment_warning | approach_diff |
-|-----------:|:-----|:----------------|:--------------|----:|--------:|:---------|:---------|----:|--------:|:----------|:--------------|--------:|----------:|:------------|--------------:|--------------:|----:|----:|----------:|----------:|:---------|:---------------|:-----------------|:---------------------|:----------------|--------------:|
-|          1 | BETA | word_repetition | repetition    |   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |       8 |         8 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | sorpresa | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
-|          2 | BETA | word_repetition | repetition    |   2 |       2 | banco    | banco    |   0 |       1 | banko     | banko         |       5 |         5 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | banco    | MMMMM          | 11111            | 11111                |                 |            NA |
-|          3 | BETA | word_repetition | repetition    |   3 |       3 | reloj    | reloj    |   0 |       1 | relox     | relox         |       5 |         5 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | reloj    | MMMMM          | 11111            | 11111                |                 |            NA |
-|          4 | BETA | word_repetition | repetition    |   4 |       4 | arañazo  | arañazo  |   0 |       1 | aɾaɲaθo   | aɾaɲaθo       |       7 |         7 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | arañazo  | MMMMMMM        | 1111111          | 1111111              |                 |            NA |
-|          5 | BETA | word_repetition | repetition    |   5 |       5 | misterio | misterio |   0 |       1 | misteɾjo  | misteɾjo      |       8 |         8 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | misterio | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
-|          6 | BETA | word_repetition | repetition    |   6 |       6 | lima     | lima     |   0 |       1 | lima      | lima          |       4 |         4 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | lima     | MMMM           | 1111             | 1111                 |                 |            NA |
-|          7 | BETA | word_repetition | repetition    |   7 |       7 | pimienta | pimienta |   0 |       1 | pimjenta  | pimjenta      |       8 |         8 | TRUE        |     1.0000000 |             0 |   0 |   0 | 0.0000000 | 1.0000000 | pimienta | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
-|          8 | BETA | word_repetition | repetition    |   8 |       8 | taladro  | talablo  |   1 |       1 | taladɾo   | talablo       |       7 |         7 | TRUE        |     0.7142857 |             4 |   2 |   2 | 0.1142857 | 0.7142857 | tala     | MMMMSSM        | 1111001          | 1111001              |                 |            NA |
+| ID_general | test | task_type       | task_modality |  ID | item_ID | item     | response |  RA | attempt | item_phon | response_phon | targetL | responseL | shared1char | p_shared_char | diff_char_num |  Ld | DLd |   JWd |   pcc | lcs      | similarity_str | strict_match_pos | adj_strict_match_pos | comment_warning | approach_diff |
+|-----------:|:-----|:----------------|:--------------|----:|--------:|:---------|:---------|----:|--------:|:----------|:--------------|--------:|----------:|:------------|--------------:|--------------:|----:|----:|------:|------:|:---------|:---------------|:-----------------|:---------------------|:----------------|--------------:|
+|          1 | BETA | word_repetition | repetition    |   1 |       1 | sorpresa | sorpresa |   0 |       1 | soɾpɾesa  | soɾpɾesa      |       8 |         8 | TRUE        |         1.000 |             0 |   0 |   0 | 0.000 | 1.000 | sorpresa | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
+|          2 | BETA | word_repetition | repetition    |   2 |       2 | banco    | banco    |   0 |       1 | banko     | banko         |       5 |         5 | TRUE        |         1.000 |             0 |   0 |   0 | 0.000 | 1.000 | banco    | MMMMM          | 11111            | 11111                |                 |            NA |
+|          3 | BETA | word_repetition | repetition    |   3 |       3 | reloj    | reloj    |   0 |       1 | relox     | relox         |       5 |         5 | TRUE        |         1.000 |             0 |   0 |   0 | 0.000 | 1.000 | reloj    | MMMMM          | 11111            | 11111                |                 |            NA |
+|          4 | BETA | word_repetition | repetition    |   4 |       4 | arañazo  | arañazo  |   0 |       1 | aɾaɲaθo   | aɾaɲaθo       |       7 |         7 | TRUE        |         1.000 |             0 |   0 |   0 | 0.000 | 1.000 | arañazo  | MMMMMMM        | 1111111          | 1111111              |                 |            NA |
+|          5 | BETA | word_repetition | repetition    |   5 |       5 | misterio | misterio |   0 |       1 | misteɾjo  | misteɾjo      |       8 |         8 | TRUE        |         1.000 |             0 |   0 |   0 | 0.000 | 1.000 | misterio | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
+|          6 | BETA | word_repetition | repetition    |   6 |       6 | lima     | lima     |   0 |       1 | lima      | lima          |       4 |         4 | TRUE        |         1.000 |             0 |   0 |   0 | 0.000 | 1.000 | lima     | MMMM           | 1111             | 1111                 |                 |            NA |
+|          7 | BETA | word_repetition | repetition    |   7 |       7 | pimienta | pimienta |   0 |       1 | pimjenta  | pimjenta      |       8 |         8 | TRUE        |         1.000 |             0 |   0 |   0 | 0.000 | 1.000 | pimienta | MMMMMMMM       | 11111111         | 11111111             |                 |            NA |
+|          8 | BETA | word_repetition | repetition    |   8 |       8 | taladro  | talablo  |   1 |       1 | taladɾo   | talablo       |       7 |         7 | TRUE        |         0.714 |             4 |   2 |   2 | 0.114 | 0.714 | tala     | MMMMSSM        | 1111001          | 1111001              |                 |            NA |
 
 ***Note.*** Move the dataframe to the right to see all the columns and
 metrics.
@@ -133,28 +133,28 @@ Following the necessary steps to classify the errors correctly.
 errors_classified = df_to_classify %>% 
   check_lexicality(item_col = "item", response_col = "response", criterion = "database") %>%
   get_formal_similarity(item_col = "item", response_col = "response", 
-                        attempt_col = "Attempt", group_cols = c("ID", "item_ID")) %>%
+                        attempt_col = "attempt", group_cols = c("ID", "item_ID")) %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 0.11 seconds to be executed
-#> The function get_formal_similarity() took 0.16 seconds to be executed
-#> The function get_semantic_similarity() took 0.19 seconds to be executed
-#> The function classify_errors() took 0.21 seconds to be executed
+#> The function check_lexicality() took 2.83 seconds to be executed
+#> The function get_formal_similarity() took 3.44 seconds to be executed
+#> The function get_semantic_similarity() took 3.77 seconds to be executed
+#> The function classify_errors() took 3.79 seconds to be executed
 ```
 
 Display the classification that was conducted.
 
-|   ID | item_ID | item  | response |  RA | Attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | comment |
-|-----:|--------:|:------|:---------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------|
-|  517 |       1 | vago  | vago     |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 1014 |       1 | vago  | vagos    |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-|  518 |       2 | bario | bario    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 1015 |       2 | bario | barios   |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-|  519 |       3 | tenia | tenia    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 1016 |       3 | tenia | tenias   |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-|  520 |       4 | medio | medio    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |         |
-| 1017 |       4 | medio | medios   |   0 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |         |
+|  ID | item_ID | item     | response |  RA | attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | check_comment |
+|----:|--------:|:---------|:---------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------------|
+|   1 |       1 | sorpresa | sorpresa |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   2 |       2 | banco    | banco    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   3 |       3 | reloj    | reloj    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   4 |       4 | arañazo  | arañazo  |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   5 |       5 | misterio | misterio |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   6 |       6 | lima     | lima     |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   7 |       7 | pimienta | pimienta |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   8 |       8 | taladro  | talablo  |   1 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.
@@ -194,15 +194,14 @@ repository](https://osf.io/akuxv/).
 
 #### Making it faster - A guided usage tutorial
 
-<span style="color: darkgreen; background-color: lightyellow;">Before
-continuing, it is worth mentioning that there is a file that allows
-executing all the functions relatively quickly as a sample, which can be
-downloaded from <a href="https://osf.io/urz4y">its link in our OSF</a>.
-This can be helpful for both novice users and those who want to explore
-the package’s functionalities in a more straightforward and/or faster
-way. Users would only need to run the code presented in the script in
-the link and would require the <em>word2vec</em> model made available in
-the
+Before continuing, it is worth mentioning that there is a file that
+allows executing all the functions relatively quickly as a sample, which
+can be downloaded from <a href="https://osf.io/urz4y">its link in our
+OSF</a>. This can be helpful for both novice users and those who want to
+explore the package’s functionalities in a more straightforward and/or
+faster way. Users would only need to run the code presented in the
+script in the link and would require the <em>word2vec</em> model made
+available in the
 <a href="https://osf.io/mfcvb" style="color: purple;">dependency-bundle
 zip</a>.</span>
 

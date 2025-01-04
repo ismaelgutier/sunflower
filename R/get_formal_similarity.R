@@ -1,63 +1,64 @@
 #' @name get_formal_similarity
 #'
-#' @title Compute Formal Indexes for Phoneme Data Analysis
+#' @title Compute Formal Similarity Metrics for Phoneme Data Analysis
 #'
-#' @description This function computes various formal indexes for analyzing phoneme data, providing insights into the similarity between target and response items. It calculates character counts, proportions of shared characters, differences in character counts, and several distance and similarity measures, which are valuable for evaluating phonological data.
+#' @description This function computes formal similarity metrics to evaluate phoneme or string data, offering insights into the resemblance between target and response items. It includes character-level analyses, distance metrics, and other similarity measures, which are particularly useful for analyzing phonological or linguistic data.
 #'
 #' @param df A dataframe containing the data to analyze.
 #' @param item_col The name of the column containing the target items. Default is `"item"`.
 #' @param response_col The name of the column containing the response items. Default is `"Response"`.
-#' @param attempt_col The name of the column indicating the attempt number or sequence. Used in conjunction with the `group_cols` parameter to handle repeated attempts (RAs) and to calculate the `"approach_diff"` metric. Default is `NULL`.
-#' @param group_cols A character vector specifying the column names to group by before calculating indexes. Default is `NULL`.
+#' @param attempt_col The name of the column indicating attempt number or sequence. It is used with `group_cols` to calculate differences in performance across attempts (e.g., `"approach_diff"`). Default is `NULL`.
+#' @param group_cols A character vector specifying column names for grouping the data before calculating metrics. Default is `NULL`.
 #'
-#' @details The function performs the following operations:
+#' @details The function performs the following analyses:
 #' \itemize{
-#'   \item \bold{targetL} and \bold{responseL}: Calculates the length of target and response strings, respectively.
-#'   \item \bold{p_shared_char}: Computes the proportion of characters shared between the target and response strings.
-#'   \item \bold{diff_char_num}: Calculates the difference in character counts between the target and response strings.
-#'   \item \bold{Ld}: Computes the Levenshtein distance between the target and response strings, which measures the number of single-character edits required to transform one string into the other.
-#'   \item \bold{DLd}: Computes the Damerau-Levenshtein distance between the target and response strings, an extension of Levenshtein distance accounting for transpositions of adjacent characters.
-#'   \item \bold{JWd}: Computes the Jaro-Winkler similarity between the target and response strings, a metric that measures similarity based on character matches and transpositions.
-#'   \item \bold{pcc}: Computes the proportion of correct characters (pcc), calculated as \(1 - (DLd / nchar(target))\).
-#'   \item \bold{lcs}: Calculates the Longest Common Subsequence (LCS) between the target and response strings, using the `PTXQC::LCS` function and handling NA values.
-#'   \item \bold{similarity_str}: Computes a similarity vector between the target and response strings (M = match, D = deletion, S = substitution, I = insertion).
-#'   \item \bold{strict_match_pos}: Calculates positions where characters match exactly between the target and response strings.
-#'   \item \bold{adj_strict_match_pos}: Adjusts the strict matching positions to the length of the target string, useful for computing positional data with other functions.
-#'   \item \bold{comment_warning}: Adds a warning if the response contains spaces or commas, potentially indicating repeated attempts (RA) responses.
-#'   \item \bold{approach_diff} (if `attempt_col` and `group_cols` are defined): Computes the difference in the proportion of correct characters (pcc) between consecutive attempts within each group defined by `group_cols`. This metric helps analyze changes in performance over multiple attempts.
+#'   \item \bold{targetL} and \bold{responseL}: Length of the target and response strings, respectively.
+#'   \item \bold{shared1char}: Indicator if the first characters of target and response are identical.
+#'   \item \bold{p_shared_char}: Proportion of shared characters between the target and response strings.
+#'   \item \bold{diff_char_num}: Difference in character counts between the target and response strings.
+#'   \item \bold{Ld}: Levenshtein distance between the target and response strings (edit distance).
+#'   \item \bold{DLd}: Damerau-Levenshtein distance, an extension of Levenshtein distance accounting for adjacent transpositions.
+#'   \item \bold{JWd}: Jaro-Winkler similarity, emphasizing character matches and transpositions.
+#'   \item \bold{pcc}: Proportion of correct characters, calculated as \(1 - (DLd / nchar(target))\).
+#'   \item \bold{lcs}: Longest Common Subsequence (LCS) between target and response strings.
+#'   \item \bold{similarity_str}: A similarity vector denoting matches, insertions, deletions, and substitutions.
+#'   \item \bold{strict_match_pos}: Exact matching positions between target and response strings.
+#'   \item \bold{adj_strict_match_pos}: Adjusted matching positions, trimmed to the length of the target string.
+#'   \item \bold{comment_warning}: Flags potential repeated attempt (RA) responses if the response contains spaces or commas.
+#'   \item \bold{approach_diff}: If `attempt_col` is provided, computes differences in `pcc` between consecutive attempts within groups defined by `group_cols`.
 #' }
 #'
-#' The function handles NA values appropriately, especially in character string operations like LCS and similarity measures. It prints the execution time of the function upon completion.
+#' The function gracefully handles NA values, ensuring robust character string operations such as LCS and similarity measures. If any responses contain spaces or commas, a warning (`comment_warning`) is added to highlight potential issues. If the `RA` column is available and its value is `0` for flagged instances, a message is displayed advising users to review the dataframe.
 #'
-#' If `attempt_col` is provided, it is mandatory to also specify `group_cols` for proper grouping. If `group_cols` is missing, the function will stop and display an error message requesting the `group_cols` specification. If `group_cols` is defined but `attempt_col` is not, the function will display a message suggesting that `attempt_col` could be useful for analyzing performance improvements across attempts.
+#' If `attempt_col` is provided, `group_cols` must also be specified. The function stops and provides an error message if `group_cols` is missing. Conversely, if `group_cols` is defined but `attempt_col` is missing, the function advises defining `attempt_col` for analyzing performance across attempts.
 #'
-#' @returns A dataframe with the following additional columns:
+#' Upon completion, the function reports its execution time in seconds.
+#'
+#' @returns A dataframe with additional columns:
 #' \itemize{
 #'   \item \bold{targetL}: Length of the target string.
 #'   \item \bold{responseL}: Length of the response string.
-#'   \item \bold{shared1char}: Indicator if the target and response start with the same letter.
-#'   \item \bold{p_shared_char}: Proportion of shared characters between target and response.
-#'   \item \bold{diff_char_num}: Difference in character counts between target and response.
-#'   \item \bold{Ld}: Levenshtein distance between target and response.
-#'   \item \bold{DLd}: Damerau-Levenshtein distance between target and response.
-#'   \item \bold{JWd}: Jaro-Winkler similarity between target and response.
+#'   \item \bold{shared1char}: Indicator if target and response start with the same letter.
+#'   \item \bold{p_shared_char}: Proportion of shared characters.
+#'   \item \bold{diff_char_num}: Difference in character counts.
+#'   \item \bold{Ld}: Levenshtein distance.
+#'   \item \bold{DLd}: Damerau-Levenshtein distance.
+#'   \item \bold{JWd}: Jaro-Winkler similarity.
 #'   \item \bold{pcc}: Proportion of correct characters.
-#'   \item \bold{lcs}: Longest Common Subsequence between target and response.
-#'   \item \bold{similarity_str}: Similarity vector between target and response (M, D, S, I).
-#'   \item \bold{strict_match_pos}: String indicating exact matches between target and response positions.
-#'   \item \bold{adj_strict_match_pos}: Adjusted match positions based on the length of the target.
-#'   \item \bold{approach_diff}: Difference in the proportion of correct characters between attempts (if `attempt_col` is provided).
+#'   \item \bold{lcs}: Longest Common Subsequence.
+#'   \item \bold{similarity_str}: Similarity vector (M, D, S, I).
+#'   \item \bold{strict_match_pos}: Exact match positions.
+#'   \item \bold{adj_strict_match_pos}: Adjusted match positions based on target length.
+#'   \item \bold{approach_diff}: Difference in `pcc` between attempts (if applicable).
 #'   \item \bold{comment_warning}: Warning for potential repeated attempt responses.
 #' }
 #'
-#'
 #' @export
-
 get_formal_similarity <- function(df,
-                              item_col = "item",
-                              response_col = "Response",
-                              attempt_col = NULL,  # attempt_col es NULL por defecto
-                              group_cols = NULL) { # group_cols es NULL por defecto
+                                  item_col = "item",
+                                  response_col = "Response",
+                                  attempt_col = NULL,  # attempt_col es NULL por defecto
+                                  group_cols = NULL) { # group_cols es NULL por defecto
 
   # Start timing for the total execution
   tictoc::tic()
@@ -70,12 +71,12 @@ get_formal_similarity <- function(df,
       targetL = nchar(.data[[item_col]]),
       responseL = nchar(.data[[response_col]]),
       shared1char = same_letter_start(.data[[item_col]], .data[[response_col]]),
-      p_shared_char = mapply(shared_proportion, .data[[item_col]], .data[[response_col]]),
+      p_shared_char = round(mapply(shared_proportion, .data[[item_col]], .data[[response_col]]), 3),
       diff_char_num = diff_char_count(.data[[item_col]], .data[[response_col]]),
       Ld = calculate_levenshtein(.data[[item_col]], .data[[response_col]]),
       DLd = calculate_damerau_levenshtein(.data[[item_col]], .data[[response_col]]),
-      JWd = calculate_jaro_winkler(.data[[item_col]], .data[[response_col]]),
-      pcc = 1 - (DLd / nchar(.data[[item_col]])) # pcc en Gutiérrez-Cordero et al.
+      JWd = round(calculate_jaro_winkler(.data[[item_col]], .data[[response_col]]), 3),
+      pcc = round(1 - (DLd / nchar(.data[[item_col]])), 3) # pcc en Gutiérrez-Cordero et al.
     ) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
@@ -113,13 +114,13 @@ get_formal_similarity <- function(df,
 
       # Adjust strict matching positions to the length of the item
       adj_strict_match_pos = ifelse(is.na(strict_match_pos),
-                                          NA_character_,
-                                          substr(strict_match_pos, 1, targetL)),
+                                    NA_character_,
+                                    substr(strict_match_pos, 1, targetL)),
 
       # Add comment_warning if response_col contains a space or a comma
       comment_warning = ifelse(grepl("[ ,]", .data[[response_col]]),
-                                "Could be a RA response.",
-                                "")
+                               "Could be a RA response.",
+                               "")
 
     ) %>%
     dplyr::ungroup() # Ungroup after all rowwise operations are done
@@ -133,11 +134,22 @@ get_formal_similarity <- function(df,
 
     # Group and compute 'approach_diff'
     dataframe <- dataframe %>%
+      dplyr::mutate(attempt = as.numeric(attempt)) %>% # Convertir attempt a numérico
       dplyr::group_by(!!!group_cols_syms) %>%
+      dplyr::arrange(desc(attempt)) %>%
       dplyr::mutate(
-        approach_diff = pcc - lag(pcc, default = NA)
+        approach_diff = round(pcc - dplyr::lead(pcc), 3) # Calcular diferencias y redondear a 3 decimales
       ) %>%
       dplyr::ungroup()
+  }
+
+  # Reordenar al final por attempt y group_cols
+  dataframe <- dataframe %>%
+    dplyr::arrange(!!!group_cols_syms, attempt)
+
+  # Verificar si hay comentarios en la columna comment_warning y RA es 0
+  if (any(dataframe$comment_warning != "" & dataframe$RA == 0)) {
+    message("Some instances have been flagged with a warning comment. Please review the dataframe for details.")
   }
 
   # Si se define group_cols pero no attempt_col, mostrar un mensaje personalizado
