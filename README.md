@@ -75,7 +75,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.00 seconds to be executed
+#> The function get_formal_similarity() took 2.60 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -137,25 +137,25 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 1.61 seconds to be executed
-#> The function get_formal_similarity() took 2.16 seconds to be executed
-#> The function get_semantic_similarity() took 2.45 seconds to be executed
-#> The function classify_errors() took 2.47 seconds to be executed
+#> The function check_lexicality() took 1.28 seconds to be executed
+#> The function get_formal_similarity() took 1.72 seconds to be executed
+#> The function get_semantic_similarity() took 1.91 seconds to be executed
+#> The function classify_errors() took 1.94 seconds to be executed
 ```
 
 Display the classification that was conducted.
 
-|   ID | item_ID | item       | response |  RA | attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | check_comment |
-|-----:|--------:|:-----------|:---------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------------|
-| 2117 |      12 | dromedario | dero     |   1 |       2 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-| 1965 |     174 | cigarro    | cira     |   1 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|  778 |      22 | pájaro     | pagero   |   1 |       1 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|  765 |       9 | vaca       | vaca     |   1 |       2 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-| 2272 |     167 | tarta      | tarta    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-| 2120 |      15 | tetera     | tetera   |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|   19 |      19 | dinamita   | dinamita |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-|  496 |      20 | corazón    | corazón  |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
-| 2149 |      44 | reloj      | reloj    |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|   ID | item_ID | item        | response |  RA | attempt | correct | nonword | neologism | formal | unrelated | mixed | semantic | no_response | check_comment |
+|-----:|--------:|:------------|:---------|----:|--------:|--------:|--------:|----------:|-------:|----------:|------:|---------:|------------:|:--------------|
+|  369 |      40 | sátira      | sátira   |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  148 |      24 | rinoceronte | nociento |   1 |      22 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  134 |      10 | mariposa    | sipa     |   1 |       3 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  136 |      12 | candado     | candalo  |   1 |       2 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+| 1660 |      47 | bandera     | band     |   1 |       2 |       0 |       1 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|    1 |       1 | sorpresa    | sorpresa |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  492 |      16 | zapato      | zapato   |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  512 |      36 | columpio    | columpio |   1 |       4 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
+|  298 |      29 | tijeras     | tijeras  |   0 |       1 |       1 |       0 |         0 |      0 |         0 |     0 |        0 |           0 |               |
 
 ***Notes.*** Move the dataframe to the right to see all the columns and
 errors.
