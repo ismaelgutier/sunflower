@@ -154,7 +154,7 @@ plot_positions <- positions %>%
         axis.line = element_blank()) +
   scale_x_continuous(breaks = seq(min(positions$position, na.rm = TRUE), 
                                   max(positions$position, na.rm = TRUE), 
-                                  by = 1)) +  # Add ticks for every 1 unit
+                                  by = 1)) +
   ylab("Proportion (%) of correct phonemes") +
   xlab("Phoneme position") +
   guides(fill = guide_legend(title = "Word Length", ncol = 2),  # Set the legend to 2 columns
