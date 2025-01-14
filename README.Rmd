@@ -82,6 +82,11 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
 ```
+```{r}
+ formal_metrics_computed = formal_metrics_computed %>%
+  mutate(test = str_replace_all(test, c(
+    "BETA" = "a_given_test")))
+```
 
 Display some of the results from the formal quality analysis.
 
