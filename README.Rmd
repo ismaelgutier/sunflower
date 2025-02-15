@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 <div align="justify">
 
-*sunflower* is a package designed to assist clinicians and researchers in the fields of Speech Therapy and Neuropsychology of Language. Its primary goal is to facilitate the management of multiple response data and compute formal similarity indices to assess the quality of oral and written productions in patients with aphasia and related disorders, such as apraxia of speech, in Spanish. Additionally, the package allows for the classification of these productions according to classical typologies in the field, prior to computing formal and semantic similarity measures. For the computation of the latter, *sunflower* partially relies on natural language processing models such as word2vec. The outputs provided by this package facilitate statistical analyses in R, a widely-used tool in the field for data wrangling, visualization, and analysis.
+*sunflower* is a package designed to assist clinicians and researchers in the fields of Speech Therapy and (Neuro)psychology of Language. Its primary goal is to facilitate the management of multiple response data and compute formal similarity indices to assess the quality of oral and written productions in patients with aphasia and related disorders, such as apraxia of speech, in Spanish. Additionally, the package allows for the classification of these productions according to classical typologies in the field, prior to computing formal and semantic similarity measures. For the computation of the latter, *sunflower* partially relies on natural language processing models such as word2vec. The outputs provided by this package facilitate statistical analyses in R, a widely-used tool in the field for data wrangling, visualization, and analysis.
 
 ## Installation
 
@@ -234,9 +234,8 @@ A file that allows executing all the functions relatively quickly as a sample ca
 
 ## The published work
 
-This work has been published and can be accessed by clicking [here](https://doi.org/10.3389/fpsyg.2025.1538196) publicly available. 
+This work has been published and can be accessed by clicking [here](https://doi.org/10.3389/fpsyg.2025.1538196). It can be cited as follows: 
 
-**Citation**:
 Gutiérrez-Cordero. I, & García-Orza, J. (2025). sunflower: an R package for handling multiple response attempts and conducting error analysis in aphasia and related disorders. *Frontiers in Psychology*, *16*, 1538196. https://doi.org/10.3389/fpsyg.2025.1538196
 
 ## Acknowledgments
