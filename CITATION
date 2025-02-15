@@ -1,0 +1,16 @@
+citation <- function(package = "sunflower") {
+  citEntry(
+    entry = "Article",
+    title = "sunflower: an R package for handling multiple response attempts and conducting error analysis in aphasia and related disorders",
+    author = c(
+      person("Ismael", "Gutiérrez-Cordero", role = c("aut", "cre")),
+      person("Javier", "García-Orza", role = "aut")
+    ),
+    year = "2025",
+    journal = "Frontiers in Psychology",
+    volume = "16",
+    pages = "1538196",
+    doi = "10.3389/fpsyg.2025.1538196",
+    url = "https://doi.org/10.3389/fpsyg.2025.1538196"
+  )
+}

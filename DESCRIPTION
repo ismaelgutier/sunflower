@@ -1,24 +1,31 @@
 Package: sunflower
 Type: Package
-Title: Managing Multiple Responses, Computing Formal Quality Measures, and Classifying Language Production Errors
-Version: 1.01
-Author: Gutiérrez-Cordero, I [aut][cre](<https://orcid.org/0000-0003-1508-4203>)
-Authors@R: person(
-               given = "Ismael",
-               family = "Gutiérrez-Cordero",
-               role = c("aut", "cre"),
-               email = "igtezcordero@uma.es",
-               comment = c(ORCID = "0000-0003-1508-4203")
-               )
+Title: Handling Multiple Response Attempts, Get Formal Quality Measures, and Classifying Language Production Errors
+Version: 1.02
+Authors@R: c(
+    person(
+        given = "Ismael",
+        family = "Gutiérrez-Cordero",
+        role = c("aut", "cre"),
+        email = "igtezcordero@uma.es",
+        comment = c(ORCID = "0000-0003-1508-4203")
+    ),
+    person(
+        given = "Javier",
+        family = "García-Orza",
+        role = "aut",
+        email = "jgorza@uma.es",
+        comment = c(ORCID = "0000-0002-4037-0706")
+    )
+)
 Maintainer: Gutiérrez-Cordero, I. <igtezcordero@uma.es>
 Description: 
-    A package to study the production quality of Spanish speakers with aphasia. 
-    sunflower is a succinct tool that allows for managing multiple responses, 
-    computing formal quality measures, and classifying language production errors. 
-    It is designed to assist clinicians and researchers with error classification and formal analysis tasks. 
-    While the package can compute formal measures on its own, it depends on additional "nutrients," 
-    such as word lists from dictionaries or databases and corpora that include word embeddings obtained 
-    through natural language processing to classify errors.
+  sunflower is an R package designed to analyze the production quality of Spanish speakers with aphasia. 
+  This tool provides streamlined functionality for managing multiple response attempts, calculating formal quality metrics, and classifying language production errors. 
+  It is intended to support clinicians and researchers in error classification and formal analysis tasks. 
+  While sunflower can compute formal metrics independently, it relies on additional "nutrients," 
+  such as word lists from dictionaries, linguistic databases, and corpora enriched with word embeddings derived from natural language processing techniques, to classify errors. 
+  This package is associated with the paper published in Frontiers in Psychology doi.org/10.3389/fpsyg.2025.1538196
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
