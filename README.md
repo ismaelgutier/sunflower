@@ -15,7 +15,7 @@ v3](https://img.shields.io/badge/License-GPLv3-%233493ad.svg)](https://www.gnu.o
 <div align="justify">
 
 *sunflower* is a package designed to assist clinicians and researchers
-in the fields of Speech Therapy and Neuropsychology of Language. Its
+in the fields of Speech Therapy and (Neuro)psychology of Language. Its
 primary goal is to facilitate the management of multiple response data
 and compute formal similarity indices to assess the quality of oral and
 written productions in patients with aphasia and related disorders, such
@@ -76,7 +76,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.00 seconds to be executed
+#> The function get_formal_similarity() took 2.01 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -167,10 +167,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 0.72 seconds to be executed
-#> The function get_formal_similarity() took 1.02 seconds to be executed
-#> The function get_semantic_similarity() took 1.16 seconds to be executed
-#> The function classify_errors() took 1.19 seconds to be executed
+#> The function check_lexicality() took 0.65 seconds to be executed
+#> The function get_formal_similarity() took 0.89 seconds to be executed
+#> The function get_semantic_similarity() took 1.01 seconds to be executed
+#> The function classify_errors() took 1.03 seconds to be executed
 ```
 
 Display the classification that was conducted.
@@ -204,12 +204,13 @@ zip</a>.</span>
 ## The published work
 
 This work has been published and can be accessed by clicking
-[here](https://doi.org/10.3389/fpsyg.2025.1538196) publicly available.
+[here](https://doi.org/10.3389/fpsyg.2025.1538196). It can be cited as
+follows:
 
-**Citation**: Gutiérrez-Cordero. I, & García-Orza, J. (2025). sunflower:
-an R package for handling multiple response attempts and conducting
-error analysis in aphasia and related disorders. *Frontiers in
-Psychology*, *16*, 1538196. <https://doi.org/10.3389/fpsyg.2025.1538196>
+Gutiérrez-Cordero. I, & García-Orza, J. (2025). sunflower: an R package
+for handling multiple response attempts and conducting error analysis in
+aphasia and related disorders. *Frontiers in Psychology*, *16*, 1538196.
+<https://doi.org/10.3389/fpsyg.2025.1538196>
 
 ## Acknowledgments
 
