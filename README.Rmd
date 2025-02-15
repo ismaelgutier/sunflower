@@ -234,7 +234,7 @@ A file that allows executing all the functions relatively quickly as a sample ca
 
 ## The published work
 
-This work has been published and can be accessed by clicking [here](https://doi.org/10.3389/fpsyg.2025.1538196). It can be cited as follows: 
+This work has been published and can be accessed [here](https://doi.org/10.3389/fpsyg.2025.1538196). It can be cited as follows: 
 
 Gutiérrez-Cordero. I, & García-Orza, J. (2025). sunflower: an R package for handling multiple response attempts and conducting error analysis in aphasia and related disorders. *Frontiers in Psychology*, *16*, 1538196. https://doi.org/10.3389/fpsyg.2025.1538196
 
