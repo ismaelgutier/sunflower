@@ -76,7 +76,7 @@ formal_metrics_computed = df_to_formal_metrics %>%
                           response_col = "response",
                           attempt_col = "attempt",
                           group_cols = c("ID", "item_ID"))
-#> The function get_formal_similarity() took 2.01 seconds to be executed
+#> The function get_formal_similarity() took 1.92 seconds to be executed
 ```
 
 Display some of the results from the formal quality analysis.
@@ -167,10 +167,10 @@ errors_classified = df_to_classify %>%
   get_semantic_similarity(item_col = "item", response_col = "response", model = m_w2v) %>%
   classify_errors(response_col = "response", item_col = "item",
                   access_col = "accessed", RA_col = "RA", also_classify_RAs = T)
-#> The function check_lexicality() took 0.65 seconds to be executed
-#> The function get_formal_similarity() took 0.89 seconds to be executed
-#> The function get_semantic_similarity() took 1.01 seconds to be executed
-#> The function classify_errors() took 1.03 seconds to be executed
+#> The function check_lexicality() took 0.77 seconds to be executed
+#> The function get_formal_similarity() took 1.11 seconds to be executed
+#> The function get_semantic_similarity() took 1.27 seconds to be executed
+#> The function classify_errors() took 1.28 seconds to be executed
 ```
 
 Display the classification that was conducted.
@@ -203,7 +203,7 @@ zip</a>.</span>
 
 ## The published work
 
-This work has been published and can be accessed by clicking
+This work has been published and can be accessed
 [here](https://doi.org/10.3389/fpsyg.2025.1538196). It can be cited as
 follows:
 
