@@ -17,20 +17,20 @@ Authors@R: c(
         email = "jgorza@uma.es",
         comment = c(ORCID = "0000-0002-4037-0706")
     )
-)
+  )
 Maintainer: Gutiérrez-Cordero, I. <igtezcordero@uma.es>
 Description: 
-  sunflower is an R package designed to analyze the production quality of Spanish speakers with aphasia. 
-  This tool provides streamlined functionality for managing multiple response attempts, calculating formal quality metrics, and classifying language production errors. 
-  It is intended to support clinicians and researchers in error classification and formal analysis tasks. 
-  While sunflower can compute formal metrics independently, it relies on additional "nutrients," 
-  such as word lists from dictionaries, linguistic databases, and corpora enriched with word embeddings derived from natural language processing techniques, to classify errors. 
-  This package is associated with the paper published in Frontiers in Psychology doi.org/10.3389/fpsyg.2025.1538196
+    sunflower is an R package designed to analyze the production quality of Spanish speakers with aphasia. 
+    This tool provides streamlined functionality for managing multiple response attempts, calculating formal quality metrics, and classifying language production errors. 
+    It is intended to support clinicians and researchers in error classification and formal analysis tasks. 
+    While sunflower can compute formal metrics independently, it relies on additional "nutrients," 
+    such as word lists from dictionaries, linguistic databases, and corpora enriched with word embeddings derived from natural language processing techniques, to classify errors. 
+    This package is associated with the paper published in Frontiers in Psychology doi.org/10.3389/fpsyg.2025.1538196
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
-Imports:
+Imports: 
     tidyr (>= 1.1.4),
     dplyr (>= 1.0.7),
     rlang,
